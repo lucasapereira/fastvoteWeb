@@ -36,13 +36,21 @@ body {
 }
 
 .statusVotacaoAberta {
-  background-color: #21743e;
-  height: 5px;
+  background-color: #66b682;
+  font-weight: bold;
+  color: #ffffff;
+  padding-left: 10px;
+  padding-right: 10px;
+  min-height: 5px;
 }
 
 .statusVotacaoFechada {
-  background-color: #de7610;
-  height: 5px;
+  background-color: #fc917c;
+  font-weight: bold;
+  color: #ffffff;
+  padding-left: 10px;
+  padding-right: 10px;
+  min-height: 5px;
 }
 
 .txtPerguntaVotacoes {

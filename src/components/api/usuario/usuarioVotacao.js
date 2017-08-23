@@ -55,11 +55,19 @@ class UsuarioVotacao extends Component {
 
   renderVotacao() {
     const { votacao } = this.props;
+    let classStatus = 'statusVotacaoAberta';
 
+    if (votacao.dentroVigenciaVotacao === 'Votação já finalizada.') {
+      classStatus = 'statusVotacaoFechada';
+    }
+
+    // se ja votou aparece resposta, se nao mostra os botoes
     if (votacao.dscResposta) {
       return (
         <Paper className="paperVotacoes" zDepth={2} rounded>
-          <div className="statusVotacaoFechada" />
+          <div className={classStatus}>
+            {votacao.dentroVigenciaVotacao}
+          </div>
           <div className="txtPerguntaVotacoes">
             {votacao.dscPergunta}
           </div>
@@ -68,16 +76,15 @@ class UsuarioVotacao extends Component {
           </div>
           <br />
           {this.botaoResultado(votacao)}
-          <br />
-          {votacao.dentroVigenciaVotacao}
-          <br />
         </Paper>
       );
     }
 
     return (
       <Paper className="paperVotacoes" zDepth={2} rounded>
-        <div className="statusVotacaoAberta" />
+        <div className={classStatus}>
+          {votacao.dentroVigenciaVotacao}
+        </div>
         <div className="txtPerguntaVotacoes">
           {votacao.dscPergunta}
         </div>
@@ -85,8 +92,7 @@ class UsuarioVotacao extends Component {
           {this.renderBotoesVotacao(this.props.rows)}
         </div>
         <br />
-        {votacao.dentroVigenciaVotacao}
-        <br />
+
         {this.botaoResultado(votacao)}
       </Paper>
     );
