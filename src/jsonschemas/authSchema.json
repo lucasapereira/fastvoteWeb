@@ -1,0 +1,20 @@
+{
+    "title": "auth",
+    "type": "object",
+    "properties": {
+        "cpf": {
+            "type": "string"
+        },
+        "empresas": {
+            "type": "string"
+        },
+        "senha": {
+            "type": "string"
+        }
+    },
+    "required": [
+        "cpf",
+        "empresas",
+        "senha"
+    ]
+}

@@ -1,0 +1,20 @@
+{
+    "title": "Posts",
+    "type": "object",
+    "properties": {
+        "title": {
+            "type": "string"
+        },
+        "categories": {
+            "type": "string"
+        },
+        "content": {
+            "type": "string"
+        }
+    },
+    "required": [
+        "title",
+        "categories",
+        "content"
+    ]
+}

@@ -1,0 +1,9 @@
+{
+    "extensions.autoUpdate": true,
+    "files.autoSave": "onWindowChange",
+    "editor.formatOnSave": true,
+    "javascript.validate.enable": false,
+    "javascript.format.enable": false,
+    "eslint.autoFixOnSave": true,
+    "prettier.eslintIntegration": true
+}
