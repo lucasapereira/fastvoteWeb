@@ -7,41 +7,17 @@ import { QueryVotacaoList } from './listVotacaoGraphql';
 import MyLoader from '../../generic/myLoader';
 import Infinite from 'react-infinite';
 
-class ListItem extends Component {
-  getDefaultProps() {
-    return {
-      height: 50,
-      lineHeight: '50px',
-    };
-  }
-  render() {
-    return (
-      <div
-        className="infinite-list-item"
-        style={{
-          height: this.props.height,
-          lineHeight: this.props.lineHeight,
-          overflow: 'scroll',
-        }}
-      >
-        <div style={{ height: 50 }}>
-          List Item {this.props.index}
-        </div>
-      </div>
-    );
-  }
-}
-
 class InfiniteList extends Component {
   constructor(props) {
     super(props);
     this.state = {
       elements: this.buildElements(0, 50),
       isInfiniteLoading: false,
+      totalCount: -1,
     };
   }
 
-  buildElements(start, end) {
+  buildElements() {
     const elements = [];
     this.props.rows.map((votacao) => {
       elements.push(
@@ -67,7 +43,7 @@ class InfiniteList extends Component {
   }
 
   handleInfiniteLoad = () => {
-    if (this.state.elements.length === 11) {
+    if (this.state.elements.length === this.state.totalCount) {
       this.setState({
         isInfiniteLoading: false,
       });
@@ -80,6 +56,10 @@ class InfiniteList extends Component {
     });
 
     this.props.loadMoreEntries(this.state.elements.length, 2).then(() => {
+      if (this.state.totalCount === -1 && this.props.rows.length > 0) {
+        this.state.totalCount = parseInt(this.props.rows[0].totalCount, 10);
+      }
+
       const elemLength = that.state.elements.length;
       const newElements = that.buildElements(elemLength, elemLength + 100);
       that.setState({
@@ -92,6 +72,9 @@ class InfiniteList extends Component {
   elementInfiniteLoad = () => <MyLoader />;
 
   render() {
+    if (this.props.loading) {
+      return <MyLoader />;
+    }
     return (
       <Infinite
         elementHeight={51}
