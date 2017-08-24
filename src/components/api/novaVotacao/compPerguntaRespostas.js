@@ -5,6 +5,11 @@ import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 
 class CompPerguntaRespostas extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { error_dsc_pergunta: '' };
+  }
+
   renderRespostas = () => {
     const arrDescricao = [];
 
@@ -43,7 +48,16 @@ class CompPerguntaRespostas extends Component {
       <div>
         <div>
           <TextField
+            name="dsc_votacao"
+            errorText={this.state.error_dsc_votacao}
+            hintText="Descrição da Votação"
+            onChange={this.props.handleChange}
+          />
+        </div>
+        <div>
+          <TextField
             name="dsc_pergunta"
+            errorText={this.state.error_dsc_pergunta}
             hintText="Pergunta da Votação"
             onChange={this.props.handleChange}
           />

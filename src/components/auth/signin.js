@@ -10,6 +10,8 @@ import authSchema from '../../jsonschemas/authSchema.json';
 import { required, cpf } from '../generic/validations';
 import { Link } from 'react-router-dom';
 import MyLoader from '../generic/myLoader';
+import { Form, FormGroup, Col, Panel } from 'react-bootstrap';
+import Paper from 'material-ui/Paper';
 
 const Validator = require('jsonschema').Validator;
 
@@ -135,59 +137,66 @@ class Signin extends Component {
 
     return (
       <div className="container">
-        <form className="form-horizontal" onSubmit={handleSubmit(this.onSubmit)}>
-          <div>
-            <Field
-              name="cpf"
-              component={TextField}
-              hintText="CPF"
-              floatingLabelText="CPF"
-              onBlur={this.getEmpresas}
-              withRef
-              ref="cpfField"
-              maxLength="11"
-              validate={[required, cpf]}
-            />
+        <Paper className="paperLogin" zDepth={2} rounded>
+          <div className="divFormLogin">
+            <form onSubmit={handleSubmit(this.onSubmit)}>
+              <div>
+                <Field
+                  name="cpf"
+                  component={TextField}
+                  hintText="CPF"
+                  floatingLabelText="CPF"
+                  onBlur={this.getEmpresas}
+                  withRef
+                  ref="cpfField"
+                  maxLength="11"
+                  validate={[required, cpf]}
+                />
+              </div>
+              <div>
+                <Field
+                  name="senha"
+                  ref="senhaField"
+                  withRef
+                  component={TextField}
+                  hintText="Senha"
+                  floatingLabelText="Senha"
+                  type="password"
+                  validate={required}
+                />
+              </div>
+              <div>
+                {this.renderSelect()}
+              </div>
+              <div>
+                <RaisedButton
+                  type="submit"
+                  label="Login"
+                  disabled={pristine || submitting || error}
+                  primary
+                />
+                <RaisedButton
+                  type="button"
+                  label="Limpar"
+                  disabled={submitting}
+                  onClick={this.limpaTela}
+                />
+              </div>
+              <div>
+                <Link to={'/auth/esquecisenha'}>
+                  <b>Primeiro Acesso</b>
+                </Link>
+                <br />
+                <Link to={'/auth/esquecisenha'}>
+                  <b>Esqueci minha senha</b>
+                </Link>
+              </div>
+              <div>
+                {this.renderAlert()}
+              </div>
+            </form>
           </div>
-          <div>
-            <Field
-              name="senha"
-              ref="senhaField"
-              withRef
-              component={TextField}
-              hintText="Senha"
-              floatingLabelText="Senha"
-              type="password"
-              validate={required}
-            />
-          </div>
-          {this.renderSelect()}
-          <div>
-            {this.renderAlert()}
-          </div>
-          <div>
-            <RaisedButton
-              type="submit"
-              label="Login"
-              disabled={pristine || submitting || error}
-              primary
-            />
-            <RaisedButton
-              type="button"
-              label="Limpar"
-              disabled={submitting}
-              onClick={this.limpaTela}
-            />
-          </div>
-          <br />
-          <Link to={'/auth/esquecisenha'}>
-            <b>Primeiro Acesso</b>
-          </Link>
-          <br />
-          <Link to={'/auth/esquecisenha'}>
-            <b>Esqueci minha senha</b>
-          </Link>
-        </form>
+        </Paper>
       </div>
     );
   }

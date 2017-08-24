@@ -23,7 +23,7 @@ class CompDadosAdicionais extends Component {
       return <div>Erro!!!</div>;
     }
 
-    if (this.props.codPessoaJuridica) {
+    if (this.props.data && this.props.data.allTbPjDadosadicionais) {
       descricao = this.props.data.allTbPjDadosadicionais.nodes.map((row) => {
         const arrDescricao = [];
 

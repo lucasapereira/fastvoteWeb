@@ -192,7 +192,6 @@ class PostsNew extends Component {
 
 
   onSubmit = (values) => {
-    console.log('PROPS', this.props);
 
     values.cod_pessoa_juridica = this.props.cod_pessoa_juridica;
 

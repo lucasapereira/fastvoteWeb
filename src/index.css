@@ -29,6 +29,23 @@ body {
   border: 1px solid blue;
 } */
 
+.paperLogin {
+  margin: 0 auto;
+  width: 400px;
+}
+
+.divTopoLogin {
+  padding: 20px;
+  /*
+  background:url(img_flwr.gif);
+    background-repeat: no-repeat;
+  */
+}
+
+.divFormLogin {
+  padding: 20px;
+}
+
 .paperVotacaoAberta {
   margin: 15px;
   border-radius: 20px;
