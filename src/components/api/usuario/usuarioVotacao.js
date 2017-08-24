@@ -1,9 +1,14 @@
 import React, { Component } from 'react';
+
 import RaisedButton from 'material-ui/RaisedButton';
+import FlatButton from 'material-ui/FlatButton';
+
 import { compose } from 'react-apollo';
 import { withRouter, Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Paper from 'material-ui/Paper';
+import { Table, Panel } from 'react-bootstrap';
+import Icon from 'react-icon';
 
 import { QueryVoto, mutationVota } from './usuarioVotacaoGraphql';
 import confirm from '../../generic/confirm';
@@ -21,19 +26,38 @@ class UsuarioVotacao extends Component {
     );
   };
 
+  renderLabelResultado = (votacao) => {
+    // Icon.setDefaultFontPrefix('glyphicon');
+
+    if (votacao.datFimVotacao.length > 0 || votacao.flgMostraResultadoEmTempoReal) {
+      return <span className="spanResultado">RESULTADO stats</span>;
+    }
+  };
+
   botaoResultado = (votacao) => {
     console.log(votacao);
+
+    Icon.setDefaultFontPrefix('glyphicon');
+    let botaoResultado = (
+      <FlatButton label="Detalhes" primary disabled icon={<Icon glyph="stats" />} />
+    );
+
     if (votacao.datFimVotacao.length > 0 || votacao.flgMostraResultadoEmTempoReal) {
       const link = `/votacao/resultado/${votacao.codVotacao}`;
 
-      return (
+      botaoResultado = (
         <Link to={link}>
-          <RaisedButton label="Resultado">
-            <i className="material-icons">assessment</i>
-          </RaisedButton>
+          <FlatButton label="Detalhes" primary icon={<Icon glyph="stats" />} />
         </Link>
       );
     }
+
+    return (
+      <div className="divResultado">
+        {this.renderLabelResultado(votacao)}
+        {botaoResultado}
+      </div>
+    );
   };
 
   vota = (votacao) => {
@@ -56,16 +80,22 @@ class UsuarioVotacao extends Component {
 
   renderVotacao() {
     const { votacao } = this.props;
-    let classStatus = 'statusVotacaoAberta';
 
-    if (votacao.dentroVigenciaVotacao === 'Votação já finalizada.') {
+    let classStatus = 'statusVotacaoNaoIniciada';
+    let classPaper = 'paperVotacaoNaoIniciada';
+
+    if (votacao.dentroVigenciaVotacao === 'Votação em andamento.') {
+      classStatus = 'statusVotacaoAberta';
+      classPaper = 'paperVotacaoAberta';
+    } else if (votacao.dentroVigenciaVotacao === 'Votação já finalizada.') {
       classStatus = 'statusVotacaoFechada';
+      classPaper = 'paperVotacaoFechada';
     }
 
     // se ja votou aparece resposta, se nao mostra os botoes
     if (votacao.dscResposta) {
       return (
-        <Paper className="paperVotacoes" zDepth={2} rounded>
+        <Paper className={classPaper} zDepth={2} rounded>
           <div className={classStatus}>
             {votacao.dentroVigenciaVotacao}
           </div>
@@ -84,8 +114,8 @@ class UsuarioVotacao extends Component {
       );
     }
 
-    return (
-      <Paper className="paperVotacoes" zDepth={2} rounded>
+    /*
+    <Paper className="paperVotacoes" zDepth={2} rounded>
         <div className={classStatus}>
           {votacao.dentroVigenciaVotacao}
         </div>
@@ -99,6 +129,38 @@ class UsuarioVotacao extends Component {
 
         {this.botaoResultado(votacao)}
       </Paper>
+      -------------------------------
+      <Paper className="paperVotacoes" zDepth={2} rounded>
+        <Panel header="Respostas" bsStyle="primary">
+          <Table responsive>
+            <thead>
+              <tr>
+                <th>Nome</th>
+                <th>Resposta</th>
+                <th>Peso</th>
+                <th>Hora</th>
+              </tr>
+            </thead>
+            <tbody>bla bla bla</tbody>
+          </Table>
+        </Panel>
+      </Paper>
+    */
+
+    return (
+      <Paper className={classPaper} zDepth={2} rounded>
+        <div className={classStatus}>
+          {votacao.dentroVigenciaVotacao}
+        </div>
+        <div className="txtPerguntaVotacoes">
+          {votacao.dscPergunta}
+        </div>
+        <div className="divRespostasVotacoes">
+          {this.renderBotoesVotacao(this.props.rows)}
+        </div>
+        <br />
+        {this.botaoResultado(votacao)}
+      </Paper>
     );
   }
 
@@ -107,6 +169,7 @@ class UsuarioVotacao extends Component {
       return rows.map(resp =>
         (<RaisedButton
           backgroundColor="#66b682"
+          labelColor="#FFFFFF"
           style={{ margin: 10 }}
           type="button"
           label={resp.dscResposta}
