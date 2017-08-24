@@ -25,6 +25,7 @@
     "react-data-grid-addons": "^2.0.57",
     "react-dom": "^15.6.1",
     "react-error-overlay": "^1.0.10",
+    "react-icon": "^1.0.0",
     "react-modal": "^2.2.4",
     "react-paginate": "^4.4.3",
     "react-password-strength": "^2.0.0",

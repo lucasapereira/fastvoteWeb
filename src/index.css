@@ -29,10 +29,25 @@ body {
   border: 1px solid blue;
 } */
 
-.paperVotacoes {
+.paperVotacaoAberta {
   margin: 15px;
-  padding: 10px;
-  border-radius: 10px;
+  border-radius: 20px;
+  border-left: 30px solid #66b682;
+  padding-right: 30px;
+}
+
+.paperVotacaoFechada {
+  margin: 15px;
+  border-radius: 20px;
+  border-left: 30px solid #fd4d2a;
+  padding-right: 30px;
+}
+
+.paperVotacaoNaoIniciada {
+  margin: 15px;
+  border-radius: 20px;
+  border-left: 30px solid #e0c359;
+  padding-right: 30px;
 }
 
 .statusVotacaoAberta {
@@ -46,6 +61,15 @@ body {
 
 .statusVotacaoFechada {
   background-color: #fd4d2a;
+  font-weight: bold;
+  color: #ffffff;
+  padding-left: 10px;
+  padding-right: 10px;
+  min-height: 5px;
+}
+
+.statusVotacaoNaoIniciada {
+  background-color: #e0c359;
   font-weight: bold;
   color: #ffffff;
   padding-left: 10px;
@@ -74,7 +98,9 @@ body {
 
 .divRespostasVotacoes {
   vertical-align: middle;
+  text-align: center;
   border-bottom: 1px solid #bdbdbd;
+  padding: 5px;
 }
 
 .btnOpcaoVotacao {
@@ -84,6 +110,16 @@ body {
   padding-left: 10px;
   padding-right: 10px;
   min-height: 5px;
+}
+
+.divResultado {
+  padding: 5px 0px 5px 5px;
+  text-align: right;
+}
+
+.spanResultado {
+  border: 2px solid blue;
+  padding: 5px;
 }
 
 [class^="muidocs-icon-"],
