@@ -1,33 +1,34 @@
 import React, { Component } from 'react';
 import Divider from 'material-ui/Divider';
 import { compose } from 'react-apollo';
-
-import CompAutoComplete from '../novaVotacao/compAutoComplete';
 import CompPerguntaRespostas from '../novaVotacao/compPerguntaRespostas';
 import CompDadosAdicionais from '../novaVotacao/compDadosAdicionais';
 import CompVotantes from '../novaVotacao/compVotantes';
-
+import { getStorage } from '../../../components/generic/storage';
 import { MutationGravaVotacao } from '../../../graphql/votacao_new';
+import AlertContainer from 'react-alert';
 
 class TelaVotacaoContainer extends Component {
+  alertOptions = {
+    offset: 14,
+    position: 'bottom left',
+    theme: 'dark',
+    time: 5000,
+    transition: 'scale',
+  };
+
   constructor(props) {
     super(props);
     this.state = {
-      codPessoaJuridica: null,
-      dscVotacao: null,
-      dscPergunta: null,
+      codPessoaJuridica: getStorage('cod_pessoa_juridica'),
+      dscVotacao: '',
+      dscPergunta: '',
       arrayRespostas: [],
       numRespostas: 3,
       activeCheckboxes: [],
       selectedRows: [],
     };
   }
-
-  setPessoaJuridica = (codPessoaJuridica) => {
-    this.setState({
-      codPessoaJuridica: codPessoaJuridica.codPessoaJuridica,
-    });
-  };
 
   handleCheck = (id) => {
     const found = this.state.activeCheckboxes.includes(id);
@@ -71,7 +72,27 @@ class TelaVotacaoContainer extends Component {
     }
   };
 
+  openModal = () => {
+    this.setState({
+      modalIsOpen: true,
+    });
+  };
+
+  closeModal = () => {
+    this.setState({
+      modalIsOpen: false,
+    });
+  };
+
   handleAdd = () => {
+    if (this.state.dscVotacao.length === 0) {
+      this.msg.error('Descrição da votação é obrigatório');
+      return;
+    }
+    if (this.state.dscVotacao.length === 0) {
+      this.msg.error('Pergunta é obrigatório');
+      return;
+    }
     const arrayVotacaoUsuario = this.state.selectedRows.map((row) => {
       const arrUsuario = [];
       arrUsuario.push(`${row.codUsuario}, ${row.vlrPeso}`);
@@ -87,11 +108,10 @@ class TelaVotacaoContainer extends Component {
           dscrespostaarray: this.state.arrayRespostas,
         },
       })
-      .then((aaa) => {
-        console.log(aaa);
+      .then(() => {
+        this.props.history.push('/votacao/list');
       })
       .catch((e) => {
-        console.log('aaaasdsadas');
         console.log(e);
       });
 
@@ -103,7 +123,7 @@ class TelaVotacaoContainer extends Component {
     };
     */
 
-    // this.props.history.push('/votacao/list');
+    //
   };
 
   renderButtonVariosSelection = (selectedRows) => {
@@ -152,10 +172,9 @@ class TelaVotacaoContainer extends Component {
     return (
       <div className="container">
         <div className="baseContent">
-          <CompAutoComplete setPessoaJuridica={this.setPessoaJuridica} />
-          <hr />
           {arrForm}
         </div>
+        <AlertContainer ref={a => (this.msg = a)} {...this.alertOptions} />
       </div>
     );
   }

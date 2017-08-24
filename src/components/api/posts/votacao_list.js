@@ -58,12 +58,6 @@ class VotacaoList extends Component {
       sortable: true,
     },
     {
-      key: 'sglPessoaJuridica',
-      name: 'Empresa',
-      filterable: true,
-      sortable: true,
-    },
-    {
       key: 'datInicioVotacao',
       name: 'Início',
       filterable: true,

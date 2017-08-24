@@ -83,8 +83,6 @@ export const trocarSenha = (senhaAntiga, senhaNova) => async (dispatch) => {
       authOptions(),
     );
 
-    console.log(response);
-
     if (response.data.success === true) {
       dispatch({
         type: SENHA_TROCADA,
@@ -128,7 +126,7 @@ export const esqueciSenha = (email, recaptcha, cpf) => async (dispatch) => {
   }
 };
 
-export const signinUser = ({ cpf, senha, empresas }, callback) => async (dispatch) => {
+export const signinUser = ({ cpf, senha, empresas }) => async (dispatch) => {
   dispatch({
     type: AUTHENTICATION_PROCESS,
   });
@@ -155,6 +153,7 @@ export const signinUser = ({ cpf, senha, empresas }, callback) => async (dispatc
       setStorage('num_cpf_pessoa', response.data.message.num_cpf_pessoa);
       setStorage('num_telefone', response.data.message.num_telefone);
       setStorage('cod_pessoa', response.data.message.cod_pessoa);
+      setStorage('cod_pessoa_juridica', response.data.message.cod_pessoa_juridica);
 
       const menu = await axios.get('/users/getMenus', authOptions());
       const acl = await axios.get('/users/getFuncionalidades', authOptions());
@@ -188,6 +187,7 @@ export function signoutUser() {
   removeStorage('num_telefone');
   removeStorage('cod_pessoa');
   removeStorage('funcionalidades');
+  removeStorage('cod_pessoa_juridica');
   return {
     type: UNAUTH_USER,
   };

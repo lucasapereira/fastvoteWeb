@@ -1,12 +1,13 @@
 import { gql, graphql } from 'react-apollo';
+import { getStorage } from '../components/generic/storage';
 
 const query = gql`
-  query Feed($offset: Int, $limit: Int) {
+  query Feed($offset: Int, $limit: Int, $codPessoaJuridica: Int) {
     allTbVotacaos(
       orderBy: COD_VOTACAO_ASC
       offset: $offset
       first: $limit
-      condition: { flgBloqueado: false }
+      condition: { flgBloqueado: false, codPessoaJuridica: $codPessoaJuridica }
     ) {
       totalCount
       nodes {
@@ -31,6 +32,7 @@ const queryOptions = {
         type: (props.params && props.params.type && props.params.type.toUpperCase()) || 'TOP',
         offset: 0,
         limit: 20,
+        codPessoaJuridica: getStorage('cod_pessoa_juridica'),
       },
       fetchPolicy: 'network-only',
     };
