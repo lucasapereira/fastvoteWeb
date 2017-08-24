@@ -23,8 +23,6 @@ const queryOptions = {
         type: (props.params && props.params.type && props.params.type.toUpperCase()) || 'TOP',
         codVotacao: props.votacao.codVotacao,
       },
-      fetchPolicy: 'network-only',
-      notifyOnNetworkStatusChange: true,
     };
   },
   props(props) {

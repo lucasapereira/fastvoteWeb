@@ -35,8 +35,6 @@ class UsuarioVotacao extends Component {
   };
 
   botaoResultado = (votacao) => {
-    console.log(votacao);
-
     Icon.setDefaultFontPrefix('glyphicon');
     let botaoResultado = (
       <FlatButton label="Detalhes" primary disabled icon={<Icon glyph="stats" />} />
@@ -61,7 +59,6 @@ class UsuarioVotacao extends Component {
   };
 
   vota = (votacao) => {
-    console.log(this.props);
     this.props
       .vota({
         variables: {

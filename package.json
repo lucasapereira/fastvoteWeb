@@ -27,6 +27,7 @@
     "react-dom": "^15.6.1",
     "react-error-overlay": "^1.0.10",
     "react-icon": "^1.0.0",
+    "react-infinite": "^0.12.1",
     "react-infinite-scroll": "^0.1.5",
     "react-paginate": "^4.4.3",
     "react-password-strength": "^2.0.0",

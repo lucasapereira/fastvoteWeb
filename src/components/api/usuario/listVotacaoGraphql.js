@@ -31,9 +31,8 @@ const queryOptions = {
         codpessoa: props.cod_pessoa,
         codusuariorepresentacao: props.urep,
         offseta: 0,
-        limita: 20,
+        limita: 3,
       },
-      fetchPolicy: 'network-only',
     };
   },
   props(props) {
@@ -73,16 +72,19 @@ const queryOptions = {
           dentroVigenciaVotacao: linhas.dentroVigenciaVotacao,
           flgMostraResultadoEmTempoReal: linhas.flgMostraResultadoEmTempoReal,
           textoMostraResultadoEmTempoReal: linhas.flgMostraResultadoEmTempoReal ? 'Sim' : 'Não',
+          totalCount: linhas.totalCount,
         }));
       }
     }
+
+    console.log('prospsss', props);
     return {
       error,
       rows,
       loading,
       refetch,
       totalCount,
-      loadMoreEntries(codpessoa, codusuariorepresentacao, offset, ITEMS_PER_PAGE = null) {
+      loadMoreEntries(offset, ITEMS_PER_PAGE = null) {
         return fetchMore({
           // query: ... (you can specify a different query. FEED_QUERY is used by default)
           variables: {
@@ -91,8 +93,8 @@ const queryOptions = {
             // variables to calculate this (see the cursor example below)
             offseta: offset,
             limita: ITEMS_PER_PAGE || 20,
-            codpessoa,
-            codusuariorepresentacao,
+            codpessoa: props.ownProps.cod_pessoa,
+            codusuariorepresentacao: props.ownProps.urep,
           },
           updateQuery: (previous, next) => ({
             ...next.fetchMoreResult,
