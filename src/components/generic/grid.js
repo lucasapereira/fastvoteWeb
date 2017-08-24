@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Loader from 'halogen/PulseLoader';
 import { Link } from 'react-router-dom';
 import RaisedButton from 'material-ui/RaisedButton';
 import ReactDataGrid from 'react-data-grid';
@@ -8,6 +7,7 @@ import ReactPaginate from 'react-paginate';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import confirm from './confirm';
+import MyLoader from './myLoader';
 
 import update from 'react-addons-update';
 
@@ -263,7 +263,7 @@ class Grid extends Component {
     );
 
     if (this.props.loading) {
-      return <Loader color="#00BCD4" size="16px" margin="4px" />;
+      return <MyLoader />;
     }
 
     return (

@@ -2,12 +2,13 @@ import React, { Component } from 'react';
 import RaisedButton from 'material-ui/RaisedButton';
 import { Link } from 'react-router-dom';
 import { compose } from 'react-apollo';
-import Loader from 'halogen/PulseLoader';
 import axios from 'axios';
 import Grid from '../../generic/grid';
 import { authOptions } from '../../generic/myAxios';
 import Lock from 'material-ui/svg-icons/action/lock';
 import LockOpen from 'material-ui/svg-icons/action/lock-open';
+import MyLoader from '../../generic/myLoader';
+
 import {
   QueryVotacaoList,
   MutationIniciaVotacao,
@@ -245,7 +246,7 @@ class VotacaoList extends Component {
 
   render() {
     if (this.props.loading) {
-      return <Loader color="#00BCD4" size="16px" margin="4px" />;
+      return <MyLoader />;
     }
 
     return (

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Subheader from 'material-ui/Subheader';
-import Loader from 'halogen/PulseLoader';
 import Grid from '../../generic/grid';
+import MyLoader from '../../generic/myLoader';
 
 import { compose } from 'react-apollo';
 
@@ -53,7 +53,7 @@ class CompVotantes extends Component {
 
   render() {
     if (this.props.loading) {
-      return <Loader color="#00BCD4" size="26px" margin="4px" />;
+      return <MyLoader />;
     }
 
     if (this.props.error) {

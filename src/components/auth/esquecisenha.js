@@ -4,11 +4,11 @@ import { required, email, cpf } from '../generic/validations';
 import { Field, reduxForm } from 'redux-form';
 import RaisedButton from 'material-ui/RaisedButton';
 import { TextField } from 'redux-form-material-ui';
-import Loader from 'halogen/PulseLoader';
 import { connect } from 'react-redux';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import { esqueciSenha, setSenhaTrocadaComSucesso } from '../../actions';
+import MyLoader from '../generic/myLoader';
 
 // site key
 const sitekey = '6LerwiwUAAAAAN_S41XhiuIPWwcvEcy9KPsroZ1T';
@@ -77,7 +77,7 @@ class EsqueciSenha extends React.Component {
     const { handleSubmit, pristine, submitting } = this.props;
 
     if (this.props.loading) {
-      return <Loader color="#00BCD4" size="16px" margin="4px" />;
+      return <MyLoader />;
     }
     return (
       <form onSubmit={handleSubmit(this.onSubmit)}>

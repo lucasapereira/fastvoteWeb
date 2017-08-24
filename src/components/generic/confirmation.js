@@ -27,7 +27,7 @@ class Confirmation extends React.Component {
     return (
       <Theme>
         <Dialog title={title} actions={actions} modal={modal} open={show} onRequestClose={dismiss}>
-          {confirmation}
+          Confirma votação em: <b>{confirmation}</b>
         </Dialog>
       </Theme>
     );

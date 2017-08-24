@@ -1,16 +1,17 @@
 import React, { Component } from 'react';
 import RaisedButton from 'material-ui/RaisedButton';
 import { compose } from 'react-apollo';
-import Loader from 'halogen/PulseLoader';
 import { withRouter, Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Paper from 'material-ui/Paper';
+
 import { QueryVoto, mutationVota } from './usuarioVotacaoGraphql';
 import confirm from '../../generic/confirm';
+import MyLoader from '../../generic/myLoader';
 
 class UsuarioVotacao extends Component {
   onPress = (votacao) => {
-    confirm(`Você tem certeza que deseja deseja votar em: ${votacao.dscResposta}`).then(
+    confirm(`${votacao.dscResposta}`).then(
       () => {
         this.vota(votacao);
       },
@@ -72,7 +73,10 @@ class UsuarioVotacao extends Component {
             {votacao.dscPergunta}
           </div>
           <div className="divRespostasVotacoes">
-            Seu voto: {votacao.dscResposta}
+            <span className="labelVotacaoExecutada">Seu voto: </span>
+            <span className="txtVotacaoExecutada">
+              {votacao.dscResposta}
+            </span>
           </div>
           <br />
           {this.botaoResultado(votacao)}
@@ -102,6 +106,7 @@ class UsuarioVotacao extends Component {
     if (this.props.votacao.dentroVigenciaVotacao === 'Votação em andamento.') {
       return rows.map(resp =>
         (<RaisedButton
+          backgroundColor="#66b682"
           style={{ margin: 10 }}
           type="button"
           label={resp.dscResposta}
@@ -114,7 +119,7 @@ class UsuarioVotacao extends Component {
 
   render() {
     if (this.props.loading) {
-      return <Loader color="#00BCD4" size="16px" margin="4px" />;
+      return <MyLoader />;
     }
 
     if (this.props.error) {

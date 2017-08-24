@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 
 import { compose } from 'react-apollo';
-import Loader from 'halogen/PulseLoader';
 import UsuarioVotacao from './usuarioVotacao';
 import { QueryVotacaoList } from './listVotacaoGraphql';
+
+import MyLoader from '../../generic/myLoader';
 
 class VotacaoList extends Component {
   componentWillReceiveProps(nextProps) {
@@ -19,7 +20,7 @@ class VotacaoList extends Component {
 
   render = () => {
     if (this.props.loading) {
-      return <Loader color="#00BCD4" size="16px" margin="4px" />;
+      return <MyLoader />;
     }
 
     return (

@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { compose } from 'react-apollo';
 import { QueryResultadoVotacaoPessoa } from './votacao_resultado_pessoa_graphql';
-import Loader from 'halogen/PulseLoader';
 import { Table, Panel } from 'react-bootstrap';
+
+import MyLoader from '../../generic/myLoader';
 
 class ResultadoVotacaoPessoa extends Component {
   getRelatorio = () => {
@@ -27,7 +28,7 @@ class ResultadoVotacaoPessoa extends Component {
   };
   render() {
     if (this.props.loading) {
-      return <Loader color="#00BCD4" size="16px" margin="4px" />;
+      return <MyLoader />;
     }
 
     return (

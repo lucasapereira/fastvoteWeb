@@ -4,18 +4,19 @@ import { List, ListItem } from 'material-ui/List';
 import Subheader from 'material-ui/Subheader';
 import Checkbox from 'material-ui/Checkbox';
 import Paper from 'material-ui/Paper';
-import Loader from 'halogen/PulseLoader';
 
 import { compose } from 'react-apollo';
 
 import { QueryResultadoList } from './compDadosAdicionaisGraph';
+
+import MyLoader from '../../generic/myLoader';
 
 class CompDadosAdicionais extends Component {
   render() {
     let descricao = '';
 
     if (this.props.loading) {
-      return <Loader color="#00BCD4" size="26px" margin="4px" />;
+      return <MyLoader />;
     }
 
     if (this.props.error) {

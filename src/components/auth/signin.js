@@ -8,8 +8,8 @@ import RaisedButton from 'material-ui/RaisedButton';
 import _ from 'lodash';
 import authSchema from '../../jsonschemas/authSchema.json';
 import { required, cpf } from '../generic/validations';
-import Loader from 'halogen/PulseLoader';
 import { Link } from 'react-router-dom';
+import MyLoader from '../generic/myLoader';
 
 const Validator = require('jsonschema').Validator;
 
@@ -130,7 +130,7 @@ class Signin extends Component {
     }
 
     if (this.props.loading) {
-      return <Loader color="#00BCD4" size="16px" margin="4px" />;
+      return <MyLoader />;
     }
 
     return (

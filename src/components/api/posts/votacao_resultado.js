@@ -5,7 +5,7 @@ import { QueryResultadoList } from '../../../graphql/resultado';
 import ResultadoVotacaoPessoa from './votacao_resultado_pessoa';
 import RaisedButton from 'material-ui/RaisedButton';
 import html2canvas from 'html2canvas';
-import Loader from 'halogen/PulseLoader';
+import MyLoader from '../../generic/myLoader';
 
 import jsPDF from 'jspdf';
 
@@ -108,14 +108,14 @@ class ResultadoVotacao extends Component {
 
   buttonExportaPdf = () => {
     if (this.state.printingPdf) {
-      return <Loader color="#00BCD4" size="16px" margin="4px" />;
+      return <MyLoader />;
     }
     return <RaisedButton onClick={this.printDocument} label="Exportar para PDF" />;
   };
 
   render() {
     if (this.props.loading) {
-      return <Loader color="#00BCD4" size="16px" margin="4px" />;
+      return <MyLoader />;
     }
     return (
       <div style={{ width: '500px' }}>

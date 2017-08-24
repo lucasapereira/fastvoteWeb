@@ -10,6 +10,7 @@
     "import/prefer-default-export": 0,
     "no-plusplus": 0,
     "import/first": 0,
-    "react/sort-comp": 0
+    "react/sort-comp": 0,
+    "react/prefer-stateless-function": 0
   }
 }

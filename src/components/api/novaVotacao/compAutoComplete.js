@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import Loader from 'halogen/PulseLoader';
 import AutoComplete from 'material-ui/AutoComplete';
 import { compose } from 'react-apollo';
 
 import { QueryResultadoList } from './compAutoCompleteGraph';
+import MyLoader from '../../generic/myLoader';
 
 const dataSourceConfig = {
   text: 'nomPessoaJuridica',
@@ -18,7 +18,7 @@ class CompAutoComplete extends Component {
 
   render() {
     if (this.props.loading) {
-      return <Loader color="#00BCD4" size="26px" margin="4px" />;
+      return <MyLoader />;
     }
 
     if (this.props.error) {

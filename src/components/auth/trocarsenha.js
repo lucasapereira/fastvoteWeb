@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactPasswordStrength from 'react-password-strength';
-import Loader from 'halogen/PulseLoader';
 import { Field, reduxForm } from 'redux-form';
 import { TextField } from 'redux-form-material-ui';
 import { required } from '../generic/validations';
@@ -9,6 +8,7 @@ import { connect } from 'react-redux';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import { authError, trocarSenha, setSenhaTrocadaComSucesso } from '../../actions';
+import MyLoader from '../generic/myLoader';
 
 const inputProps = {
   placeholder: 'Nova Senha',
@@ -77,7 +77,7 @@ class TrocarSenha extends React.Component {
     const { handleSubmit, pristine, submitting } = this.props;
 
     if (this.props.loading) {
-      return <Loader color="#00BCD4" size="16px" margin="4px" />;
+      return <MyLoader />;
     }
 
     return (

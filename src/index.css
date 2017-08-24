@@ -45,7 +45,7 @@ body {
 }
 
 .statusVotacaoFechada {
-  background-color: #fc917c;
+  background-color: #fd4d2a;
   font-weight: bold;
   color: #ffffff;
   padding-left: 10px;
@@ -54,18 +54,36 @@ body {
 }
 
 .txtPerguntaVotacoes {
-  border-bottom: 1px solid #a4a4a4;
+  border-bottom: 1px solid #bdbdbd;
+  padding: 10px;
   color: #000000;
   font-weight: bold;
   font-size: 150%;
 }
 
-.divRespostasVotacoes {
-  height: 60px;
-  vertical-align: middle;
-  border: 1px solid red;
+.labelVotacaoExecutada {
   color: #000000;
-  font-size: 100%;
+  font-size: 120%;
+}
+
+.txtVotacaoExecutada {
+  color: #000000;
+  font-size: 150%;
+  font-weight: bold;
+}
+
+.divRespostasVotacoes {
+  vertical-align: middle;
+  border-bottom: 1px solid #bdbdbd;
+}
+
+.btnOpcaoVotacao {
+  background-color: #189855;
+  font-weight: bold;
+  color: #ffffff;
+  padding-left: 10px;
+  padding-right: 10px;
+  min-height: 5px;
 }
 
 [class^="muidocs-icon-"],
