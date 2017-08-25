@@ -125,7 +125,6 @@ class UsuarioVotacao extends Component {
   };
 
   vota = (votacao) => {
-    console.log(this.props);
     this.props
       .vota({
         variables: {
