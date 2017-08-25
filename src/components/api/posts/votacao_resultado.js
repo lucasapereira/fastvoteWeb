@@ -80,7 +80,6 @@ class ResultadoVotacao extends Component {
     let flg = false;
     if (this.props.data.resultVotacao) {
       this.props.data.resultVotacao.nodes.forEach((arrayItem) => {
-        console.log(arrayItem);
         if (parseFloat(arrayItem.multi) > 0) {
           flg = true;
         }

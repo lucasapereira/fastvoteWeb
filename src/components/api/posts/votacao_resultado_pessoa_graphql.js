@@ -5,7 +5,6 @@ const query = gql`
     relatorioVotos(codvotacao: $codVotacao) {
       nodes {
         totalCount
-        codVotacao
         datHoraVoto
         dscVotacao
         datInicioVotacao
@@ -15,6 +14,9 @@ const query = gql`
         dscResposta
         vlrPeso
         nomCompletoPessoa
+        numCpfPessoa
+        numTelefone
+        dscEmail
       }
     }
   }
@@ -66,6 +68,9 @@ const queryOptions = {
           datHoraVoto: linhas.datHoraVoto ? new Date(linhas.datHoraVoto).toLocaleString() : '',
           vlrPeso: linhas.vlrPeso,
           nomCompletoPessoa: linhas.nomCompletoPessoa,
+          numCpfPessoa: `******${linhas.numCpfPessoa.substring(6)}`,
+          numTelefone: `********${linhas.numTelefone.substring(8)}`,
+          dscEmail: `**********${linhas.dscEmail.substring(10)}`,
         }));
       }
     }

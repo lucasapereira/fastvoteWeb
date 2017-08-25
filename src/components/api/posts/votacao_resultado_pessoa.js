@@ -22,6 +22,15 @@ class ResultadoVotacaoPessoa extends Component {
           <td>
             {arrayItem.datHoraVoto}
           </td>
+          <td>
+            {arrayItem.numCpfPessoa}
+          </td>
+          <td>
+            {arrayItem.numTelefone}
+          </td>
+          <td>
+            {arrayItem.dscEmail}
+          </td>
         </tr>),
       );
     }
@@ -41,6 +50,9 @@ class ResultadoVotacaoPessoa extends Component {
                 <th>Resposta</th>
                 <th>Peso</th>
                 <th>Hora</th>
+                <th>Cpf</th>
+                <th>Telefone</th>
+                <th>E-mail</th>
               </tr>
             </thead>
             <tbody>
