@@ -45,6 +45,9 @@ const colorArray = [
 class ResultadoVotacao extends Component {
   state = {
     printingPdf: false,
+    houveVotos: false,
+    arrayData: [],
+    arrayLabel: [],
   };
   printDocument = () => {
     this.setState({
@@ -89,9 +92,18 @@ class ResultadoVotacao extends Component {
         arrayColor[index] = colorArray[index];
         arrayData[index] = arrayItem.multi;
 
+        if (arrayItem.multi > 0) {
+          this.setState({ houveVotos: true });
+        }
+
         index++;
       });
     }
+
+    this.setState({
+      arrayData,
+      arrayLabel,
+    });
 
     return {
       labels: arrayLabel,
@@ -113,17 +125,10 @@ class ResultadoVotacao extends Component {
     return <RaisedButton onClick={this.printDocument} label="Exportar para PDF" />;
   };
 
-  render() {
-    if (this.props.loading) {
-      return <MyLoader />;
-    }
-    return (
-      <div style={{ width: '500px' }}>
-        <div className="mb5">
-          {this.buttonExportaPdf()}
-        </div>
-        <div id="divToPrint" style={{ margin: 20, padding: 20 }}>
-          <ResultadoVotacaoPessoa codVotacao={this.props.match.params.codVotacao} />
+  renderGraficos = () => {
+    if (this.state.houveVotos) {
+      return (
+        <div>
           Resultados:{this.getLabel()}
           <Doughnut data={this.getData()} width={100} height={50} />
           <Bar
@@ -134,6 +139,46 @@ class ResultadoVotacao extends Component {
               maintainAspectRatio: true,
             }}
           />
+        </div>
+      );
+    }
+    return <div>Nenhum voto computado até o momento.</div>;
+  };
+
+  renderResultadoAgregado = () =>
+    this.props.data.resultVotacao.nodes.map(arrayItem =>
+      (<div>
+        {arrayItem.dscResposta}: {arrayItem.multi}
+      </div>),
+    );
+
+  renderDadosDaVotacao = () => {
+    if (this.props.data.resultVotacao) {
+      return (
+        <div>
+          Votação: {this.props.data.resultVotacao.nodes[0].dscVotacao} <br />
+          Pergunta: {this.props.data.resultVotacao.nodes[0].dscVotacao} <br />
+          {this.renderResultadoAgregado()}
+        </div>
+      );
+    }
+    console.log(this.props);
+  };
+
+  render() {
+    if (this.props.loading) {
+      return <MyLoader />;
+    }
+
+    return (
+      <div style={{ width: '500px' }}>
+        <div className="mb5">
+          {this.buttonExportaPdf()}
+        </div>
+        <div id="divToPrint" style={{ margin: 20, padding: 20 }}>
+          {this.renderDadosDaVotacao()}
+          {this.renderGraficos()}
+          <ResultadoVotacaoPessoa codVotacao={this.props.match.params.codVotacao} />
         </div>
       </div>
     );

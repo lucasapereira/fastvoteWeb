@@ -22,7 +22,6 @@ const queryOptions = {
         type: (props.params && props.params.type && props.params.type.toUpperCase()) || 'TOP',
         codVotacao: props.match.params.codVotacao,
       },
-      fetchPolicy: 'network-only',
     };
   },
 };

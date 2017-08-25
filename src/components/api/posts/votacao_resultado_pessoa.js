@@ -7,8 +7,8 @@ import MyLoader from '../../generic/myLoader';
 
 class ResultadoVotacaoPessoa extends Component {
   getRelatorio = () => {
-    if (this.props.data.relatorioVotos) {
-      return this.props.data.relatorioVotos.nodes.map(arrayItem =>
+    if (this.props.rows) {
+      return this.props.rows.map(arrayItem =>
         (<tr key={arrayItem.nomCompletoPessoa}>
           <td>
             {arrayItem.nomCompletoPessoa}
@@ -20,7 +20,7 @@ class ResultadoVotacaoPessoa extends Component {
             {arrayItem.vlrPeso}
           </td>
           <td>
-            {new Date(arrayItem.datHoraVoto).toLocaleString()}
+            {arrayItem.datHoraVoto}
           </td>
         </tr>),
       );
@@ -33,7 +33,7 @@ class ResultadoVotacaoPessoa extends Component {
 
     return (
       <div>
-        <Panel header="Respostas" bsStyle="primary">
+        <Panel header="Participantes" bsStyle="primary">
           <Table responsive>
             <thead>
               <tr>

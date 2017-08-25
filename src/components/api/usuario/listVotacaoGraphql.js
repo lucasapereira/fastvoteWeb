@@ -77,7 +77,6 @@ const queryOptions = {
       }
     }
 
-    console.log('prospsss', props);
     return {
       error,
       rows,
