@@ -123,18 +123,22 @@ body {
   padding-right: 10px;
   min-height: 5px;
 }
+
+/* teste vaza*/
 .teste {
-  /*border: 1px solid blue;*/
-}
-.divResultado {
-  padding: 5px 0px 5px 5px;
-  text-align: right;
-  /*border: 1px solid red;*/
+  border: 2px dotted #007916;
 }
 
-.spanResultado {
-  /*border: 2px solid blue;*/
-  padding: 5px;
+.divResultado {
+  padding: 5px 0px 5px 5px;
+  /* text-align: right; */
+  border: 1px solid red;
+}
+
+.fieldSetResultadoLegend {
+  font-size: 100%;
+  font-weight: bold;
+  color: #bababa;
 }
 
 [class^="muidocs-icon-"],

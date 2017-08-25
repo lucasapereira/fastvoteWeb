@@ -8,7 +8,7 @@ import { withRouter, Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Paper from 'material-ui/Paper';
 import Icon from 'react-icon';
-import { Grid, Row, Col } from 'react-bootstrap';
+import { Table, Grid, Row, Col, ProgressBar } from 'react-bootstrap';
 
 import { QueryVoto, mutationVota } from './usuarioVotacaoGraphql';
 import confirm from '../../generic/confirm';
@@ -33,49 +33,42 @@ class UsuarioVotacao extends Component {
     // mostra se votacao esta finalizada ou se ha resultado em tempo real
     if (votacao.datFimVotacao.length || votacao.flgMostraResultadoEmTempoReal) {
       const qtdResp = rows.length;
+      const labelResultado = 'Resultado Parcial';
 
-      /*
-      descricao = this.props.data.allTbPjDadosadicionais.nodes.map((row) => {
-        const arrDescricao = [];
-
-        arrDescricao.push(
-          <Paper>
-            <ListItem
-              leftCheckbox={
-                <Checkbox
-                  onCheck={() => this.props.handleCheck(row.codDadosAdicionais)}
-                  checked={this.props.activeCheckboxes.includes(row.codDadosAdicionais)}
-                />
-              }
-              primaryText={`${row.codDadosAdicionais} - ${row.tbDadosAdicionaiByCodDadosAdicionais
-                .dscDadosAdicionais}`}
-              secondaryText="Allow notifications"
-            />
-          </Paper>,
-        );
-
-        return arrDescricao;
-      });
-      */
-
+      let countItemResp = 1;
       const stringResp = rows.map((row) => {
         const arrResp = [];
+        const now = countItemResp * 20;
 
         arrResp.push(
-          <div>
-            {`${row.dscResposta} - 20%`}
-          </div>,
+          <tr>
+            <td width="10%">
+              {countItemResp++}
+            </td>
+            <td width="40%">
+              {row.dscResposta}
+            </td>
+            <td width="50%">
+              <ProgressBar now={now} label={`${now}%`} />
+            </td>
+          </tr>,
         );
 
         return arrResp;
       });
 
-      console.log('VOTA VOTA', votacao, stringResp);
-
       return (
-        <span className="spanResultado">
-          RESULTADO stats {stringResp} Respostas
-        </span>
+        <fieldset>
+          <legend className="fieldSetResultadoLegend">
+            {labelResultado}
+          </legend>
+
+          <Table striped bordered condensed hover>
+            <tbody>
+              {stringResp}
+            </tbody>
+          </Table>
+        </fieldset>
       );
     }
   };
