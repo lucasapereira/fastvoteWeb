@@ -22,12 +22,14 @@ body {
   margin-left: auto;
 }
 
+/* tela login */
+
 .paperLogin {
   margin: 0 auto;
   width: 350px;
-  height: 500px;
+  /* height: 500px; */
   text-align: center;
-  position: relative;
+  /* position: relative; */
 }
 
 .divTopoLogin {
@@ -45,7 +47,7 @@ body {
 .divBottomFormLogin {
   padding: 20px;
   width: 310px;
-  position: absolute;
+  /* position: absolute; */
   bottom: 0;
   /*border: 1px solid red;*/
 }
@@ -53,6 +55,8 @@ body {
 .divLinksFormLogin {
   padding-top: 10px;
 }
+
+/* tela usuario votacao */
 
 .paperVotacao {
   margin: 15px 0px 0px 0px;
@@ -95,6 +99,15 @@ body {
   font-size: 150%;
 }
 
+.divRespostasVotacoes {
+  vertical-align: middle;
+  min-height: 40px;
+  text-align: center;
+  background-color: #e8e8e8;
+  border-bottom: 1px solid #bdbdbd;
+  padding: 5px;
+}
+
 .labelVotacaoExecutada {
   color: #000000;
   font-size: 120%;
@@ -106,15 +119,6 @@ body {
   font-weight: bold;
 }
 
-.divRespostasVotacoes {
-  vertical-align: middle;
-  min-height: 40px;
-  text-align: center;
-  background-color: #e8e8e8;
-  border-bottom: 1px solid #bdbdbd;
-  padding: 5px;
-}
-
 .btnOpcaoVotacao {
   background-color: #189855;
   font-weight: bold;
@@ -124,15 +128,8 @@ body {
   min-height: 5px;
 }
 
-/* teste vaza*/
-.teste {
-  border: 2px dotted #007916;
-}
-
 .divResultado {
   padding: 5px 0px 5px 5px;
-  /* text-align: right; */
-  border: 1px solid red;
 }
 
 .fieldSetResultadoLegend {
@@ -140,6 +137,16 @@ body {
   font-weight: bold;
   color: #bababa;
 }
+
+.btnDetalheResultado {
+  text-align: right;
+}
+
+.teste {
+  border: 1px solid red;
+}
+
+
 
 [class^="muidocs-icon-"],
 [class*=" muidocs-icon-"] {

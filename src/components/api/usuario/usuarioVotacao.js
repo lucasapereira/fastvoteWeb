@@ -26,61 +26,102 @@ class UsuarioVotacao extends Component {
     );
   };
 
+  getStatusVotacao = (votacao) => {
+    let codStatus = 0; // Fechada
+
+    if (votacao.dentroVigenciaVotacao === 'Votação em andamento.') {
+      codStatus = 1; // Aberta
+    } else if (votacao.dentroVigenciaVotacao === 'Votação já finalizada.') {
+      codStatus = 2; // Finalizada
+    }
+
+    // RETURN
+    // 0 - Fechada
+    // 1 - Aberta
+    // 2 - Finalizada
+    return codStatus;
+  };
+
   renderLabelResultado = (votacao) => {
     // Icon.setDefaultFontPrefix('glyphicon');
     const { rows } = this.props;
 
-    // mostra se votacao esta finalizada ou se ha resultado em tempo real
-    if (votacao.datFimVotacao.length || votacao.flgMostraResultadoEmTempoReal) {
-      const qtdResp = rows.length;
-      const labelResultado = 'Resultado Parcial';
+    const flgStatus = this.getStatusVotacao(votacao);
+    console.log('AOO ', flgStatus, votacao.dscPergunta);
+
+    // 0 - Fechada - Mostra nada
+    // 1 - Aberta - se tempo real mostra, se nao n mostra
+    // 2 - Finalizada - mostra tudo
+
+    // Inicializa com votação fechada
+    let labelResultado = 'Resultado indisponível';
+    let stringResp = (<tr><td colspan="3">Votação não iniciada.</td></tr>);
+
+    // Organiza labels
+    if( flgStatus === 2 ) { // Finalizada
+      labelResultado = 'Resultado Final';
+      stringResp = true;
+    } else if ( flgStatus === 1 ){ // Aberta
+      if( votacao.flgMostraResultadoEmTempoReal ) {
+        labelResultado = 'Resultado Parcial';
+        stringResp = true;
+      } else {
+        labelResultado = 'Resultado indisponível';
+        stringResp = (<tr><td colspan="3">O Resultado será disponibilizado ao fim da votação.</td></tr>);
+      }
+    }
+
+    // mostra resultado na table
+    if ( stringResp === true ) {
+      // const qtdResp = rows.length;
 
       let countItemResp = 1;
-      const stringResp = rows.map((row) => {
+      stringResp = rows.map((row) => {
         const arrResp = [];
         const now = countItemResp * 20;
 
         arrResp.push(
           <tr>
-            <td width="10%">
+            <td width="10%" align="center">
               {countItemResp++}
             </td>
             <td width="40%">
               {row.dscResposta}
             </td>
             <td width="50%">
-              <ProgressBar now={now} label={`${now}%`} />
+              <ProgressBar bsStyle="success" now={now} label={`${now}%`} />
             </td>
           </tr>,
         );
 
         return arrResp;
       });
-
-      return (
-        <fieldset>
-          <legend className="fieldSetResultadoLegend">
-            {labelResultado}
-          </legend>
-
-          <Table striped bordered condensed hover>
-            <tbody>
-              {stringResp}
-            </tbody>
-          </Table>
-        </fieldset>
-      );
     }
+    
+    return (
+      <fieldset>
+        <legend className="fieldSetResultadoLegend">
+          {labelResultado}
+        </legend>
+
+        <Table striped bordered condensed hover>
+          <tbody>
+            {stringResp}
+          </tbody>
+        </Table>
+      </fieldset>
+    );
   };
 
-  botaoResultado = (votacao) => {
+  renderResultado = (votacao) => {
     Icon.setDefaultFontPrefix('glyphicon');
     let botaoResultado = (
       <FlatButton
-        label="Detalhes"
         backgroundColor="#e8e8e8"
-        primary
+        label="Detalhes"
+        fullWidth
         disabled
+        primary
         icon={<Icon glyph="stats" />}
       />
     );
@@ -94,7 +135,7 @@ class UsuarioVotacao extends Component {
             backgroundColor="#a4c639"
             hoverColor="#8AA62F"
             label="Detalhes"
-            // fullWidth
+            fullWidth
             labelStyle={{ color: '#FFFFFF' }}
             primary
             icon={<Icon glyph="stats" style={{ color: '#FFFFFF' }} />}
@@ -105,11 +146,11 @@ class UsuarioVotacao extends Component {
 
     return (
       <div className="divResultado">
-        <Row className="show-grid teste">
-          <Col xs={12} sm={9} className="teste">
+        <Row className="show-grid">
+          <Col xs={12} sm={9} md={10}>
             {this.renderLabelResultado(votacao)}
           </Col>
-          <Col xs={12} sm={3} className="teste">
+          <Col xs={12} sm={3} md={2} className="btnDetalheResultado">
             {botaoResultado}
           </Col>
         </Row>
@@ -141,13 +182,15 @@ class UsuarioVotacao extends Component {
     let labelTxtStatus = 'Não Iniciada';
     let flgFinalizada = false;
 
-    if (votacao.dentroVigenciaVotacao === 'Votação em andamento.') {
+    const flgStatus = this.getStatusVotacao(votacao);
+
+    if (flgStatus === 1) {
       classStatus = 'statusVotacaoAberta';
       labelTxtStatus = 'Aberta';
-    } else if (votacao.dentroVigenciaVotacao === 'Votação já finalizada.') {
+    } else if (flgStatus === 2) {
       flgFinalizada = true;
       classStatus = 'statusVotacaoFechada';
-      labelTxtStatus = 'Fechada';
+      labelTxtStatus = 'Finalizada';
     }
 
     let labelTxtResposta = 'Voto não computado';
@@ -166,7 +209,14 @@ class UsuarioVotacao extends Component {
       // Se nao votou e fechou aparece texto
       const labelResp = flgFinalizada
         ? <span className="labelVotoNaoComputado">Voto não computado</span>
-        : this.renderBotoesVotacao(this.props.rows);
+        : (<span>
+          <Row>
+            <Col xsHidden sm={12}>{this.renderBotoesVotacao(this.props.rows)}</Col>
+          </Row>
+          <Row>
+            <Col xs={12} smHidden mdHidden lgHidden>{this.renderBotoesVotacao(this.props.rows, true)}</Col>
+          </Row>
+        </span>) ;
 
       labelTxtResposta = (
         <span>
@@ -187,19 +237,29 @@ class UsuarioVotacao extends Component {
           {labelTxtResposta}
         </div>
         <br />
-        {this.botaoResultado(votacao)}
+        {this.renderResultado(votacao)}
       </Paper>
     );
   }
 
-  renderBotoesVotacao = (rows) => {
+  renderBotoesVotacao = (rows, mobile = false) => {
+
+    let style = {margin: 10};
+    let flgFull = false;
+
+    if (mobile) {
+      style = {marginTop: 5, marginBottom: 5};
+      flgFull = true;
+    }
+
     if (this.props.votacao.dentroVigenciaVotacao === 'Votação em andamento.') {
       return rows.map(resp =>
         (<RaisedButton
           backgroundColor="#66b682"
           labelColor="#FFFFFF"
-          style={{ margin: 10 }}
           type="button"
+          style={style}
+          fullWidth={flgFull}
           label={resp.dscResposta}
           key={resp.codResposta}
           onClick={() => this.onPress(resp)}
