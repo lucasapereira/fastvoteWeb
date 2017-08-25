@@ -45,9 +45,6 @@ const colorArray = [
 class ResultadoVotacao extends Component {
   state = {
     printingPdf: false,
-    houveVotos: false,
-    arrayData: [],
-    arrayLabel: [],
   };
   printDocument = () => {
     this.setState({
@@ -79,6 +76,19 @@ class ResultadoVotacao extends Component {
     }
   };
 
+  houveVotos = () => {
+    let flg = false;
+    if (this.props.data.resultVotacao) {
+      this.props.data.resultVotacao.nodes.forEach((arrayItem) => {
+        console.log(arrayItem);
+        if (parseFloat(arrayItem.multi) > 0) {
+          flg = true;
+        }
+      });
+    }
+    return flg;
+  };
+
   getData = () => {
     const arrayLabel = [];
     const arrayColor = [];
@@ -92,18 +102,9 @@ class ResultadoVotacao extends Component {
         arrayColor[index] = colorArray[index];
         arrayData[index] = arrayItem.multi;
 
-        if (arrayItem.multi > 0) {
-          this.setState({ houveVotos: true });
-        }
-
         index++;
       });
     }
-
-    this.setState({
-      arrayData,
-      arrayLabel,
-    });
 
     return {
       labels: arrayLabel,
@@ -126,7 +127,7 @@ class ResultadoVotacao extends Component {
   };
 
   renderGraficos = () => {
-    if (this.state.houveVotos) {
+    if (this.houveVotos()) {
       return (
         <div>
           Resultados:{this.getLabel()}
@@ -162,7 +163,6 @@ class ResultadoVotacao extends Component {
         </div>
       );
     }
-    console.log(this.props);
   };
 
   render() {
