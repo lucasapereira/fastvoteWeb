@@ -31,7 +31,7 @@ const queryOptions = {
         codpessoa: props.cod_pessoa,
         codusuariorepresentacao: props.urep,
         offseta: 0,
-        limita: 3,
+        limita: 20,
       },
     };
   },

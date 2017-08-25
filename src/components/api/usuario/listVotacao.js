@@ -55,7 +55,7 @@ class InfiniteList extends Component {
       isInfiniteLoading: true,
     });
 
-    this.props.loadMoreEntries(this.state.elements.length, 2).then(() => {
+    this.props.loadMoreEntries(this.state.elements.length, 20).then(() => {
       if (this.state.totalCount === -1 && this.props.rows.length > 0) {
         this.state.totalCount = parseInt(this.props.rows[0].totalCount, 10);
       }
