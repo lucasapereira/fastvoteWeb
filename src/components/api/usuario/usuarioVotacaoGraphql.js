@@ -68,6 +68,7 @@ const mutationVotas = gql`
           codUsuarioRepresentacao: $codUsuarioRepresentacao
           codVotacao: $codVotacao
           codResposta: $codResposta
+          dscDispositivoVoto: "W"
         }
       }
     ) {
