@@ -217,7 +217,6 @@ class Grid extends Component {
   };
 
   renderPagination = () => {
-    console.log('asdasdasdas - ', this.props.totalCount);
     if (this.props.totalCount) {
       return (
         <div

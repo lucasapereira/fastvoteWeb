@@ -31,7 +31,7 @@ const queryOptions = {
         codpessoa: props.cod_pessoa,
         codusuariorepresentacao: props.urep,
         offseta: 0,
-        limita: 20,
+        limita: 5,
       },
     };
   },
@@ -91,7 +91,7 @@ const queryOptions = {
             // the feed length, but we could also use state, or the previouss
             // variables to calculate this (see the cursor example below)
             offseta: offset,
-            limita: ITEMS_PER_PAGE || 20,
+            limita: ITEMS_PER_PAGE || 5,
             codpessoa: props.ownProps.cod_pessoa,
             codusuariorepresentacao: props.ownProps.urep,
           },
