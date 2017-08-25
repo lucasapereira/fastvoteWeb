@@ -7,8 +7,8 @@ import { compose } from 'react-apollo';
 import { withRouter, Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Paper from 'material-ui/Paper';
-import { Table, Panel } from 'react-bootstrap';
 import Icon from 'react-icon';
+import { Grid, Row, Col } from 'react-bootstrap';
 
 import { QueryVoto, mutationVota } from './usuarioVotacaoGraphql';
 import confirm from '../../generic/confirm';
@@ -28,16 +28,68 @@ class UsuarioVotacao extends Component {
 
   renderLabelResultado = (votacao) => {
     // Icon.setDefaultFontPrefix('glyphicon');
+    const { rows } = this.props;
 
-    if (votacao.datFimVotacao.length > 0 || votacao.flgMostraResultadoEmTempoReal) {
-      return <span className="spanResultado">RESULTADO stats</span>;
+    // mostra se votacao esta finalizada ou se ha resultado em tempo real
+    if (votacao.datFimVotacao.length || votacao.flgMostraResultadoEmTempoReal) {
+      const qtdResp = rows.length;
+
+      /*
+      descricao = this.props.data.allTbPjDadosadicionais.nodes.map((row) => {
+        const arrDescricao = [];
+
+        arrDescricao.push(
+          <Paper>
+            <ListItem
+              leftCheckbox={
+                <Checkbox
+                  onCheck={() => this.props.handleCheck(row.codDadosAdicionais)}
+                  checked={this.props.activeCheckboxes.includes(row.codDadosAdicionais)}
+                />
+              }
+              primaryText={`${row.codDadosAdicionais} - ${row.tbDadosAdicionaiByCodDadosAdicionais
+                .dscDadosAdicionais}`}
+              secondaryText="Allow notifications"
+            />
+          </Paper>,
+        );
+
+        return arrDescricao;
+      });
+      */
+
+      const stringResp = rows.map((row) => {
+        const arrResp = [];
+
+        arrResp.push(
+          <div>
+            {`${row.dscResposta} - 20%`}
+          </div>,
+        );
+
+        return arrResp;
+      });
+
+      console.log('VOTA VOTA', votacao, stringResp);
+
+      return (
+        <span className="spanResultado">
+          RESULTADO stats {stringResp} Respostas
+        </span>
+      );
     }
   };
 
   botaoResultado = (votacao) => {
     Icon.setDefaultFontPrefix('glyphicon');
     let botaoResultado = (
-      <FlatButton label="Detalhes" primary disabled icon={<Icon glyph="stats" />} />
+      <FlatButton
+        label="Detalhes"
+        backgroundColor="#e8e8e8"
+        primary
+        disabled
+        icon={<Icon glyph="stats" />}
+      />
     );
 
     if (votacao.datFimVotacao.length > 0 || votacao.flgMostraResultadoEmTempoReal) {
@@ -45,15 +97,29 @@ class UsuarioVotacao extends Component {
 
       botaoResultado = (
         <Link to={link}>
-          <FlatButton label="Detalhes" primary icon={<Icon glyph="stats" />} />
+          <FlatButton
+            backgroundColor="#a4c639"
+            hoverColor="#8AA62F"
+            label="Detalhes"
+            // fullWidth
+            labelStyle={{ color: '#FFFFFF' }}
+            primary
+            icon={<Icon glyph="stats" style={{ color: '#FFFFFF' }} />}
+          />
         </Link>
       );
     }
 
     return (
       <div className="divResultado">
-        {this.renderLabelResultado(votacao)}
-        {botaoResultado}
+        <Row className="show-grid teste">
+          <Col xs={12} sm={9} className="teste">
+            {this.renderLabelResultado(votacao)}
+          </Col>
+          <Col xs={12} sm={3} className="teste">
+            {botaoResultado}
+          </Col>
+        </Row>
       </div>
     );
   };
@@ -79,81 +145,53 @@ class UsuarioVotacao extends Component {
     const { votacao } = this.props;
 
     let classStatus = 'statusVotacaoNaoIniciada';
-    let classPaper = 'paperVotacaoNaoIniciada';
+    let labelTxtStatus = 'Não Iniciada';
+    let flgFinalizada = false;
 
     if (votacao.dentroVigenciaVotacao === 'Votação em andamento.') {
       classStatus = 'statusVotacaoAberta';
-      classPaper = 'paperVotacaoAberta';
+      labelTxtStatus = 'Aberta';
     } else if (votacao.dentroVigenciaVotacao === 'Votação já finalizada.') {
+      flgFinalizada = true;
       classStatus = 'statusVotacaoFechada';
-      classPaper = 'paperVotacaoFechada';
+      labelTxtStatus = 'Fechada';
     }
+
+    let labelTxtResposta = 'Voto não computado';
 
     // se ja votou aparece resposta, se nao mostra os botoes
     if (votacao.dscResposta) {
-      return (
-        <Paper className={classPaper} zDepth={2} rounded>
-          <div className={classStatus}>
-            {votacao.dentroVigenciaVotacao}
-          </div>
-          <div className="txtPerguntaVotacoes">
-            {votacao.dscPergunta}
-          </div>
-          <div className="divRespostasVotacoes">
-            <span className="labelVotacaoExecutada">Seu voto: </span>
-            <span className="txtVotacaoExecutada">
-              {votacao.dscResposta}
-            </span>
-          </div>
-          <br />
-          {this.botaoResultado(votacao)}
-        </Paper>
+      labelTxtResposta = (
+        <span>
+          <span className="labelVotacaoExecutada">Seu voto: </span>
+          <span className="txtVotacaoExecutada">
+            {votacao.dscResposta}
+          </span>
+        </span>
+      );
+    } else {
+      // Se nao votou e fechou aparece texto
+      const labelResp = flgFinalizada
+        ? <span className="labelVotoNaoComputado">Voto não computado</span>
+        : this.renderBotoesVotacao(this.props.rows);
+
+      labelTxtResposta = (
+        <span>
+          {labelResp}
+        </span>
       );
     }
 
-    /*
-    <Paper className="paperVotacoes" zDepth={2} rounded>
-        <div className={classStatus}>
-          {votacao.dentroVigenciaVotacao}
-        </div>
-        <div className="txtPerguntaVotacoes">
-          {votacao.dscPergunta}
-        </div>
-        <div className="divRespostasVotacoes">
-          {this.renderBotoesVotacao(this.props.rows)}
-        </div>
-        <br />
-
-        {this.botaoResultado(votacao)}
-      </Paper>
-      -------------------------------
-      <Paper className="paperVotacoes" zDepth={2} rounded>
-        <Panel header="Respostas" bsStyle="primary">
-          <Table responsive>
-            <thead>
-              <tr>
-                <th>Nome</th>
-                <th>Resposta</th>
-                <th>Peso</th>
-                <th>Hora</th>
-              </tr>
-            </thead>
-            <tbody>bla bla bla</tbody>
-          </Table>
-        </Panel>
-      </Paper>
-    */
-
     return (
-      <Paper className={classPaper} zDepth={2} rounded>
-        <div className={classStatus}>
-          {votacao.dentroVigenciaVotacao}
+      <Paper className="paperVotacao" zDepth={2} rounded>
+        <div className="labelStatus">
+          Status: <span className={classStatus}>{labelTxtStatus}</span>
         </div>
         <div className="txtPerguntaVotacoes">
           {votacao.dscPergunta}
         </div>
         <div className="divRespostasVotacoes">
-          {this.renderBotoesVotacao(this.props.rows)}
+          {labelTxtResposta}
         </div>
         <br />
         {this.botaoResultado(votacao)}

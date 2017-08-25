@@ -138,6 +138,7 @@ class Signin extends Component {
     return (
       <div className="container">
         <Paper className="paperLogin" zDepth={2} rounded>
+          <div className="divTopoLogin">Autenticação</div>
           <div className="divFormLogin">
             <form onSubmit={handleSubmit(this.onSubmit)}>
               <div>
@@ -168,28 +169,32 @@ class Signin extends Component {
               <div>
                 {this.renderSelect()}
               </div>
-              <div>
-                <RaisedButton
-                  type="submit"
-                  label="Login"
-                  disabled={pristine || submitting || error}
-                  primary
-                />
-                <RaisedButton
-                  type="button"
-                  label="Limpar"
-                  disabled={submitting}
-                  onClick={this.limpaTela}
-                />
-              </div>
-              <div>
-                <Link to={'/auth/esquecisenha'}>
-                  <b>Primeiro Acesso</b>
-                </Link>
-                <br />
-                <Link to={'/auth/esquecisenha'}>
-                  <b>Esqueci minha senha</b>
-                </Link>
+              <div className="divBottomFormLogin">
+                <hr />
+                <div>
+                  <RaisedButton
+                    type="submit"
+                    label="Login"
+                    disabled={pristine || submitting || error}
+                    primary
+                  />
+                  <RaisedButton
+                    type="button"
+                    label="Limpar"
+                    disabled={submitting}
+                    onClick={this.limpaTela}
+                  />
+                </div>
+
+                <div className="divLinksFormLogin">
+                  <Link to={'/auth/esquecisenha'}>
+                    <b>Primeiro Acesso</b>
+                  </Link>
+                  <br />
+                  <Link to={'/auth/esquecisenha'}>
+                    <b>Esqueci minha senha</b>
+                  </Link>
+                </div>
               </div>
               <div>
                 {this.renderAlert()}
