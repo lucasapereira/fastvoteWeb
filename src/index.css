@@ -16,86 +16,79 @@ body {
 }
 
 .baseContent {
-  padding-right: 15px;
-  padding-left: 15px;
+  /* padding-right: 15px; */
+  /* padding-left: 15px; */
   margin-right: auto;
   margin-left: auto;
-  /* border: 5px solid red;
-  background-color: #000000;
-  */
 }
-
-/* .container {
-  border: 1px solid blue;
-} */
 
 .paperLogin {
   margin: 0 auto;
-  width: 400px;
+  width: 350px;
+  height: 500px;
+  text-align: center;
+  position: relative;
 }
 
 .divTopoLogin {
-  padding: 20px;
-  /*
-  background:url(img_flwr.gif);
-    background-repeat: no-repeat;
-  */
+  padding-top: 10px;
+  background-color: #ffffff;
+  color: #bababa;
+  font-weight: bold;
+  font-size: 120%;
 }
 
 .divFormLogin {
   padding: 20px;
 }
 
-.paperVotacaoAberta {
-  margin: 15px;
-  border-radius: 20px;
-  border-left: 30px solid #66b682;
-  padding-right: 30px;
+.divBottomFormLogin {
+  padding: 20px;
+  width: 310px;
+  position: absolute;
+  bottom: 0;
+  /*border: 1px solid red;*/
 }
 
-.paperVotacaoFechada {
-  margin: 15px;
-  border-radius: 20px;
-  border-left: 30px solid #fd4d2a;
-  padding-right: 30px;
+.divLinksFormLogin {
+  padding-top: 10px;
 }
 
-.paperVotacaoNaoIniciada {
-  margin: 15px;
-  border-radius: 20px;
-  border-left: 30px solid #e0c359;
-  padding-right: 30px;
+.paperVotacao {
+  margin: 15px 0px 0px 0px;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+.labelStatus {
+  font-weight: bold;
+  color: #bababa;
+  padding-left: 10px;
+  padding-right: 10px;
+  min-height: 5px;
+  text-align: right;
+  border-bottom: 1px solid #c1c1c1;
 }
 
 .statusVotacaoAberta {
-  background-color: #66b682;
-  font-weight: bold;
-  color: #ffffff;
-  padding-left: 10px;
-  padding-right: 10px;
-  min-height: 5px;
+  color: #66b682;
 }
 
 .statusVotacaoFechada {
-  background-color: #fd4d2a;
-  font-weight: bold;
-  color: #ffffff;
-  padding-left: 10px;
-  padding-right: 10px;
-  min-height: 5px;
+  color: #fd4d2a;
 }
 
 .statusVotacaoNaoIniciada {
-  background-color: #e0c359;
+  color: #e0c359;
+}
+
+.labelVotoNaoComputado {
   font-weight: bold;
-  color: #ffffff;
-  padding-left: 10px;
-  padding-right: 10px;
-  min-height: 5px;
+  color: #c0c0c0;
+  font-size: 150%;
 }
 
 .txtPerguntaVotacoes {
-  border-bottom: 1px solid #bdbdbd;
   padding: 10px;
   color: #000000;
   font-weight: bold;
@@ -115,7 +108,9 @@ body {
 
 .divRespostasVotacoes {
   vertical-align: middle;
+  min-height: 40px;
   text-align: center;
+  background-color: #e8e8e8;
   border-bottom: 1px solid #bdbdbd;
   padding: 5px;
 }
@@ -128,14 +123,17 @@ body {
   padding-right: 10px;
   min-height: 5px;
 }
-
+.teste {
+  /*border: 1px solid blue;*/
+}
 .divResultado {
   padding: 5px 0px 5px 5px;
   text-align: right;
+  /*border: 1px solid red;*/
 }
 
 .spanResultado {
-  border: 2px solid blue;
+  /*border: 2px solid blue;*/
   padding: 5px;
 }
 
