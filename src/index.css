@@ -158,16 +158,19 @@ body {
   background-color: #000000;
   text-align: right;
 }
+
 .titleReport {
-  font-size: 140%;
+  font-size: 160%;
+  text-align: center;
   font-weight: bold;
-  border-bottom: solid 2px blue;
+  border-bottom: groove 2px #b4b4b4;
   margin-top: 20px;
 }
 .subtitleReport {
   font-size: 140%;
   font-weight: bold;
   border-bottom: solid 2px #b4b4b4;
+  color: #c0c0c0;
   margin-top: 20px;
   margin-bottom: 20px;
 }

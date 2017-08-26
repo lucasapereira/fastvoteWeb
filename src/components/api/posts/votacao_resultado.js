@@ -195,7 +195,7 @@ class ResultadoVotacao extends Component {
     if (this.props.data.resultVotacao) {
       return (
         <div>
-          Votação: {this.props.data.resultVotacao.nodes[0].dscVotacao} <br />
+          <div className="titleReport">{this.props.data.resultVotacao.nodes[0].dscVotacao}</div>
           Pergunta: {this.props.data.resultVotacao.nodes[0].dscVotacao} <br />
           {this.renderResultadoAgregado()}
         </div>
