@@ -1,13 +1,18 @@
 import React, { Component } from 'react';
 import { compose } from 'react-apollo';
 import { Doughnut, Bar } from 'react-chartjs-2';
+import FlatButton from 'material-ui/FlatButton';
+import Card from 'material-ui/Card';
+import html2canvas from 'html2canvas';
+import Icon from 'react-icon';
+import { Row, Col } from 'react-bootstrap';
+
 import { QueryResultadoList } from '../../../graphql/resultado';
 import ResultadoVotacaoPessoa from './votacao_resultado_pessoa';
-import RaisedButton from 'material-ui/RaisedButton';
-import html2canvas from 'html2canvas';
 import MyLoader from '../../generic/myLoader';
 
 import jsPDF from 'jspdf';
+import logoImg from '../../../assets/imgs/logo.png';
 
 const colorArray = [
   '#CDCD00',
@@ -70,6 +75,8 @@ class ResultadoVotacao extends Component {
     });
   };
 
+  // react dom server to static html (converter pagina react p html)
+
   getLabel = () => {
     if (this.props.data.resultVotacao) {
       return this.props.data.resultVotacao.nodes[0].dscVotacao;
@@ -119,10 +126,32 @@ class ResultadoVotacao extends Component {
   };
 
   buttonExportaPdf = () => {
+    Icon.setDefaultFontPrefix('glyphicon');
+
     if (this.state.printingPdf) {
       return <MyLoader />;
     }
-    return <RaisedButton onClick={this.printDocument} label="Exportar para PDF" />;
+    return (
+      <div>
+        <FlatButton
+          onClick={this.printDocument}
+          icon={<Icon glyph="file" />}
+          style={{ margin: 12 }}
+          label="Exportar para PDF"
+          fullWidth
+        />
+      </div>
+    );
+    /* 
+    <FlatButton
+        backgroundColor="#e8e8e8"
+        label="Detalhes"
+        fullWidth
+        disabled
+        primary
+        icon={<Icon glyph="stats" />}
+      />
+      */
   };
 
   renderGraficos = () => {
@@ -130,15 +159,25 @@ class ResultadoVotacao extends Component {
       return (
         <div>
           Resultados:{this.getLabel()}
-          <Doughnut data={this.getData()} width={100} height={50} />
-          <Bar
-            data={this.getData()}
-            width={100}
-            height={50}
-            options={{
-              maintainAspectRatio: true,
-            }}
-          />
+          <hr />
+          <div className="subtitleReport">Gráficos</div>
+          <Row>
+            <Col xs={12} md={6} className="graphDiv">
+              <div id="graph1" className="graph1">
+                <Doughnut data={this.getData()} />
+              </div>
+            </Col>
+            <Col xs={12} md={6} className="graphDiv">
+              <div id="graph2" className="graph2">
+                <Bar
+                  data={this.getData()}
+                  options={{
+                    maintainAspectRatio: true,
+                  }}
+                />
+              </div>
+            </Col>
+          </Row>
         </div>
       );
     }
@@ -169,16 +208,31 @@ class ResultadoVotacao extends Component {
       return <MyLoader />;
     }
 
+    // <Paper className="paperVotacao" zDepth={2} rounded>
+    // <div style={{ width: '500px' }}>
+    //
     return (
-      <div style={{ width: '500px' }}>
-        <div className="mb5">
-          {this.buttonExportaPdf()}
+      <div className="container">
+        <div className="divTopoRelatorio">
+          <Row className="show-grid">
+            <Col xs={12} sm={8}>
+              <div className="pageHeader">Resultado da votação</div>
+            </Col>
+            <Col xs={12} sm={4}>
+              {this.buttonExportaPdf()}
+            </Col>
+          </Row>
         </div>
-        <div id="divToPrint" style={{ margin: 20, padding: 20 }}>
-          {this.renderDadosDaVotacao()}
-          {this.renderGraficos()}
-          <ResultadoVotacaoPessoa codVotacao={this.props.match.params.codVotacao} />
-        </div>
+        <Card className="cardResultado">
+          <div id="divToPrint" className="divToPrint">
+            <div className="headerReport">
+              <img src={logoImg} />
+            </div>
+            {this.renderDadosDaVotacao()}
+            {this.renderGraficos()}
+            <ResultadoVotacaoPessoa codVotacao={this.props.match.params.codVotacao} />
+          </div>
+        </Card>
       </div>
     );
   }

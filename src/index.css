@@ -142,11 +142,62 @@ body {
   text-align: right;
 }
 
+/* tela resultado votacao */
+
+.cardResultado {
+  border: 1px solid red;
+  padding: 10px;
+}
+.divTopoRelatorio {
+  border: 1px solid green;
+  padding: 10px;
+  height: 80px;
+}
+.headerReport {
+  padding: 10px;
+  background-color: #000000;
+  text-align: right;
+}
+.titleReport {
+  font-size: 140%;
+  font-weight: bold;
+  border-bottom: solid 2px blue;
+  margin-top: 20px;
+}
+.subtitleReport {
+  font-size: 140%;
+  font-weight: bold;
+  border-bottom: solid 2px #b4b4b4;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+.graphDiv {
+  text-align: center;
+}
+.graph1 {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 350px;
+  height: 220px;
+}
+.graph2 {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 350px;
+  height: 220px;
+}
+
+.divToPrint {
+  margin: 0 auto;
+  padding: 5px;
+  width: 793px;
+  border: 2px solid blue; /* acrescentar 4 pixel da largura */
+}
 .teste {
   border: 1px solid red;
 }
-
-
 
 [class^="muidocs-icon-"],
 [class*=" muidocs-icon-"] {

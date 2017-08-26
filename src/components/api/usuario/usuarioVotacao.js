@@ -8,7 +8,7 @@ import { withRouter, Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Paper from 'material-ui/Paper';
 import Icon from 'react-icon';
-import { Table, Grid, Row, Col, ProgressBar } from 'react-bootstrap';
+import { Table, Row, Col, ProgressBar } from 'react-bootstrap';
 
 import { QueryVoto, mutationVota } from './usuarioVotacaoGraphql';
 import confirm from '../../generic/confirm';
@@ -43,36 +43,40 @@ class UsuarioVotacao extends Component {
   };
 
   renderLabelResultado = (votacao) => {
-    // Icon.setDefaultFontPrefix('glyphicon');
     const { rows } = this.props;
 
     const flgStatus = this.getStatusVotacao(votacao);
-    console.log('AOO ', flgStatus, votacao.dscPergunta);
-
-    // 0 - Fechada - Mostra nada
-    // 1 - Aberta - se tempo real mostra, se nao n mostra
-    // 2 - Finalizada - mostra tudo
 
     // Inicializa com votação fechada
     let labelResultado = 'Resultado indisponível';
-    let stringResp = (<tr><td colspan="3">Votação não iniciada.</td></tr>);
+    let stringResp = (
+      <tr>
+        <td colSpan="3">Votação não iniciada.</td>
+      </tr>
+    );
 
     // Organiza labels
-    if( flgStatus === 2 ) { // Finalizada
+    if (flgStatus === 2) {
+      // Finalizada
       labelResultado = 'Resultado Final';
       stringResp = true;
-    } else if ( flgStatus === 1 ){ // Aberta
-      if( votacao.flgMostraResultadoEmTempoReal ) {
+    } else if (flgStatus === 1) {
+      // Aberta
+      if (votacao.flgMostraResultadoEmTempoReal) {
         labelResultado = 'Resultado Parcial';
         stringResp = true;
       } else {
         labelResultado = 'Resultado indisponível';
-        stringResp = (<tr><td colspan="3">O Resultado será disponibilizado ao fim da votação.</td></tr>);
+        stringResp = (
+          <tr>
+            <td colSpan="3">O Resultado será disponibilizado ao fim da votação.</td>
+          </tr>
+        );
       }
     }
 
     // mostra resultado na table
-    if ( stringResp === true ) {
+    if (stringResp === true) {
       // const qtdResp = rows.length;
 
       let countItemResp = 1;
@@ -97,7 +101,7 @@ class UsuarioVotacao extends Component {
         return arrResp;
       });
     }
-    
+
     return (
       <fieldset>
         <legend className="fieldSetResultadoLegend">
@@ -211,12 +215,16 @@ class UsuarioVotacao extends Component {
         ? <span className="labelVotoNaoComputado">Voto não computado</span>
         : (<span>
           <Row>
-            <Col xsHidden sm={12}>{this.renderBotoesVotacao(this.props.rows)}</Col>
+            <Col xsHidden sm={12}>
+              {this.renderBotoesVotacao(this.props.rows)}
+            </Col>
           </Row>
           <Row>
-            <Col xs={12} smHidden mdHidden lgHidden>{this.renderBotoesVotacao(this.props.rows, true)}</Col>
+            <Col xs={12} smHidden mdHidden lgHidden>
+              {this.renderBotoesVotacao(this.props.rows, true)}
+            </Col>
           </Row>
-        </span>) ;
+        </span>);
 
       labelTxtResposta = (
         <span>
@@ -243,12 +251,11 @@ class UsuarioVotacao extends Component {
   }
 
   renderBotoesVotacao = (rows, mobile = false) => {
-
-    let style = {margin: 10};
+    let style = { margin: 10 };
     let flgFull = false;
 
     if (mobile) {
-      style = {marginTop: 5, marginBottom: 5};
+      style = { marginTop: 5, marginBottom: 5 };
       flgFull = true;
     }
 
