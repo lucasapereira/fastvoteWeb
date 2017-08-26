@@ -5,7 +5,7 @@ import FlatButton from 'material-ui/FlatButton';
 import Card from 'material-ui/Card';
 import html2canvas from 'html2canvas';
 import Icon from 'react-icon';
-import { Row, Col } from 'react-bootstrap';
+import { Table, Row, Col } from 'react-bootstrap';
 
 import { QueryResultadoList } from '../../../graphql/resultado';
 import ResultadoVotacaoPessoa from './votacao_resultado_pessoa';
@@ -13,6 +13,7 @@ import MyLoader from '../../generic/myLoader';
 
 import jsPDF from 'jspdf';
 import logoImg from '../../../assets/imgs/logo.png';
+import logoImgGray from '../../../assets/imgs/logoGray.png';
 
 const colorArray = [
   '#CDCD00',
@@ -51,22 +52,31 @@ class ResultadoVotacao extends Component {
   state = {
     printingPdf: false,
   };
+
   printDocument = () => {
     this.setState({
       printingPdf: true,
     });
+
     const input = document.getElementById('divToPrint');
+    // const header = document.getElementById('headerReport');
+    // const footer = document.getElementById('footerReport');
+
+    // headerReport
+    // footerReport
 
     html2canvas(input).then((canvas) => {
       const imgData = canvas.toDataURL('image/png');
+
       const pdf = new jsPDF(
         {
-          //   orientation: 'landscape',
+          //  orientation: 'landscape',
           //  unit: 'in',
           //  format: [4, 2],
         },
       );
       pdf.addImage(imgData, 'JPEG', 0, 0);
+
       // pdf.output('dataurlnewwindow');
       pdf.save('relatorio.pdf');
       this.setState({
@@ -116,7 +126,7 @@ class ResultadoVotacao extends Component {
       labels: arrayLabel,
       datasets: [
         {
-          label: 'My First dataset',
+          label: 'Verificar como mudar',
           data: arrayData,
           backgroundColor: arrayColor,
           hoverBackgroundColor: arrayColor,
@@ -186,9 +196,14 @@ class ResultadoVotacao extends Component {
 
   renderResultadoAgregado = () =>
     this.props.data.resultVotacao.nodes.map(arrayItem =>
-      (<div>
-        {arrayItem.dscResposta}: {arrayItem.multi}
-      </div>),
+      (<tr key={arrayItem.dscResposta}>
+        <td>
+          {arrayItem.dscResposta}
+        </td>
+        <td>
+          {arrayItem.multi}
+        </td>
+      </tr>),
     );
 
   renderDadosDaVotacao = () => {
@@ -196,8 +211,20 @@ class ResultadoVotacao extends Component {
       return (
         <div>
           <div className="titleReport">{this.props.data.resultVotacao.nodes[0].dscVotacao}</div>
-          Pergunta: {this.props.data.resultVotacao.nodes[0].dscVotacao} <br />
-          {this.renderResultadoAgregado()}
+          <b>Pergunta:</b>{' '}
+          <div className="perguntaLabel">{this.props.data.resultVotacao.nodes[0].dscPergunta}</div>
+          <div className="subtitleReport">Resultado Agregado</div>
+          <Table striped responsive>
+            <thead>
+              <tr>
+                <th>Opção</th>
+                <th>Qtd. Votos</th>
+              </tr>
+            </thead>
+            <tbody>
+              {this.renderResultadoAgregado()}
+            </tbody>
+          </Table>
         </div>
       );
     }
@@ -216,7 +243,7 @@ class ResultadoVotacao extends Component {
         <div className="divTopoRelatorio">
           <Row className="show-grid">
             <Col xs={12} sm={8}>
-              <div className="pageHeader">Resultado da votação</div>
+              <div className="pageHeader">Relatório de resultado da votação</div>
             </Col>
             <Col xs={12} sm={4}>
               {this.buttonExportaPdf()}
@@ -225,12 +252,15 @@ class ResultadoVotacao extends Component {
         </div>
         <Card className="cardResultado">
           <div id="divToPrint" className="divToPrint">
-            <div className="headerReport">
+            <div id="headerReport" className="headerReport">
               <img src={logoImg} />
             </div>
             {this.renderDadosDaVotacao()}
             {this.renderGraficos()}
             <ResultadoVotacaoPessoa codVotacao={this.props.match.params.codVotacao} />
+            <div id="footerReport" className="footerReport">
+              <img src={logoImgGray} />
+            </div>
           </div>
         </Card>
       </div>

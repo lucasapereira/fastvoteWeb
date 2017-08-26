@@ -86,7 +86,7 @@ class UsuarioVotacao extends Component {
 
         arrResp.push(
           <tr>
-            <td width="10%" align="center">
+            <td width="10%">
               {countItemResp++}
             </td>
             <td width="40%">
