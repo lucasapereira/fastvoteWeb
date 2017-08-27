@@ -8,6 +8,7 @@ import { authOptions } from '../../generic/myAxios';
 import Lock from 'material-ui/svg-icons/action/lock';
 import LockOpen from 'material-ui/svg-icons/action/lock-open';
 import MyLoader from '../../generic/myLoader';
+import AlertContainer from 'react-alert';
 
 import {
   QueryVotacaoList,
@@ -84,14 +85,18 @@ class VotacaoList extends Component {
     );
 
   apagaVotacao = async (cols, pageSelected) => {
-    await cols.map(async (row) => {
-      await this.props.apagaVotacao({
-        variables: {
-          codVotacao: row,
-        },
+    try {
+      await cols.map(async (row) => {
+        await this.props.apagaVotacao({
+          variables: {
+            codVotacao: row,
+          },
+        });
       });
-    });
-    this.props.loadMoreEntries(pageSelected * this.state.items_grid, this.state.items_grid);
+      await this.props.loadMoreEntries(pageSelected * this.state.items_grid, this.state.items_grid);
+    } catch (e) {
+      this.msg.error('Erro ao realizar a operação');
+    }
   };
 
   renderButtonsOneSelection = (row, pageSelected) => {
@@ -110,8 +115,8 @@ class VotacaoList extends Component {
           this.props.loadMoreEntries(pageSelected * this.state.items_grid, this.state.items_grid);
           this.enviaPushInicioFimVotacao(row, 'inicia');
         })
-        .catch((e) => {
-          console.log(e);
+        .catch(() => {
+          this.msg.error('Erro ao realizar a operação');
         });
     };
     const handleFinaliza = () => {
@@ -127,6 +132,9 @@ class VotacaoList extends Component {
         .then(() => {
           this.props.loadMoreEntries(pageSelected * this.state.items_grid, this.state.items_grid);
           this.enviaPushInicioFimVotacao(row, 'finaliza');
+        })
+        .catch(() => {
+          this.msg.error('Erro ao realizar a operação');
         });
     };
 
@@ -140,6 +148,9 @@ class VotacaoList extends Component {
         })
         .then(() => {
           this.props.loadMoreEntries(pageSelected * this.state.items_grid, this.state.items_grid);
+        })
+        .catch(() => {
+          this.msg.error('Erro ao realizar a operação');
         });
     };
 
@@ -258,6 +269,7 @@ class VotacaoList extends Component {
           renderButtonsOneSelection={this.renderButtonsOneSelection}
           loading={this.props.loading}
         />
+        <AlertContainer ref={a => (this.msg = a)} {...this.alertOptions} />
       </div>
     );
   }

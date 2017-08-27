@@ -10,7 +10,6 @@ import authSchema from '../../jsonschemas/authSchema.json';
 import { required, cpf } from '../generic/validations';
 import { Link } from 'react-router-dom';
 import MyLoader from '../generic/myLoader';
-import { Form, FormGroup, Col, Panel } from 'react-bootstrap';
 import Paper from 'material-ui/Paper';
 
 const Validator = require('jsonschema').Validator;
@@ -70,8 +69,6 @@ class Signin extends Component {
   };
 
   onSubmit = (values) => {
-    console.log(this.props.empresasAuth);
-    console.log(values);
     if (values.empresas) {
       this.props.signinUser(values, () => {});
     } else if (this.props.empresasAuth.length > 0) {
@@ -222,6 +219,7 @@ function mapStateToProps(state) {
 const selector = formValueSelector('signin'); // <-- same as form name
 Signin = connect((state) => {
   // or together as a group
+  /* eslint no-shadow:0 */
   const { senha, cpf, empresas } = selector(state, 'senha', 'cpf', 'empresas');
   return {
     senha,

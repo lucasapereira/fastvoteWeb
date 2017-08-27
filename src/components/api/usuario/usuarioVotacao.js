@@ -8,7 +8,8 @@ import { withRouter, Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Paper from 'material-ui/Paper';
 import Icon from 'react-icon';
-import { Table, Row, Col, ProgressBar } from 'react-bootstrap';
+import { Table, Row, Col } from 'react-bootstrap';
+import Equalizer from 'material-ui/svg-icons/av/equalizer';
 import DetalheVotacao from './detalheVotacao';
 
 import { QueryVoto, mutationVota } from './usuarioVotacaoGraphql';
@@ -21,9 +22,7 @@ class UsuarioVotacao extends Component {
       () => {
         this.vota(votacao);
       },
-      () => {
-        console.log('cancel!');
-      },
+      () => {},
     );
   };
 
@@ -69,9 +68,11 @@ class UsuarioVotacao extends Component {
       } else {
         labelResultado = 'Resultado indisponível';
         stringResp = (
-          <tr>
-            <td colSpan="3">O Resultado será disponibilizado ao fim da votação.</td>
-          </tr>
+          <tbody>
+            <tr>
+              <td colSpan="3">O Resultado será disponibilizado ao fim da votação.</td>
+            </tr>
+          </tbody>
         );
       }
     }
@@ -103,7 +104,7 @@ class UsuarioVotacao extends Component {
         fullWidth
         disabled
         primary
-        icon={<Icon glyph="stats" />}
+        icon={<Equalizer color={'#FFFFFF'} style={{ color: '#FFFFFF' }} />}
       />
     );
 
@@ -119,7 +120,7 @@ class UsuarioVotacao extends Component {
             fullWidth
             labelStyle={{ color: '#FFFFFF' }}
             primary
-            icon={<Icon glyph="stats" style={{ color: '#FFFFFF' }} />}
+            icon={<Equalizer color={'#FFFFFF'} style={{ color: '#FFFFFF' }} />}
           />
         </Link>
       );
@@ -148,7 +149,7 @@ class UsuarioVotacao extends Component {
           codVotacao: votacao.codVotacao,
         },
       })
-      .then(({ data }) => {
+      .then(() => {
         this.props.refetchLista();
       })
       .catch((error) => {

@@ -6,10 +6,10 @@ export const ERROR_VOTACAO = 'ERROR_VOTACAO';
 export const SET_COD_PESSOA_JURIDICA = 'SET_COD_PESSOA_JURIDICA';
 export const CREATE = 'create';
 
-export function error(error) {
+export function error(e) {
   return {
     type: ERROR_VOTACAO,
-    payload: error,
+    payload: e,
   };
 }
 
@@ -18,12 +18,12 @@ export const setCodPessoaJuridica = value => ({
   payload: value,
 });
 
-export const fetchEmpresas = value => async function (dispatch) {
+export const fetchEmpresas = value => async (dispatch) => {
   try {
     const response = await axios.get(
-        `/empresas/getEmpresas?nom_pessoa_juridica=${value}`,
-        await authOptions(),
-      );
+      `/empresas/getEmpresas?nom_pessoa_juridica=${value}`,
+      await authOptions(),
+    );
 
     if (response.data.success) {
       dispatch({
@@ -38,7 +38,7 @@ export const fetchEmpresas = value => async function (dispatch) {
   }
 };
 
-export const createVotacao = (values, callback) => async function (dispatch) {
+export const createVotacao = (values, callback) => async (dispatch) => {
   try {
     const request = await axios.post('/votacao/createVotacao', values, authOptions());
 
@@ -49,6 +49,6 @@ export const createVotacao = (values, callback) => async function (dispatch) {
       payload: request,
     });
   } catch (e) {
-    console.log(e);
+    dispatch(error(e.message));
   }
 };

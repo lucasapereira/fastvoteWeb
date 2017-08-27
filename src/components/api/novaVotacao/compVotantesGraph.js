@@ -33,8 +33,6 @@ const queryOptions = {
 
     let rows = [];
 
-    const totalCount = 20;
-
     const dados = props.data.allUsuariosQuePodemVotar;
 
     if (dados) {

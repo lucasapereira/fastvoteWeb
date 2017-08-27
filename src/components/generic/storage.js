@@ -5,15 +5,15 @@
         <boolean> : telling if operation succeeded
  */
 export const removeStorage = (name) => {
-    try {
-        localStorage.removeItem(name);
-        localStorage.removeItem(name + '_expiresIn');
-    } catch (e) {
-        console.log('removeStorage: Error removing key [' + name + '] from localStorage: ' + JSON.stringify(e));
-        return false;
-    }
-    return true;
-}
+  try {
+    /* eslint no-undef : 0 */
+    localStorage.removeItem(name);
+    localStorage.removeItem(`${name}_expiresIn`);
+  } catch (e) {
+    return false;
+  }
+  return true;
+};
 /*  getStorage: retrieves a key from localStorage previously set with setStorage().
     params:
         key <string> : localStorage key
@@ -22,27 +22,25 @@ export const removeStorage = (name) => {
         null : in case of expired key or failure
  */
 export const getStorage = (key) => {
+  const now = Date.now(); // epoch time, lets deal only with integer
+  // set expiration for storage
+  let expiresIn = localStorage.getItem(`${key}_expiresIn`);
+  if (expiresIn === undefined || expiresIn === null) {
+    expiresIn = 0;
+  }
 
-    var now = Date.now(); //epoch time, lets deal only with integer
-    // set expiration for storage
-    var expiresIn = localStorage.getItem(key + '_expiresIn');
-    if (expiresIn === undefined || expiresIn === null) {
-        expiresIn = 0;
-    }
-
-    if (expiresIn < now) { // Expired
-        removeStorage(key);
-        return null;
-    } else {
-        try {
-            var value = localStorage.getItem(key);
-            return value;
-        } catch (e) {
-            console.log('getStorage: Error reading key [' + key + '] from localStorage: ' + JSON.stringify(e));
-            return null;
-        }
-    }
-}
+  if (expiresIn < now) {
+    // Expired
+    removeStorage(key);
+    return null;
+  }
+  try {
+    const value = localStorage.getItem(key);
+    return value;
+  } catch (e) {
+    return null;
+  }
+};
 /*  setStorage: writes a key into localStorage setting a expire time
     params:
         key <string>     : localStorage key
@@ -52,21 +50,19 @@ export const getStorage = (key) => {
         <boolean> : telling if operation succeeded
  */
 export const setStorage = (key, value, expires) => {
+  if (expires === undefined || expires === null) {
+    expires = 60 * 60; // default: seconds for 1 hour
+  } else {
+    expires = Math.abs(expires); // make sure it's positive
+  }
 
-    if (expires === undefined || expires === null) {
-        expires = (60 * 60); // default: seconds for 1 hour
-    } else {
-        expires = Math.abs(expires); //make sure it's positive
-    }
-
-    var now = Date.now(); //millisecs since epoch time, lets deal only with integer
-    var schedule = now + expires * 1000;
-    try {
-        localStorage.setItem(key, value);
-        localStorage.setItem(key + '_expiresIn', schedule);
-    } catch (e) {
-        console.log('setStorage: Error setting key [' + key + '] in localStorage: ' + JSON.stringify(e));
-        return false;
-    }
-    return true;
-}
+  const now = Date.now(); // millisecs since epoch time, lets deal only with integer
+  const schedule = now + expires * 1000;
+  try {
+    localStorage.setItem(key, value);
+    localStorage.setItem(`${key}_expiresIn`, schedule);
+  } catch (e) {
+    return false;
+  }
+  return true;
+};

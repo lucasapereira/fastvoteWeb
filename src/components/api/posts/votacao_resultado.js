@@ -57,6 +57,7 @@ class ResultadoVotacao extends Component {
     this.setState({
       printingPdf: true,
     });
+    /* eslint no-undef: 0 */
 
     const input = document.getElementById('divToPrint');
     // const header = document.getElementById('headerReport');
@@ -67,7 +68,7 @@ class ResultadoVotacao extends Component {
 
     html2canvas(input).then((canvas) => {
       const imgData = canvas.toDataURL('image/png');
-
+      /* eslint new-cap: 0 */
       const pdf = new jsPDF(
         {
           //  orientation: 'landscape',
@@ -152,7 +153,7 @@ class ResultadoVotacao extends Component {
         />
       </div>
     );
-    /* 
+    /*
     <FlatButton
         backgroundColor="#e8e8e8"
         label="Detalhes"
@@ -253,13 +254,13 @@ class ResultadoVotacao extends Component {
         <Card className="cardResultado">
           <div id="divToPrint" className="divToPrint">
             <div id="headerReport" className="headerReport">
-              <img src={logoImg} />
+              <img alt={'FastVote'} src={logoImg} />
             </div>
             {this.renderDadosDaVotacao()}
             {this.renderGraficos()}
             <ResultadoVotacaoPessoa codVotacao={this.props.match.params.codVotacao} />
             <div id="footerReport" className="footerReport">
-              <img src={logoImgGray} />
+              <img alt={'FastVote'} src={logoImgGray} />
             </div>
           </div>
         </Card>

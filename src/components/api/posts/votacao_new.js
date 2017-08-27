@@ -111,8 +111,8 @@ class TelaVotacaoContainer extends Component {
       .then(() => {
         this.props.history.push('/votacao/list');
       })
-      .catch((e) => {
-        console.log(e);
+      .catch(() => {
+        this.msg.error('Não foi possível realizar a operação.');
       });
 
     /*

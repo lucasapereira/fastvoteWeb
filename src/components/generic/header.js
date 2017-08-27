@@ -59,7 +59,7 @@ class Header extends Component {
         );
       }
       return (
-        <LinkContainer to={menu.dsc_url}>
+        <LinkContainer to={menu.dsc_url} key={Math.random()}>
           <NavItem key={menu.cod_menu}>
             {menu.dsc_title_menu}
           </NavItem>
@@ -101,7 +101,7 @@ class Header extends Component {
 
       if (nomCompletoPessoa) {
         return (
-          <NavDropdown title={nomCompletoPessoa}>
+          <NavDropdown title={nomCompletoPessoa} id={nomCompletoPessoa}>
             {this.renderTrocarSenha()}
             {this.renderLinks()}
           </NavDropdown>
@@ -116,7 +116,7 @@ class Header extends Component {
         <Navbar.Header>
           <Navbar.Brand>
             <a href="https://www.fastvote.com.br/">
-              <img src={logoImg} />
+              <img alt={'FastVote'} src={logoImg} />
             </a>
           </Navbar.Brand>
           <Navbar.Toggle />

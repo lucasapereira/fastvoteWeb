@@ -22,7 +22,6 @@ export default function (state = initialState, action) {
       };
 
     case SET_COD_PESSOA_JURIDICA:
-      console.log('action.payload', action.payload);
       return {
         ...initialState,
         cod_pessoa_juridica: action.payload,

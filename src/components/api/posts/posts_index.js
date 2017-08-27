@@ -100,9 +100,7 @@ class PostsIndex extends Component {
       () => {
         this.handleExclusion();
       },
-      () => {
-        console.log('cancel!');
-      },
+      () => {},
     );
   };
 

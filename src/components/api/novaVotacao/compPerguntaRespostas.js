@@ -29,7 +29,7 @@ class CompPerguntaRespostas extends Component {
       }
 
       arrDescricao.push(
-        <div>
+        <div key={`numresposta${i}`}>
           <TextField
             name={`dsc_resposta_${i}`}
             hintText={`Resposta ${i}`}

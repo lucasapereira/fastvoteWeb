@@ -81,7 +81,7 @@ const mutationVotas = gql`
 
 const mutationVotaOptions = {
   name: 'vota',
-  options(props) {
+  options() {
     return {
       name: 'vota',
     };
