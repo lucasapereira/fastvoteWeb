@@ -9,6 +9,7 @@ import PropTypes from 'prop-types';
 import Paper from 'material-ui/Paper';
 import Icon from 'react-icon';
 import { Table, Row, Col, ProgressBar } from 'react-bootstrap';
+import DetalheVotacao from './detalheVotacao';
 
 import { QueryVoto, mutationVota } from './usuarioVotacaoGraphql';
 import confirm from '../../generic/confirm';
@@ -77,29 +78,8 @@ class UsuarioVotacao extends Component {
 
     // mostra resultado na table
     if (stringResp === true) {
+      stringResp = <DetalheVotacao rows={rows} votacao={votacao} />;
       // const qtdResp = rows.length;
-
-      let countItemResp = 1;
-      stringResp = rows.map((row) => {
-        const arrResp = [];
-        const now = countItemResp * 20;
-
-        arrResp.push(
-          <tr>
-            <td width="10%">
-              {countItemResp++}
-            </td>
-            <td width="40%">
-              {row.dscResposta}
-            </td>
-            <td width="50%">
-              <ProgressBar bsStyle="success" now={now} label={`${now}%`} />
-            </td>
-          </tr>,
-        );
-
-        return arrResp;
-      });
     }
 
     return (
@@ -109,14 +89,11 @@ class UsuarioVotacao extends Component {
         </legend>
 
         <Table striped bordered condensed hover>
-          <tbody>
-            {stringResp}
-          </tbody>
+          {stringResp}
         </Table>
       </fieldset>
     );
   };
-
   renderResultado = (votacao) => {
     Icon.setDefaultFontPrefix('glyphicon');
     let botaoResultado = (

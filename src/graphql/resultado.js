@@ -10,6 +10,7 @@ const query = gql`
         codResposta
         dscResposta
         multi
+        percentage
       }
     }
   }
@@ -17,10 +18,16 @@ const query = gql`
 
 const queryOptions = {
   options(props) {
+    let codVotacao;
+    if (props.votacao) {
+      codVotacao = props.votacao.codVotacao;
+    } else if (props.match) {
+      codVotacao = props.match.params.codVotacao;
+    }
     return {
       variables: {
         type: (props.params && props.params.type && props.params.type.toUpperCase()) || 'TOP',
-        codVotacao: props.match.params.codVotacao,
+        codVotacao,
       },
     };
   },
