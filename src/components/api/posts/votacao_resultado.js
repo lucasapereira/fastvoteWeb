@@ -61,15 +61,16 @@ class ResultadoVotacao extends Component {
     });
 
     const options = { padding: 5, pagesplit: true };
-    const pdf = new jsPDF('p', 'mm');
+    const pdf = new jsPDF('p', 'pt', 'a4');
 
-    const input = document.getElementById('divToPrint');
+    // const input = document.getElementById('divToPrint');
+    const input = document.getElementById('divGraficos');
 
     html2canvas(input, options).then((canvas) => {
       const imgData = canvas.toDataURL('image/png');
 
       const topoHtml = ReactDOMServer.renderToStaticMarkup(this.renderHeader());
-      // const footerHtml = ReactDOMServer.renderToStaticMarkup(this.renderFooter());
+      const footerHtml = ReactDOMServer.renderToStaticMarkup(this.renderFooter());
 
       const imgWidth = 210;
       const pageHeight = 295;
@@ -84,8 +85,8 @@ class ResultadoVotacao extends Component {
         },
       };
 
-      pdf.fromHTML(topoHtml, 200, 200, {
-        width: 500,
+      pdf.fromHTML(topoHtml, 20, 20, {
+        width: 200,
         elementHandlers: specialElementHandlers,
       });
 
@@ -181,7 +182,7 @@ class ResultadoVotacao extends Component {
           Resultados:{this.getLabel()}
           <hr />
           {this.renderSubtitleReport('Gráficos')}
-          <div style={{ textAlign: 'center' }}>
+          <div id="divGraficos" style={{ textAlign: 'center' }}>
             <Row>
               <Col xs={6}>
                 <div
