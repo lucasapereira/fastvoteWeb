@@ -60,17 +60,19 @@ class ResultadoVotacao extends Component {
       printingPdf: true,
     });
 
-    const options = { padding: 5, pagesplit: true };
     const pdf = new jsPDF('p', 'pt', 'a4');
 
     // const input = document.getElementById('divToPrint');
     const input = document.getElementById('divGraficos');
 
-    html2canvas(input, options).then((canvas) => {
+    html2canvas(input, { padding: 5, pagesplit: true }).then((canvas) => {
       const imgData = canvas.toDataURL('image/png');
 
+      // criar constante de topo e footer para acrescentar nas paginas
       const topoHtml = ReactDOMServer.renderToStaticMarkup(this.renderHeader());
-      const footerHtml = ReactDOMServer.renderToStaticMarkup(this.renderFooter());
+      // const footerHtml = ReactDOMServer.renderToStaticMarkup(this.renderFooter());
+
+      console.log('topo', topoHtml);
 
       const imgWidth = 210;
       const pageHeight = 295;
@@ -287,14 +289,14 @@ class ResultadoVotacao extends Component {
   );
 
   renderHeader = () => (
-    <div id="headerReport" style={{ padding: 10, backgroundColor: '#000000', textAlign: 'right' }}>
+    <div id="divHeader" style={{ padding: 10, backgroundColor: '#000000', textAlign: 'right' }}>
       <img alt={'FastVote'} src={logoImg} />
     </div>
   );
 
   renderFooter = () => (
     <div
-      id="footerReport"
+      id="divFooter"
       style={{
         padding: 10,
         textAlign: 'center',
