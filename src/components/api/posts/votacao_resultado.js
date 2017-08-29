@@ -3,15 +3,17 @@ import { compose } from 'react-apollo';
 import { Doughnut, Bar } from 'react-chartjs-2';
 import FlatButton from 'material-ui/FlatButton';
 import Card from 'material-ui/Card';
-import html2canvas from 'html2canvas';
 import Icon from 'react-icon';
 import { Table, Row, Col } from 'react-bootstrap';
+
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
+import ReactDOMServer from 'react-dom/server';
 
 import { QueryResultadoList } from '../../../graphql/resultado';
 import ResultadoVotacaoPessoa from './votacao_resultado_pessoa';
 import MyLoader from '../../generic/myLoader';
 
-import jsPDF from 'jspdf';
 import logoImg from '../../../assets/imgs/logo.png';
 import logoImgGray from '../../../assets/imgs/logoGray.png';
 
@@ -53,33 +55,71 @@ class ResultadoVotacao extends Component {
     printingPdf: false,
   };
 
+  renderTet = () =>
+    (<div
+      style={{
+        border: '1px solid #d6d7da',
+        fontSize: 19,
+        fontWeight: 'bold',
+        color: 'red',
+      }}
+    >
+      blabalababla aeee EIA
+    </div>);
+
   printDocument = () => {
     this.setState({
       printingPdf: true,
     });
+
     /* eslint no-undef: 0 */
-
-    const input = document.getElementById('divToPrint');
-    // const header = document.getElementById('headerReport');
-    // const footer = document.getElementById('footerReport');
-
-    // headerReport
-    // footerReport
+    const input = document.getElementById('graphToImg');
 
     html2canvas(input).then((canvas) => {
       const imgData = canvas.toDataURL('image/png');
-      /* eslint new-cap: 0 */
-      const pdf = new jsPDF(
-        {
-          //  orientation: 'landscape',
-          //  unit: 'in',
-          //  format: [4, 2],
-        },
-      );
-      pdf.addImage(imgData, 'JPEG', 0, 0);
 
-      // pdf.output('dataurlnewwindow');
+      const pdf = new jsPDF('p', 'pt', 'a4');
+
+      /*
+      const specialElementHandlers = {
+        '#bypassme': function (element, renderer) {
+          return true;
+        },
+      }; */
+
+      const margins = {
+        top: 50,
+        left: 60,
+      };
+
+      const innerHtml = ReactDOMServer.renderToString(this.renderTet());
+      // document.getElementById('headerReport');
+
+      pdf.fromHTML(
+        innerHtml, // HTML string or DOM elem ref.
+        margins.left, // x coord
+        margins.top, // y coord
+        {
+          width: margins.width, // max width of content on PDF
+          // elementHandlers: specialElementHandlers,
+        } /* ,
+        (dispose) => {
+          // dispose: object with X, Y of the last line add to the PDF
+          // this allow the insertion of new lines after html
+          pdf.save('html2pdf.pdf');
+        }, */,
+      );
+
+      //  pdf.text(20, 20, 'Hello world!');
+      //  pdf.text(20, 30, 'This is client-side Javascript, pumping out a PDF.');
+
+      pdf.addPage();
+      pdf.text(20, 20, 'Do you like that?');
+      pdf.addImage(imgData, 'JPEG', 0, 40);
+
+      pdf.output('dataurlnewwindow');
       pdf.save('relatorio.pdf');
+
       this.setState({
         printingPdf: false,
       });
@@ -172,7 +212,7 @@ class ResultadoVotacao extends Component {
           Resultados:{this.getLabel()}
           <hr />
           <div className="subtitleReport">Gráficos</div>
-          <Row>
+          <Row id="graphToImg">
             <Col xs={12} md={6} className="graphDiv">
               <div id="graph1" className="graph1">
                 <Doughnut data={this.getData()} />
@@ -236,9 +276,6 @@ class ResultadoVotacao extends Component {
       return <MyLoader />;
     }
 
-    // <Paper className="paperVotacao" zDepth={2} rounded>
-    // <div style={{ width: '500px' }}>
-    //
     return (
       <div className="container">
         <div className="divTopoRelatorio">
@@ -251,9 +288,10 @@ class ResultadoVotacao extends Component {
             </Col>
           </Row>
         </div>
+
         <Card className="cardResultado">
           <div id="divToPrint" className="divToPrint">
-            <div id="headerReport" className="headerReport">
+            <div id="HTMLtoPDF" className="headerReport">
               <img alt={'FastVote'} src={logoImg} />
             </div>
             {this.renderDadosDaVotacao()}

@@ -143,6 +143,17 @@ body {
 }
 
 /* tela resultado votacao */
+.test {
+  font-size: 20;
+  background-color: yellow;
+}
+
+.testDiv {
+  display: none;
+}
+.canvas {
+  border: 1px solid black;
+}
 
 .cardResultado {
   padding: 10px;
@@ -160,8 +171,9 @@ body {
 }
 .footerReport {
   padding: 10px;
-  background-color: #e4e4e4;
-  text-align: right;
+  /* background-color: #e4e4e4; */
+  text-align: center;
+  border-top: solid 1px #e4e4e4;
 }
 .titleReport {
   font-size: 160%;
