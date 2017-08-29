@@ -6,13 +6,13 @@ import Card from 'material-ui/Card';
 import Icon from 'react-icon';
 import { Table, Row, Col } from 'react-bootstrap';
 
-import jsPDF from 'jspdf';
-import html2canvas from 'html2canvas';
-import ReactDOMServer from 'react-dom/server';
-
 import { QueryResultadoList } from '../../../graphql/resultado';
 import ResultadoVotacaoPessoa from './votacao_resultado_pessoa';
 import MyLoader from '../../generic/myLoader';
+
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
+import ReactDOMServer from 'react-dom/server';
 
 import logoImg from '../../../assets/imgs/logo.png';
 import logoImgGray from '../../../assets/imgs/logoGray.png';
@@ -55,69 +55,50 @@ class ResultadoVotacao extends Component {
     printingPdf: false,
   };
 
-  renderTet = () =>
-    (<div
-      style={{
-        border: '1px solid #d6d7da',
-        fontSize: 19,
-        fontWeight: 'bold',
-        color: 'red',
-      }}
-    >
-      blabalababla aeee EIA
-    </div>);
-
   printDocument = () => {
     this.setState({
       printingPdf: true,
     });
 
-    /* eslint no-undef: 0 */
-    const input = document.getElementById('graphToImg');
+    const options = { padding: 5, pagesplit: true };
+    const pdf = new jsPDF('p', 'mm');
 
-    html2canvas(input).then((canvas) => {
+    const input = document.getElementById('divToPrint');
+
+    html2canvas(input, options).then((canvas) => {
       const imgData = canvas.toDataURL('image/png');
 
-      const pdf = new jsPDF('p', 'pt', 'a4');
+      const topoHtml = ReactDOMServer.renderToStaticMarkup(this.renderHeader());
+      // const footerHtml = ReactDOMServer.renderToStaticMarkup(this.renderFooter());
 
-      /*
+      const imgWidth = 210;
+      const pageHeight = 295;
+      const imgHeight = canvas.height * imgWidth / canvas.width;
+
+      let heightLeft = imgHeight;
+      let position = 0;
+
       const specialElementHandlers = {
-        '#bypassme': function (element, renderer) {
+        'DIV to be rendered out': function (element, renderer) {
           return true;
         },
-      }; */
-
-      const margins = {
-        top: 50,
-        left: 60,
       };
 
-      const innerHtml = ReactDOMServer.renderToString(this.renderTet());
-      // document.getElementById('headerReport');
+      pdf.fromHTML(topoHtml, 200, 200, {
+        width: 500,
+        elementHandlers: specialElementHandlers,
+      });
 
-      pdf.fromHTML(
-        innerHtml, // HTML string or DOM elem ref.
-        margins.left, // x coord
-        margins.top, // y coord
-        {
-          width: margins.width, // max width of content on PDF
-          // elementHandlers: specialElementHandlers,
-        } /* ,
-        (dispose) => {
-          // dispose: object with X, Y of the last line add to the PDF
-          // this allow the insertion of new lines after html
-          pdf.save('html2pdf.pdf');
-        }, */,
-      );
+      // pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+      // heightLeft -= pageHeight;
 
-      //  pdf.text(20, 20, 'Hello world!');
-      //  pdf.text(20, 30, 'This is client-side Javascript, pumping out a PDF.');
+      while (heightLeft >= 0) {
+        position = heightLeft - imgHeight;
+        pdf.addPage();
+        pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+        heightLeft -= pageHeight;
+      }
 
-      pdf.addPage();
-      pdf.text(20, 20, 'Do you like that?');
-      pdf.addImage(imgData, 'JPEG', 0, 40);
-
-      pdf.output('dataurlnewwindow');
       pdf.save('relatorio.pdf');
 
       this.setState({
@@ -125,8 +106,6 @@ class ResultadoVotacao extends Component {
       });
     });
   };
-
-  // react dom server to static html (converter pagina react p html)
 
   getLabel = () => {
     if (this.props.data.resultVotacao) {
@@ -167,7 +146,7 @@ class ResultadoVotacao extends Component {
       labels: arrayLabel,
       datasets: [
         {
-          label: 'Verificar como mudar',
+          label: this.props.data.resultVotacao.nodes[0].dscPergunta,
           data: arrayData,
           backgroundColor: arrayColor,
           hoverBackgroundColor: arrayColor,
@@ -193,16 +172,6 @@ class ResultadoVotacao extends Component {
         />
       </div>
     );
-    /*
-    <FlatButton
-        backgroundColor="#e8e8e8"
-        label="Detalhes"
-        fullWidth
-        disabled
-        primary
-        icon={<Icon glyph="stats" />}
-      />
-      */
   };
 
   renderGraficos = () => {
@@ -211,24 +180,39 @@ class ResultadoVotacao extends Component {
         <div>
           Resultados:{this.getLabel()}
           <hr />
-          <div className="subtitleReport">Gráficos</div>
-          <Row id="graphToImg">
-            <Col xs={12} md={6} className="graphDiv">
-              <div id="graph1" className="graph1">
-                <Doughnut data={this.getData()} />
-              </div>
-            </Col>
-            <Col xs={12} md={6} className="graphDiv">
-              <div id="graph2" className="graph2">
-                <Bar
-                  data={this.getData()}
-                  options={{
-                    maintainAspectRatio: true,
+          {this.renderSubtitleReport('Gráficos')}
+          <div style={{ textAlign: 'center' }}>
+            <Row>
+              <Col xs={6}>
+                <div
+                  id="graph1"
+                  style={{
+                    display: 'block',
+                    marginLeft: 'auto',
+                    marginRight: 'auto',
+                    width: 350,
+                    height: 220,
                   }}
-                />
-              </div>
-            </Col>
-          </Row>
+                >
+                  <Doughnut data={this.getData()} />
+                </div>
+              </Col>
+              <Col xs={6}>
+                <div
+                  id="graph2"
+                  style={{
+                    display: 'block',
+                    marginLeft: 'auto',
+                    marginRight: 'auto',
+                    width: 350,
+                    height: 220,
+                  }}
+                >
+                  <Bar data={this.getData()} />
+                </div>
+              </Col>
+            </Row>
+          </div>
         </div>
       );
     }
@@ -236,25 +220,23 @@ class ResultadoVotacao extends Component {
   };
 
   renderResultadoAgregado = () =>
-    this.props.data.resultVotacao.nodes.map(arrayItem =>
-      (<tr key={arrayItem.dscResposta}>
-        <td>
-          {arrayItem.dscResposta}
-        </td>
-        <td>
-          {arrayItem.multi}
-        </td>
-      </tr>),
-    );
+    this.props.data.resultVotacao.nodes.map(arrayItem => (
+      <tr key={arrayItem.dscResposta}>
+        <td>{arrayItem.dscResposta}</td>
+        <td>{arrayItem.multi}</td>
+      </tr>
+    ));
 
   renderDadosDaVotacao = () => {
     if (this.props.data.resultVotacao) {
       return (
         <div>
-          <div className="titleReport">{this.props.data.resultVotacao.nodes[0].dscVotacao}</div>
+          {this.renderTitleReport(this.props.data.resultVotacao.nodes[0].dscVotacao)}
           <b>Pergunta:</b>{' '}
-          <div className="perguntaLabel">{this.props.data.resultVotacao.nodes[0].dscPergunta}</div>
-          <div className="subtitleReport">Resultado Agregado</div>
+          <div style={{ fontSize: '120%' }}>
+            {this.props.data.resultVotacao.nodes[0].dscPergunta}
+          </div>
+          {this.renderSubtitleReport('Resultado Agregado')}
           <Table striped responsive>
             <thead>
               <tr>
@@ -262,24 +244,80 @@ class ResultadoVotacao extends Component {
                 <th>Qtd. Votos</th>
               </tr>
             </thead>
-            <tbody>
-              {this.renderResultadoAgregado()}
-            </tbody>
+            <tbody>{this.renderResultadoAgregado()}</tbody>
           </Table>
         </div>
       );
     }
   };
 
+  renderTitleReport = text => (
+    <div
+      style={{
+        fontSize: '160%',
+        textAlign: 'center',
+        fontWeight: 'bold',
+        marginTop: 20,
+        borderBottomStyle: 'groove',
+        borderBottomWidth: 2,
+        borderBottomColor: '#b4b4b4',
+      }}
+    >
+      {text}
+    </div>
+  );
+
+  renderSubtitleReport = text => (
+    <div
+      style={{
+        fontSize: '140%',
+        textAlign: 'left',
+        fontWeight: 'bold',
+        marginTop: 20,
+        marginBottom: 20,
+        borderBottomStyle: 'solid',
+        borderBottomWidth: 2,
+        borderBottomColor: '#b4b4b4',
+        color: '#c0c0c0',
+      }}
+    >
+      {text}
+    </div>
+  );
+
+  renderHeader = () => (
+    <div id="headerReport" style={{ padding: 10, backgroundColor: '#000000', textAlign: 'right' }}>
+      <img alt={'FastVote'} src={logoImg} />
+    </div>
+  );
+
+  renderFooter = () => (
+    <div
+      id="footerReport"
+      style={{
+        padding: 10,
+        textAlign: 'center',
+        borderTopStyle: 'solid',
+        borderTopWidth: 1,
+        borderTopColor: '#e4e4e4',
+      }}
+    >
+      <img alt={'FastVote'} src={logoImgGray} />
+    </div>
+  );
+
   render() {
     if (this.props.loading) {
       return <MyLoader />;
     }
 
+    // <Paper className="paperVotacao" zDepth={2} rounded>
+    // <div style={{ width: '500px' }}>
+    //
     return (
       <div className="container">
         <div className="divTopoRelatorio">
-          <Row className="show-grid">
+          <Row>
             <Col xs={12} sm={8}>
               <div className="pageHeader">Relatório de resultado da votação</div>
             </Col>
@@ -291,15 +329,11 @@ class ResultadoVotacao extends Component {
 
         <Card className="cardResultado">
           <div id="divToPrint" className="divToPrint">
-            <div id="HTMLtoPDF" className="headerReport">
-              <img alt={'FastVote'} src={logoImg} />
-            </div>
+            {this.renderHeader()}
             {this.renderDadosDaVotacao()}
             {this.renderGraficos()}
             <ResultadoVotacaoPessoa codVotacao={this.props.match.params.codVotacao} />
-            <div id="footerReport" className="footerReport">
-              <img alt={'FastVote'} src={logoImgGray} />
-            </div>
+            {this.renderFooter()}
           </div>
         </Card>
       </div>
