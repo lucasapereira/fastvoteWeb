@@ -33,6 +33,7 @@ const queryOptions = {
         offseta: 0,
         limita: 5,
       },
+      fetchPolicy: 'network-only',
     };
   },
   props(props) {
