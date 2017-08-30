@@ -60,6 +60,7 @@ class ResultadoVotacao extends Component {
       printingPdf: true,
     });
 
+    const options = { padding: 5, pagesplit: true, dpi: 192 };
     const pdf = new jsPDF('p', 'pt', 'a4');
 
     // const input = document.getElementById('divToPrint');
@@ -223,12 +224,16 @@ class ResultadoVotacao extends Component {
   };
 
   renderResultadoAgregado = () =>
-    this.props.data.resultVotacao.nodes.map(arrayItem => (
-      <tr key={arrayItem.dscResposta}>
-        <td>{arrayItem.dscResposta}</td>
-        <td>{arrayItem.multi}</td>
-      </tr>
-    ));
+    this.props.data.resultVotacao.nodes.map(arrayItem =>
+      (<tr key={arrayItem.dscResposta}>
+        <td>
+          {arrayItem.dscResposta}
+        </td>
+        <td>
+          {arrayItem.multi}
+        </td>
+      </tr>),
+    );
 
   renderDadosDaVotacao = () => {
     if (this.props.data.resultVotacao) {
@@ -247,15 +252,17 @@ class ResultadoVotacao extends Component {
                 <th>Qtd. Votos</th>
               </tr>
             </thead>
-            <tbody>{this.renderResultadoAgregado()}</tbody>
+            <tbody>
+              {this.renderResultadoAgregado()}
+            </tbody>
           </Table>
         </div>
       );
     }
   };
 
-  renderTitleReport = text => (
-    <div
+  renderTitleReport = text =>
+    (<div
       style={{
         fontSize: '160%',
         textAlign: 'center',
@@ -267,11 +274,10 @@ class ResultadoVotacao extends Component {
       }}
     >
       {text}
-    </div>
-  );
+    </div>);
 
-  renderSubtitleReport = text => (
-    <div
+  renderSubtitleReport = text =>
+    (<div
       style={{
         fontSize: '140%',
         textAlign: 'left',
@@ -285,18 +291,16 @@ class ResultadoVotacao extends Component {
       }}
     >
       {text}
-    </div>
-  );
+    </div>);
 
-  renderHeader = () => (
-    <div id="divHeader" style={{ padding: 10, backgroundColor: '#000000', textAlign: 'right' }}>
+  renderHeader = () =>
+    (<div id="headerReport" style={{ padding: 10, backgroundColor: '#000000', textAlign: 'right' }}>
       <img alt={'FastVote'} src={logoImg} />
-    </div>
-  );
+    </div>);
 
-  renderFooter = () => (
-    <div
-      id="divFooter"
+  renderFooter = () =>
+    (<div
+      id="footerReport"
       style={{
         padding: 10,
         textAlign: 'center',
@@ -306,8 +310,7 @@ class ResultadoVotacao extends Component {
       }}
     >
       <img alt={'FastVote'} src={logoImgGray} />
-    </div>
-  );
+    </div>);
 
   render() {
     if (this.props.loading) {

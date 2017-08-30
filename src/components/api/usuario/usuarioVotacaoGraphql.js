@@ -86,6 +86,7 @@ const mutationVotaOptions = {
       name: 'vota',
     };
   },
+  fetchPolicy: 'network-only',
 };
 
 export const mutationVota = graphql(mutationVotas, mutationVotaOptions);

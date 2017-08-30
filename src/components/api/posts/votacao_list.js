@@ -255,21 +255,23 @@ class VotacaoList extends Component {
     }
 
     return (
-      <div>
-        <Grid
-          colunas={this.colunas}
-          rows={this.props.rows}
-          apaga={this.apagaVotacao}
-          items_grid={this.state.items_grid}
-          setItensGrid={this.setItensGrid}
-          buttonNovo="/votacao/nova"
-          titulo="Votações"
-          handlePageClick={this.handlePageClick}
-          totalCount={this.props.totalCount}
-          renderButtonsOneSelection={this.renderButtonsOneSelection}
-          loading={this.props.loading}
-        />
-        <AlertContainer ref={a => (this.msg = a)} {...this.alertOptions} />
+      <div className="container">
+        <div className="baseContent">
+          <Grid
+            colunas={this.colunas}
+            rows={this.props.rows}
+            apaga={this.apagaVotacao}
+            items_grid={this.state.items_grid}
+            setItensGrid={this.setItensGrid}
+            buttonNovo="/votacao/nova"
+            titulo="Votações"
+            handlePageClick={this.handlePageClick}
+            totalCount={this.props.totalCount}
+            renderButtonsOneSelection={this.renderButtonsOneSelection}
+            loading={this.props.loading}
+          />
+          <AlertContainer ref={a => (this.msg = a)} {...this.alertOptions} />
+        </div>
       </div>
     );
   }

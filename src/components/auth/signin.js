@@ -69,6 +69,8 @@ class Signin extends Component {
   };
 
   onSubmit = (values) => {
+    values.senha = values.senha.trim();
+
     if (values.empresas) {
       this.props.signinUser(values, () => {});
     } else if (this.props.empresasAuth.length > 0) {

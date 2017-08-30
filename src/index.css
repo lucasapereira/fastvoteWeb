@@ -20,6 +20,7 @@ body {
   /* padding-left: 15px; */
   margin-right: auto;
   margin-left: auto;
+  background-color: #ffffff;
 }
 
 /* tela login */
@@ -160,6 +161,28 @@ body {
   padding: 5px;
   width: 793px;
   /* border: 2px solid blue; - acrescentar 4 pixel da largura */
+}
+
+/* lista votacoes cadastradas */
+
+.pageTitle {
+  font-size: 160%;
+  margin-left: 20px;
+  padding-left: 50px;
+  padding-top: 20px;
+  border-bottom: 2px solid #c0c0c0;
+  float: left;
+  width: 200px;
+  color: #b4b4b4;
+}
+
+.divGridResultado {
+  border: 2px solid red;
+}
+
+.divGridButtons {
+  padding-left: "6px";
+  border: 2px solid blue;
 }
 
 [class^="muidocs-icon-"],

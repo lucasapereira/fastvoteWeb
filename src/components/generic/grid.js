@@ -248,12 +248,7 @@ class Grid extends Component {
 
   render() {
     const buttonsInstance = (
-      <div
-        style={{
-          float: 'left',
-          paddingLeft: '6px',
-        }}
-      >
+      <div className="divGridButtons">
         {this.renderButtonNovo()}
         {this.renderButtonApaga()}
         {this.renderButtonsOneSelection()}
@@ -266,26 +261,12 @@ class Grid extends Component {
     }
 
     return (
-      <div>
+      <div className="divGridResultado">
         <div>
-          <div
-            style={{
-              float: 'left',
-              paddingLeft: '6px',
-            }}
-          >
-            <h3>
-              {this.props.titulo}
-            </h3>
-          </div>
+          <div className="pageTitle">{this.props.titulo}</div>
           {this.renderQtdPerPagina()}
         </div>
-        <div
-          style={{
-            paddingLeft: '6px',
-            paddingRight: '6px',
-          }}
-        >
+        <div>
           <ReactDataGrid
             columns={this.props.colunas}
             rowGetter={this.rowGetter}
@@ -310,13 +291,7 @@ class Grid extends Component {
           />
         </div>
         {this.renderPagination()}
-        <div
-          style={{
-            float: 'left',
-          }}
-        >
-          {buttonsInstance}
-        </div>
+        {buttonsInstance}
       </div>
     );
   }
