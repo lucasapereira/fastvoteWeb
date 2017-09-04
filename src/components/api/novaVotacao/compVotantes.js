@@ -20,12 +20,6 @@ class CompVotantes extends Component {
 
   colunas = [
     {
-      key: 'codUsuario',
-      name: 'Cod',
-      filterable: true,
-      sortable: true,
-    },
-    {
       key: 'nomCompletoPessoa',
       name: 'Nome Usuário',
       filterable: true,
@@ -39,11 +33,6 @@ class CompVotantes extends Component {
       editable: true,
     },
   ];
-
-  /*
-- colocar interrogacoes com instrucoes de preenchimento dos campos
-- arrumar paginatio para qd na aparece
-*/
 
   maskRowsUpdated = (updated) => {
     let newPeso = updated.vlrPeso;

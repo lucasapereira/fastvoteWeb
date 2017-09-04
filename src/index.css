@@ -55,7 +55,8 @@ body {
   position: relative;
 }
 
-.modal-container .modal, .modal-container .modal-backdrop {
+.modal-container .modal,
+.modal-container .modal-backdrop {
   position: absolute;
 }
 
@@ -241,7 +242,7 @@ body {
 .divSubItemFormVotacao1 {
   height: 220px;
   padding: 15px;
-  overflow-x: auto;
+  overflow: auto;
   margin-bottom: 10px;
 }
 
@@ -249,8 +250,6 @@ body {
   margin-bottom: 50px;
   height: 540px;
 }
-
-
 
 /* ========================================*/
 

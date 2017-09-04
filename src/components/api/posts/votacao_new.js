@@ -142,44 +142,42 @@ class TelaVotacaoContainer extends Component {
     return <span>{botaoSalvar(selectedRows.codVotacao)}</span>;
   };
 
-  renderButtonVariosSelectionDisabled = () => {
-    return (
-      <Row>
-        <Col xs={12} sm={8} />
-        <Col xs={12} sm={4}>
-          <FlatButton
-            icon={<Icon glyph="plus" />}
-            label="Adicionar Votação"
-            fullWidth
-            disabled
-            backgroundColor="#E1E1E1"
-          />
-        </Col>
-      </Row>
-  )};
+  renderButtonVariosSelectionDisabled = () => (
+    <Row>
+      <Col xs={12} sm={8} />
+      <Col xs={12} sm={4}>
+        <FlatButton
+          icon={<Icon glyph="plus" />}
+          label="Adicionar Votação"
+          fullWidth
+          disabled
+          backgroundColor="#E1E1E1"
+        />
+      </Col>
+    </Row>
+  );
 
   openModal = (i) => {
     this.setState({
       modalIsOpen: true,
-      codModal: i
+      codModal: i,
     });
   };
 
   closeModal = () => {
     this.setState({
       modalIsOpen: false,
-      codModal: 0
+      codModal: 0,
     });
   };
 
   renderModal = () => {
-    
     let modal = '';
     let title = '';
     let content = '';
 
-    if( this.state.codModal > 0 ) {
-      if( this.state.codModal === 1 ){
+    if (this.state.codModal > 0) {
+      if (this.state.codModal === 1) {
         title = 'Respostas';
         content = (
           <div>
@@ -189,8 +187,8 @@ class TelaVotacaoContainer extends Component {
             <p>Caso queira adicionar mais opções use o botão <strong>Adicionar</strong> abaixo das opções.</p>
             <p>Caso queira excluir as opções use o botão com o X vermelho ao lado das opções.</p>
           </div>
-        )
-      } else if( this.state.codModal == 2 ) {
+        );
+      } else if (this.state.codModal === 2) {
         title = 'Filtro de dados adicionais';
         content = (
           <div>
@@ -198,19 +196,19 @@ class TelaVotacaoContainer extends Component {
             <p>Este campo é utilizado para filtrar a listagem abaixo que contém os usuários que urão votar.</p>
             <p>Selecione os dados adicionais que deseja para mostrar apenas os usuários agrupados por estas informações.</p>
           </div>
-        )
+        );
       } else {
-        title = 'Usuários que poderão votar';
+        title = 'Habilitação de usuários para votar';
         content = (
           <div>
-            <h4>Usuário que irão votar</h4>
+            <h4>Usuário habilitados para votação</h4>
             <p>Selecione os usuários que irão participar da votação que estã sendo cadastrada.</p>
             <p>Caso queira filtrar os usuários pelos dados adicionais, selecione as informações desejadas no campo <strong>Filtro de dados adicionais</strong>.</p>
             <h4>Alterando peso de votação</h4>
             <p>Caso queira alterar o peso da votação, dê um duplo clique na célula de peso desejado e digite o novo valor.</p>
             <p>São aceitos apenas valores inteiros ou fracionados utilizando o ponto(.) para separar o fracional.</p>
           </div>
-        )
+        );
       }
 
       modal = (
@@ -218,7 +216,7 @@ class TelaVotacaoContainer extends Component {
           bsSize="small"
           show={this.state.modalIsOpen}
           onHide={this.closeModal}
-          >
+        >
           <Modal.Header closeButton>
             <Modal.Title id="contained-modal-title-sm">{title}</Modal.Title>
           </Modal.Header>
@@ -226,7 +224,7 @@ class TelaVotacaoContainer extends Component {
           <Modal.Footer>
             <Button onClick={this.closeModal}>Close</Button>
           </Modal.Footer>
-        </Modal>)
+        </Modal>);
     }
 
     return modal;
@@ -234,13 +232,13 @@ class TelaVotacaoContainer extends Component {
 
   render() {
     let arrForm = '';
-    
+
     const tooltip = (
       <Tooltip id="tooltip"><strong>Clique</strong></Tooltip>
     );
 
     Icon.setDefaultFontPrefix('glyphicon');
-    
+
     // if (this.state.codPessoaJuridica) {
     arrForm = (
       <div className="container">
@@ -282,7 +280,7 @@ class TelaVotacaoContainer extends Component {
               />
             </Col>
             <Col xs={12} sm={6}>
-              <div className="pageSubTitleCadVotacao">Filtro de dados adicionais{' '}
+              <div className="pageSubTitleCadVotacao">Filtro dados adicionais{' '}
                 <OverlayTrigger placement="top" overlay={tooltip}>
                   <Icon glyph="question-sign" style={{ color: 'blue' }} onClick={() => this.openModal(2)} />
                 </OverlayTrigger>
@@ -297,7 +295,7 @@ class TelaVotacaoContainer extends Component {
 
           <Row>
             <Col xs={12}>
-              <div className="pageSubTitleCadVotacao">Usuários que poderão votar{' '}
+              <div className="pageSubTitleCadVotacao">Habilitação de Usuários{' '}
                 <OverlayTrigger placement="top" overlay={tooltip}>
                   <Icon glyph="question-sign" style={{ color: 'blue' }} onClick={() => this.openModal(3)} />
                 </OverlayTrigger>
@@ -315,7 +313,7 @@ class TelaVotacaoContainer extends Component {
           </Row>
 
           {this.renderModal()};
-          
+
         </div>
       </div>
     );
