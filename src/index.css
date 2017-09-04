@@ -42,6 +42,23 @@ body {
   border-bottom: 1px solid #c0c0c0;
 }
 
+.pageSubTitle {
+  font-size: 120%;
+  color: #b4b4b4;
+  margin: 10px 20px 10px 20px;
+  padding-left: 20px;
+  padding-right: 20px;
+  border-bottom: 1px solid #c0c0c0;
+}
+
+.modal-container {
+  position: relative;
+}
+
+.modal-container .modal, .modal-container .modal-backdrop {
+  position: absolute;
+}
+
 /* tela login */
 
 .paperLogin {
@@ -203,6 +220,39 @@ body {
 .divGridButtons2 {
   margin: 0px;
 }
+
+/* Tela Cadastro Votacao */
+
+.pageSubTitleCadVotacao {
+  font-size: 120%;
+  color: #000000;
+  margin: 10px 20px 10px 20px;
+  padding-left: 20px;
+  padding-right: 20px;
+  border-bottom: 2px solid #000000;
+}
+
+.paperCadVotacao {
+  margin: 20px 0px 20px 0px;
+  padding: 15px;
+  text-align: center;
+}
+
+.divSubItemFormVotacao1 {
+  height: 220px;
+  padding: 15px;
+  overflow-x: auto;
+  margin-bottom: 10px;
+}
+
+.gridUsuarios {
+  margin-bottom: 50px;
+  height: 540px;
+}
+
+
+
+/* ========================================*/
 
 [class^="muidocs-icon-"],
 [class*=" muidocs-icon-"] {

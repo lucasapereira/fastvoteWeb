@@ -1,30 +1,24 @@
 import React, { Component } from 'react';
 
 import TextField from 'material-ui/TextField';
-import FloatingActionButton from 'material-ui/FloatingActionButton';
-import ContentAdd from 'material-ui/svg-icons/content/add';
+import FlatButton from 'material-ui/FlatButton';
+
+import Icon from 'react-icon';
 
 class CompPerguntaRespostas extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { error_dsc_pergunta: '' };
-  }
-
   renderRespostas = () => {
+    Icon.setDefaultFontPrefix('glyphicon');
+
     const arrDescricao = [];
 
     for (let i = 1; i <= this.props.numRespostas; i++) {
       let btnDel = '';
       if (i > 2) {
         btnDel = (
-          <FloatingActionButton
-            mini
-            secondary
+          <FlatButton
             onClick={() => this.props.altNumRespostas(-1)}
-            style={{ margin: 10 }}
-          >
-            <i className="material-icons">delete_forever</i>
-          </FloatingActionButton>
+            icon={<Icon glyph="remove" style={{ color: 'red' }} />}
+          />
         );
       }
 
@@ -45,34 +39,15 @@ class CompPerguntaRespostas extends Component {
 
   render() {
     return (
-      <div>
-        <div>
-          <TextField
-            name="dsc_votacao"
-            errorText={this.state.error_dsc_votacao}
-            hintText="Descrição da Votação"
-            onChange={this.props.handleChange}
-          />
-        </div>
-        <div>
-          <TextField
-            name="dsc_pergunta"
-            errorText={this.state.error_dsc_pergunta}
-            hintText="Pergunta da Votação"
-            onChange={this.props.handleChange}
-          />
-        </div>
-        <div>
-          {this.renderRespostas()}
-        </div>
-        <FloatingActionButton
-          mini
+      <div className="divSubItemFormVotacao1">
+        <div>{this.renderRespostas()}</div>
+        <FlatButton
           onClick={() => this.props.altNumRespostas(1)}
-          style={{ margin: 10 }}
-        >
-          <ContentAdd />
-        </FloatingActionButton>
-        <div />
+          icon={<Icon glyph="plus" style={{ color: 'green' }} />}
+          label="Adicionar"
+          labelStyle={{ color: 'green' }}
+          // style={style}
+        />
       </div>
     );
   }

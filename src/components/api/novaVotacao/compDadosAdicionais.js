@@ -38,7 +38,7 @@ class CompDadosAdicionais extends Component {
               }
               primaryText={`${row.codDadosAdicionais} - ${row.tbDadosAdicionaiByCodDadosAdicionais
                 .dscDadosAdicionais}`}
-              secondaryText="Allow notifications"
+              // secondaryText="Allow notifications"
             />
           </Paper>,
         );
@@ -47,12 +47,7 @@ class CompDadosAdicionais extends Component {
       });
     }
 
-    return (
-      <List>
-        <Subheader>Informações Adicionais</Subheader>
-        {descricao}
-      </List>
-    );
+    return <div className="divSubItemFormVotacao1">{descricao}</div>;
   }
 }
 

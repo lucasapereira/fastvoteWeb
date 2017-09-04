@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Subheader from 'material-ui/Subheader';
 import Grid from '../../generic/grid';
 import MyLoader from '../../generic/myLoader';
 
@@ -41,6 +40,11 @@ class CompVotantes extends Component {
     },
   ];
 
+  /*
+- colocar interrogacoes com instrucoes de preenchimento dos campos
+- arrumar paginatio para qd na aparece
+*/
+
   maskRowsUpdated = (updated) => {
     let newPeso = updated.vlrPeso;
 
@@ -61,18 +65,15 @@ class CompVotantes extends Component {
     }
 
     return (
-      <div>
-        <Subheader>Usuários Disponíveis para Votação</Subheader>
-        <Grid
-          colunas={this.colunas}
-          rows={this.props.rows}
-          items_grid={this.state.items_grid}
-          titulo="Usuários que podem votar"
-          renderButtonVariosSelection={this.props.renderButtonVariosSelection}
-          loading={this.props.loading}
-          maskRowsUpdated={this.maskRowsUpdated}
-        />
-      </div>
+      <Grid
+        colunas={this.colunas}
+        rows={this.props.rows}
+        items_grid={this.state.items_grid}
+        renderButtonVariosSelection={this.props.renderButtonVariosSelection}
+        loading={this.props.loading}
+        maskRowsUpdated={this.maskRowsUpdated}
+        renderButtonVariosSelectionDisabled={this.props.renderButtonVariosSelectionDisabled}
+      />
     );
   }
 }

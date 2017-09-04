@@ -30,20 +30,21 @@ import RequireAuth from './components/auth/require_auth';
 const createStoreWithMiddleware = applyMiddleware(reduxThunk)(createStore);
 const store = createStoreWithMiddleware(reducers);
 
-const NoMatch = ({ location }) =>
-  (<div>
+const NoMatch = ({ location }) => (
+  <div>
     <h3>
       Página não encontrada: <code>{location.pathname}</code>
     </h3>
-  </div>);
+  </div>
+);
 
-const rotas = token =>
-  (<Switch>
+const rotas = token => (
+  <Switch>
     <Route
       exact
       path="/"
       render={() =>
-        token ? <Redirect to="/usuario/listvotacao" /> : <Redirect to="/auth/signin" />}
+        (token ? <Redirect to="/usuario/listvotacao" /> : <Redirect to="/auth/signin" />)}
     />
     <Route path="/usuario/listvotacao" component={RequireAuth(ListVotacaoScreen)} />
     <Route path="/votacao/nova" component={RequireAuth(VotacaoNew)} />
@@ -55,10 +56,11 @@ const rotas = token =>
     <Route path="/auth/signout" component={Signout} />
     <Route path="/auth/forbidden" component={Forbidden} />
     <Route component={NoMatch} />
-  </Switch>);
+  </Switch>
+);
 
-const telaPrincipal = token =>
-  (<Provider store={store}>
+const telaPrincipal = token => (
+  <Provider store={store}>
     <BrowserRouter>
       <div>
         <small>
@@ -66,12 +68,11 @@ const telaPrincipal = token =>
           <b>{process.env.REACT_APP_BASE_URL}</b>
         </small>
         <Header />
-        <MuiThemeProvider>
-          {rotas(token)}
-        </MuiThemeProvider>
+        <MuiThemeProvider>{rotas(token)}</MuiThemeProvider>
       </div>
     </BrowserRouter>
-  </Provider>);
+  </Provider>
+);
 
 export const routeTo = () => {
   const token = getStorage('token');
@@ -107,9 +108,5 @@ export const routeTo = () => {
     networkInterface,
   });
 
-  return (
-    <ApolloProvider client={client}>
-      {telaPrincipal(token)}
-    </ApolloProvider>
-  );
+  return <ApolloProvider client={client}>{telaPrincipal(token)}</ApolloProvider>;
 };

@@ -9,6 +9,7 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import { esqueciSenha, setSenhaTrocadaComSucesso } from '../../actions';
 import MyLoader from '../generic/myLoader';
+import Paper from 'material-ui/Paper';
 
 // site key
 const sitekey = '6LerwiwUAAAAAN_S41XhiuIPWwcvEcy9KPsroZ1T';
@@ -38,11 +39,7 @@ class EsqueciSenha extends React.Component {
 
   renderAlert() {
     if (this.props.errorMessage) {
-      return (
-        <div className="alert alert-danger">
-          {this.props.errorMessage}
-        </div>
-      );
+      return <div className="alert alert-danger">{this.props.errorMessage}</div>;
     }
   }
   limpaTela = () => {
@@ -62,14 +59,15 @@ class EsqueciSenha extends React.Component {
     this.redireciona();
   };
 
-  renderMsgTrocouSenha = () =>
-    (<Dialog
+  renderMsgTrocouSenha = () => (
+    <Dialog
       title="Foi enviado um e-mail com a senha."
       modal
       open={this.props.senhaTrocadaComSucesso}
     >
       <FlatButton label="Ok" primary onClick={this.limpaERedireciona} />,
-    </Dialog>);
+    </Dialog>
+  );
   onSubmit = (values) => {
     this.props.esqueciSenha(values.email, this.state.recaptchaResponse, values.cpf);
   };
@@ -80,57 +78,69 @@ class EsqueciSenha extends React.Component {
       return <MyLoader />;
     }
     return (
-      <form onSubmit={handleSubmit(this.onSubmit)}>
-        <div>
-          <div>
-            <Field
-              name="cpf"
-              component={TextField}
-              hintText="CPF"
-              floatingLabelText="CPF"
-              onBlur={this.getEmpresas}
-              withRef
-              ref="cpfField"
-              maxLength="11"
-              validate={[required, cpf]}
-            />
-          </div>
-          <Field
-            name="email"
-            component={TextField}
-            hintText="e-mail"
-            floatingLabelText="e-mail"
-            withRef
-            ref="emailField"
-            validate={[required, email]}
-          />
+      <div className="container">
+        <Paper className="paperLogin" zDepth={2} rounded>
+          <div className="divTopoLogin">Recuperar Senha</div>
+          <div className="divFormLogin">
+            <form onSubmit={handleSubmit(this.onSubmit)}>
+              <div>
+                <div>
+                  <Field
+                    name="cpf"
+                    component={TextField}
+                    hintText="CPF"
+                    floatingLabelText="CPF"
+                    onBlur={this.getEmpresas}
+                    withRef
+                    ref="cpfField"
+                    maxLength="11"
+                    validate={[required, cpf]}
+                  />
+                </div>
+                <Field
+                  name="email"
+                  component={TextField}
+                  hintText="e-mail"
+                  floatingLabelText="e-mail"
+                  withRef
+                  ref="emailField"
+                  validate={[required, email]}
+                />
 
-          <Recaptcha
-            ref={e => (this.recaptchaInstance = e)}
-            sitekey={sitekey}
-            size="compact"
-            render="explicit"
-            verifyCallback={this.verifyCallback}
-            onloadCallback={this.callback}
-            expiredCallback={this.expiredCallback}
-            hl="pt-BR"
-          />
-          <br />
-          <div>
-            {this.renderAlert()}
-            {this.renderMsgTrocouSenha()}
+                <Recaptcha
+                  ref={e => (this.recaptchaInstance = e)}
+                  sitekey={sitekey}
+                  size="compact"
+                  render="explicit"
+                  verifyCallback={this.verifyCallback}
+                  onloadCallback={this.callback}
+                  expiredCallback={this.expiredCallback}
+                  hl="pt-BR"
+                />
+                <br />
+                <div>
+                  {this.renderAlert()}
+                  {this.renderMsgTrocouSenha()}
+                </div>
+                <div>
+                  <RaisedButton
+                    type="submit"
+                    label="Login"
+                    disabled={pristine || submitting}
+                    primary
+                  />
+                  <RaisedButton
+                    type="button"
+                    label="Limpar"
+                    disabled={submitting}
+                    onClick={this.limpaTela}
+                  />
+                </div>
+              </div>
+            </form>
           </div>
-          <div>
-            <RaisedButton type="submit" label="Login" disabled={pristine || submitting} primary />
-            <RaisedButton
-              type="button"
-              label="Limpar"
-              disabled={submitting}
-              onClick={this.limpaTela}
-            />
-          </div>
-        </div>
-      </form>
+        </Paper>
+      </div>
     );
   }
 }

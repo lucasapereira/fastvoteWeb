@@ -138,6 +138,8 @@ class Grid extends Component {
         const selectedRows = this.state.selectedIndexes.map(index => filteredRows[index]);
         return this.props.renderButtonVariosSelection(selectedRows, this.state.pageSelected);
       }
+    } else if (this.props.renderButtonVariosSelectionDisabled) {
+      return this.props.renderButtonVariosSelectionDisabled();
     }
   };
 
@@ -239,7 +241,7 @@ class Grid extends Component {
             marginPagesDisplayed={2}
             pageRangeDisplayed={5}
             onPageChange={this.handleOnClickPagination}
-            containerClassName={'pagination'}
+            containerClassName={'pagination pagination-sm'}
             subContainerClassName={'pages pagination'}
             activeClassName={'active'}
           />
@@ -272,8 +274,6 @@ class Grid extends Component {
 
     return (
       <div>
-        <div className="pageTitle">{this.props.titulo}</div>
-
         {this.renderQtdPerPagina()}
 
         <div>
