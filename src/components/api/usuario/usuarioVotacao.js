@@ -9,7 +9,6 @@ import PropTypes from 'prop-types';
 import Paper from 'material-ui/Paper';
 import Icon from 'react-icon';
 import { Table, Row, Col } from 'react-bootstrap';
-import Equalizer from 'material-ui/svg-icons/av/equalizer';
 import DetalheVotacao from './detalheVotacao';
 
 import { QueryVoto, mutationVota } from './usuarioVotacaoGraphql';
@@ -85,9 +84,7 @@ class UsuarioVotacao extends Component {
 
     return (
       <fieldset>
-        <legend className="fieldSetResultadoLegend">
-          {labelResultado}
-        </legend>
+        <legend className="fieldSetResultadoLegend">{labelResultado}</legend>
 
         <Table striped bordered condensed hover>
           {stringResp}
@@ -104,7 +101,7 @@ class UsuarioVotacao extends Component {
         fullWidth
         disabled
         primary
-        icon={<Equalizer color={'#FFFFFF'} style={{ color: '#FFFFFF' }} />}
+        icon={<Icon glyph="stats" style={{ color: '#C0C0C0' }} />}
       />
     );
 
@@ -120,7 +117,7 @@ class UsuarioVotacao extends Component {
             fullWidth
             labelStyle={{ color: '#FFFFFF' }}
             primary
-            icon={<Equalizer color={'#FFFFFF'} style={{ color: '#FFFFFF' }} />}
+            icon={<Icon glyph="stats" style={{ color: '#FFFFFF' }} />}
           />
         </Link>
       );
@@ -182,16 +179,15 @@ class UsuarioVotacao extends Component {
       labelTxtResposta = (
         <span>
           <span className="labelVotacaoExecutada">Seu voto: </span>
-          <span className="txtVotacaoExecutada">
-            {votacao.dscResposta}
-          </span>
+          <span className="txtVotacaoExecutada">{votacao.dscResposta}</span>
         </span>
       );
     } else {
       // Se nao votou e fechou aparece texto
-      const labelResp = flgFinalizada
-        ? <span className="labelVotoNaoComputado">Voto não computado</span>
-        : (<span>
+      const labelResp = flgFinalizada ? (
+        <span className="labelVotoNaoComputado">Voto não computado</span>
+      ) : (
+        <span>
           <Row>
             <Col xsHidden sm={12}>
               {this.renderBotoesVotacao(this.props.rows)}
@@ -202,13 +198,10 @@ class UsuarioVotacao extends Component {
               {this.renderBotoesVotacao(this.props.rows, true)}
             </Col>
           </Row>
-        </span>);
-
-      labelTxtResposta = (
-        <span>
-          {labelResp}
         </span>
       );
+
+      labelTxtResposta = <span>{labelResp}</span>;
     }
 
     return (
@@ -216,12 +209,8 @@ class UsuarioVotacao extends Component {
         <div className="labelStatus">
           Status: <span className={classStatus}>{labelTxtStatus}</span>
         </div>
-        <div className="txtPerguntaVotacoes">
-          {votacao.dscPergunta}
-        </div>
-        <div className="divRespostasVotacoes">
-          {labelTxtResposta}
-        </div>
+        <div className="txtPerguntaVotacoes">{votacao.dscPergunta}</div>
+        <div className="divRespostasVotacoes">{labelTxtResposta}</div>
         <br />
         {this.renderResultado(votacao)}
       </Paper>
@@ -238,8 +227,8 @@ class UsuarioVotacao extends Component {
     }
 
     if (this.props.votacao.dentroVigenciaVotacao === 'Votação em andamento.') {
-      return rows.map(resp =>
-        (<RaisedButton
+      return rows.map(resp => (
+        <RaisedButton
           backgroundColor="#66b682"
           labelColor="#FFFFFF"
           type="button"
@@ -248,8 +237,8 @@ class UsuarioVotacao extends Component {
           label={resp.dscResposta}
           key={resp.codResposta}
           onClick={() => this.onPress(resp)}
-        />),
-      );
+        />
+      ));
     }
   };
 
@@ -259,17 +248,9 @@ class UsuarioVotacao extends Component {
     }
 
     if (this.props.error) {
-      return (
-        <div>
-          Erro: {this.props.error.message}
-        </div>
-      );
+      return <div>Erro: {this.props.error.message}</div>;
     }
-    return (
-      <div>
-        {this.renderVotacao()}
-      </div>
-    );
+    return <div>{this.renderVotacao()}</div>;
   }
 }
 

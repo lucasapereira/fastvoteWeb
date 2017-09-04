@@ -20,7 +20,26 @@ body {
   /* padding-left: 15px; */
   margin-right: auto;
   margin-left: auto;
+}
+
+.baseContentWhite {
+  /* padding-right: 15px; */
+  /* padding-left: 15px; */
+  margin-right: auto;
+  margin-left: auto;
+  padding: 10px;
   background-color: #ffffff;
+}
+
+.pageTitle {
+  font-size: 160%;
+  color: #b4b4b4;
+  margin-left: 20px;
+  margin-right: 20px;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 20px;
+  border-bottom: 1px solid #c0c0c0;
 }
 
 /* tela login */
@@ -151,9 +170,12 @@ body {
 
 .divTopoRelatorio {
   background-color: #ffffff;
-  /* border: 1px solid green; */
   padding: 10px;
-  height: 80px;
+  min-height: 80px;
+}
+
+.divBtnExportaRelatorio {
+  padding: 5px;
 }
 
 .divToPrint {
@@ -165,24 +187,21 @@ body {
 
 /* lista votacoes cadastradas */
 
-.pageTitle {
-  font-size: 160%;
-  margin-left: 20px;
-  padding-left: 50px;
-  padding-top: 20px;
-  border-bottom: 2px solid #c0c0c0;
-  float: left;
-  width: 200px;
-  color: #b4b4b4;
+.divQtdPorPagina {
+  float: right;
+  padding-right: 6px;
 }
 
-.divGridResultado {
-  border: 2px solid red;
+.divGridPagination {
+  text-align: center;
 }
 
 .divGridButtons {
-  padding-left: "6px";
-  border: 2px solid blue;
+  margin: 5px 0px 30px 0px;
+}
+
+.divGridButtons2 {
+  margin: 0px;
 }
 
 [class^="muidocs-icon-"],

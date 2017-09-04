@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
-import RaisedButton from 'material-ui/RaisedButton';
+import FlatButton from 'material-ui/FlatButton';
+import Icon from 'react-icon';
 import { Link } from 'react-router-dom';
 import { compose } from 'react-apollo';
 import axios from 'axios';
 import Grid from '../../generic/grid';
 import { authOptions } from '../../generic/myAxios';
-import Lock from 'material-ui/svg-icons/action/lock';
-import LockOpen from 'material-ui/svg-icons/action/lock-open';
 import MyLoader from '../../generic/myLoader';
 import AlertContainer from 'react-alert';
+import { Row, Col } from 'react-bootstrap';
 
 import {
   QueryVotacaoList,
@@ -119,6 +119,7 @@ class VotacaoList extends Component {
           this.msg.error('Erro ao realizar a operação');
         });
     };
+
     const handleFinaliza = () => {
       const tzoffset = new Date().getTimezoneOffset() * 60000; // offset in milliseconds
       const localISOTime = new Date(Date.now() - tzoffset).toISOString().slice(0, -1);
@@ -159,61 +160,63 @@ class VotacaoList extends Component {
 
       return (
         <Link to={link}>
-          <RaisedButton label="Resultado">
-            <i className="material-icons">assessment</i>
-          </RaisedButton>
+          <FlatButton
+            icon={<Icon glyph="stats" />}
+            label="Resultado"
+            fullWidth
+            // backgroundColor="#a4c639"
+            // hoverColor="#8AA62F"
+          />
         </Link>
       );
     };
 
     const botaoInicia = (
       <span>
-        <RaisedButton onClick={handleInicia} label="Inicia">
-          <i
-            className="material-icons"
-            style={{
-              color: 'blue',
-            }}
-          >
-            schedule
-          </i>
-        </RaisedButton>
+        <FlatButton
+          onClick={handleInicia}
+          icon={<Icon glyph="time" style={{ color: 'green' }} />}
+          label="Inicia"
+          fullWidth
+          // backgroundColor="#a4c639"
+          // hoverColor="#8AA62F"
+        />
       </span>
     );
 
     const botaoFinaliza = (
       <span>
-        <RaisedButton onClick={handleFinaliza} label="Finaliza">
-          <i
-            className="material-icons"
-            style={{
-              color: 'red',
-            }}
-          >
-            schedule
-          </i>
-        </RaisedButton>
+        <FlatButton
+          onClick={handleFinaliza}
+          icon={<Icon glyph="time" style={{ color: 'red' }} />}
+          label="Finaliza"
+          fullWidth
+          // backgroundColor="#a4c639"
+          // hoverColor="#8AA62F"
+        />
       </span>
     );
 
     const botaoMostraResultadoEmTempoReal = (flgMostraResultadoEmTempoReal) => {
+      Icon.setDefaultFontPrefix('glyphicon');
+
+      let label = 'Mostra Resultados';
+      let icon = 'eye-open';
+
       if (flgMostraResultadoEmTempoReal) {
-        return (
-          <span>
-            <RaisedButton
-              icon={<Lock />}
-              onClick={handleMostraResultadoEmTempoReal}
-              label="Esconde Resultados"
-            />
-          </span>
-        );
+        label = 'Esconde Resultados';
+        icon = 'eye-close';
       }
+
       return (
         <span>
-          <RaisedButton
-            icon={<LockOpen />}
+          <FlatButton
             onClick={handleMostraResultadoEmTempoReal}
-            label="Mostra Resultados"
+            icon={<Icon glyph={icon} />}
+            label={label}
+            fullWidth
+            // backgroundColor="#a4c639"
+            // hoverColor="#8AA62F"
           />
         </span>
       );
@@ -236,12 +239,20 @@ class VotacaoList extends Component {
     }
 
     return (
-      <span>
-        {mostraBotaoResultado ? botaoResultado(row.codVotacao) : null}
-        {mostraBotaoInicializa ? botaoInicia : null}
-        {mostraBotaoFinaliza ? botaoFinaliza : null}
-        {botaoMostraResultadoEmTempoReal(row.flgMostraResultadoEmTempoReal)}
-      </span>
+      <div className="divGridButtons2">
+        <Row>
+          <Col xs={12} sm={4}>
+            {mostraBotaoResultado ? botaoResultado(row.codVotacao) : null}
+          </Col>
+          <Col xs={12} sm={4}>
+            {mostraBotaoInicializa ? botaoInicia : null}
+            {mostraBotaoFinaliza ? botaoFinaliza : null}
+          </Col>
+          <Col xs={12} sm={4}>
+            {botaoMostraResultadoEmTempoReal(row.flgMostraResultadoEmTempoReal)}
+          </Col>
+        </Row>
+      </div>
     );
   };
 
@@ -256,7 +267,7 @@ class VotacaoList extends Component {
 
     return (
       <div className="container">
-        <div className="baseContent">
+        <div className="baseContentWhite">
           <Grid
             colunas={this.colunas}
             rows={this.props.rows}

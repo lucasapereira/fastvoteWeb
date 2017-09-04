@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import RaisedButton from 'material-ui/RaisedButton';
+import FlatButton from 'material-ui/FlatButton';
+import Icon from 'react-icon';
 import ReactDataGrid from 'react-data-grid';
 import { confirmable } from 'react-confirm';
 import ReactPaginate from 'react-paginate';
@@ -8,7 +9,7 @@ import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import confirm from './confirm';
 import MyLoader from './myLoader';
-
+import { Row, Col } from 'react-bootstrap';
 import update from 'react-addons-update';
 
 const { Toolbar, Data: { Selectors } } = require('react-data-grid-addons');
@@ -141,29 +142,43 @@ class Grid extends Component {
   };
 
   renderButtonApaga = () => {
+    Icon.setDefaultFontPrefix('glyphicon');
+
     if (this.props.apaga) {
       let disabledExclusion = true;
 
       if (this.state.selectedIndexes.length > 0) {
         disabledExclusion = false;
       }
+
       return (
-        <RaisedButton
-          type="button"
-          label="Excluir"
+        <FlatButton
           onClick={this.handleOnClick}
-          secondary
+          icon={<Icon glyph="remove" style={{ color: '#FFFFFF' }} />}
+          label="Excluir"
+          fullWidth
           disabled={disabledExclusion}
+          backgroundColor="#FF0000"
+          hoverColor="#DF0101"
+          labelStyle={{ color: '#FFFFFF' }}
         />
       );
     }
   };
 
   renderButtonNovo = () => {
+    Icon.setDefaultFontPrefix('glyphicon');
+
     if (this.props.buttonNovo) {
       return (
         <Link to={this.props.buttonNovo}>
-          <RaisedButton type="button" label="Novo" primary />
+          <FlatButton
+            icon={<Icon glyph="plus" />}
+            label="Novo"
+            fullWidth
+            backgroundColor="#a4c639"
+            hoverColor="#8AA62F"
+          />
         </Link>
       );
     }
@@ -172,12 +187,7 @@ class Grid extends Component {
   renderQtdPerPagina = () => {
     if (this.props.totalCount) {
       return (
-        <div
-          style={{
-            float: 'right',
-            paddingRight: '6px',
-          }}
-        >
+        <div className="divQtdPorPagina">
           <SelectField
             style={{
               width: '150px',
@@ -219,15 +229,7 @@ class Grid extends Component {
   renderPagination = () => {
     if (this.props.totalCount) {
       return (
-        <div
-          style={{
-            height: '100%',
-            width: '100%',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-        >
+        <div className="divGridPagination">
           <ReactPaginate
             previousLabel={'anterior'}
             nextLabel={'próximo'}
@@ -249,10 +251,18 @@ class Grid extends Component {
   render() {
     const buttonsInstance = (
       <div className="divGridButtons">
-        {this.renderButtonNovo()}
-        {this.renderButtonApaga()}
-        {this.renderButtonsOneSelection()}
-        {this.renderButtonVariosSelection()}
+        <Row>
+          <Col xs={12} sm={2}>
+            {this.renderButtonNovo()}
+          </Col>
+          <Col xs={12} sm={2}>
+            {this.renderButtonApaga()}
+          </Col>
+          <Col xs={12} sm={8}>
+            {this.renderButtonsOneSelection()}
+            {this.renderButtonVariosSelection()}
+          </Col>
+        </Row>
       </div>
     );
 
@@ -261,11 +271,11 @@ class Grid extends Component {
     }
 
     return (
-      <div className="divGridResultado">
-        <div>
-          <div className="pageTitle">{this.props.titulo}</div>
-          {this.renderQtdPerPagina()}
-        </div>
+      <div>
+        <div className="pageTitle">{this.props.titulo}</div>
+
+        {this.renderQtdPerPagina()}
+
         <div>
           <ReactDataGrid
             columns={this.props.colunas}
