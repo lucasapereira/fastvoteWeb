@@ -11,7 +11,7 @@ import { authError, trocarSenha, setSenhaTrocadaComSucesso } from '../../actions
 import MyLoader from '../generic/myLoader';
 
 const inputProps = {
-  placeholder: 'Nova Senha',
+  placeholder: 'Digite a Nova Senha',
   id: 'inputPassword',
   autoFocus: true,
   className: 'another-input-prop-class-name',
@@ -84,45 +84,48 @@ class TrocarSenha extends React.Component {
 
           <div className="divFormTrocaSenha">
             <form onSubmit={handleSubmit(this.onSubmit)}>
-              <div>
-                <Field
-                  name="senhaAntiga"
-                  ref="antigaSenhaField"
+              <div className="divFieldsFormTrocaSenha">
+                <div>
+                  <Field
+                    name="senhaAntiga"
+                    ref="antigaSenhaField"
+                    withRef
+                    component={TextField}
+                    hintText="Senha Antiga"
+                    floatingLabelText="Senha Antiga"
+                    type="password"
+                    validate={required}
+                    fullWidth
+                  />
+                </div>
+                <ReactPasswordStrength
+                  ref="passComponent"
                   withRef
-                  component={TextField}
-                  hintText="Senha Antiga"
-                  floatingLabelText="Senha Antiga"
-                  type="password"
-                  validate={required}
-                  fullWidth
+                  minLength={6}
+                  minScore={2}
+                  scoreWords={['fraca', 'média', 'boa', 'forte', 'excelente']}
+                  inputProps={inputProps}
+                  changeCallback={this.changeCallback}
+                  tooShortWord="fraca"
+                  className="novaSenhaField"
+                  style={{ borderWidth: 0, borderBottomWidth: 1 }}
                 />
+                <div />
+                <div>
+                  <Field
+                    name="senhaNova2"
+                    ref="senhaNova2Field"
+                    withRef
+                    component={TextField}
+                    hintText="Repita sua senha"
+                    floatingLabelText="Senha Nova"
+                    type="password"
+                    validate={required}
+                    fullWidth
+                  />
+                </div>
               </div>
-              <ReactPasswordStrength
-                ref="passComponent"
-                withRef
-                minLength={6}
-                minScore={2}
-                scoreWords={['fraca', 'média', 'boa', 'forte', 'excelente']}
-                inputProps={inputProps}
-                changeCallback={this.changeCallback}
-                tooShortWord="fraca"
-              />
-              <div />
-              <div>
-                <Field
-                  name="senhaNova2"
-                  ref="senhaNova2Field"
-                  withRef
-                  component={TextField}
-                  hintText="Repita sua senha"
-                  floatingLabelText="Senha Nova"
-                  type="password"
-                  validate={required}
-                  fullWidth
-                />
-              </div>
-
-              <div>
+              <div className="divBottomFormLogin">
                 <RaisedButton
                   type="submit"
                   label="Trocar Senha"
