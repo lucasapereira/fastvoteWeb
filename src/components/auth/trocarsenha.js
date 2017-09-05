@@ -30,11 +30,7 @@ class TrocarSenha extends React.Component {
 
   renderAlert() {
     if (this.props.errorMessage) {
-      return (
-        <div className="alert alert-danger">
-          {this.props.errorMessage}
-        </div>
-      );
+      return <div className="alert alert-danger">{this.props.errorMessage}</div>;
     }
   }
 
@@ -68,10 +64,11 @@ class TrocarSenha extends React.Component {
     this.props.reset();
   };
 
-  renderMsgTrocouSenha = () =>
-    (<Dialog title="Senha trocada com sucesso." modal open={this.props.senhaTrocadaComSucesso}>
+  renderMsgTrocouSenha = () => (
+    <Dialog title="Senha trocada com sucesso." modal open={this.props.senhaTrocadaComSucesso}>
       <FlatButton label="Ok" primary onClick={this.clear} />,
-    </Dialog>);
+    </Dialog>
+  );
 
   render = () => {
     const { handleSubmit, pristine, submitting } = this.props;
@@ -81,58 +78,73 @@ class TrocarSenha extends React.Component {
     }
 
     return (
-      <form onSubmit={handleSubmit(this.onSubmit)}>
-        <div>
-          <Field
-            name="senhaAntiga"
-            ref="antigaSenhaField"
-            withRef
-            component={TextField}
-            hintText="Senha Antiga"
-            floatingLabelText="Senha Antiga"
-            type="password"
-            validate={required}
-          />
-        </div>
-        <ReactPasswordStrength
-          ref="passComponent"
-          withRef
-          minLength={6}
-          minScore={2}
-          scoreWords={['fraca', 'média', 'boa', 'forte', 'excelente']}
-          inputProps={inputProps}
-          changeCallback={this.changeCallback}
-          tooShortWord="fraca"
-        />
-        <div />
-        <div>
-          <Field
-            name="senhaNova2"
-            ref="senhaNova2Field"
-            withRef
-            component={TextField}
-            hintText="Repita sua senha"
-            floatingLabelText="Senha Nova"
-            type="password"
-            validate={required}
-          />
-        </div>
+      <div className="container">
+        <div className="baseContentWhite">
+          <div className="pageTitle">Trocar Senha</div>
 
-        <div>
-          {this.renderAlert()}
-          {this.renderMsgTrocouSenha()}
-        </div>
+          <div className="divFormTrocaSenha">
+            <form onSubmit={handleSubmit(this.onSubmit)}>
+              <div>
+                <Field
+                  name="senhaAntiga"
+                  ref="antigaSenhaField"
+                  withRef
+                  component={TextField}
+                  hintText="Senha Antiga"
+                  floatingLabelText="Senha Antiga"
+                  type="password"
+                  validate={required}
+                  fullWidth
+                />
+              </div>
+              <ReactPasswordStrength
+                ref="passComponent"
+                withRef
+                minLength={6}
+                minScore={2}
+                scoreWords={['fraca', 'média', 'boa', 'forte', 'excelente']}
+                inputProps={inputProps}
+                changeCallback={this.changeCallback}
+                tooShortWord="fraca"
+              />
+              <div />
+              <div>
+                <Field
+                  name="senhaNova2"
+                  ref="senhaNova2Field"
+                  withRef
+                  component={TextField}
+                  hintText="Repita sua senha"
+                  floatingLabelText="Senha Nova"
+                  type="password"
+                  validate={required}
+                  fullWidth
+                />
+              </div>
 
-        <div>
-          <RaisedButton
-            type="submit"
-            label="Trocar Senha"
-            disabled={pristine || submitting}
-            primary
-          />
-          <RaisedButton type="button" label="Limpar" disabled={submitting} onClick={this.clear} />
+              <div>
+                <RaisedButton
+                  type="submit"
+                  label="Trocar Senha"
+                  disabled={pristine || submitting}
+                  primary
+                />
+                <RaisedButton
+                  type="button"
+                  label="Limpar"
+                  disabled={submitting}
+                  onClick={this.clear}
+                />
+              </div>
+
+              <div>
+                {this.renderAlert()}
+                {this.renderMsgTrocouSenha()}
+              </div>
+            </form>
+          </div>
         </div>
-      </form>
+      </div>
     );
   };
 }

@@ -251,6 +251,16 @@ body {
   height: 540px;
 }
 
+/* Tela Troca Senha */
+
+.divFormTrocaSenha {
+  margin: 0 auto;
+  text-align: center;
+  width: 650px;
+  /* height: 500px; */
+  /* border: solid 1px red; */
+}
+
 /* ========================================*/
 
 [class^="muidocs-icon-"],
