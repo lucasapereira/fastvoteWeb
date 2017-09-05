@@ -15,17 +15,38 @@ import reducers from './reducers';
 
 import Header from './components/generic/header';
 
-import VotacaoList from './components/api/posts/votacao_list';
-import VotacaoNew from './components/api/posts/votacao_new';
-import VotacaoResultado from './components/api/posts/votacao_resultado';
-import ListVotacaoScreen from './components/api/usuario/listVotacaoScreen';
-
 import Signin from './components/auth/signin';
 import Forbidden from './components/auth/forbidden';
 import Signout from './components/auth/signout';
-import TrocarSenha from './components/auth/trocarsenha';
-import EsqueciSenha from './components/auth/esquecisenha';
 import RequireAuth from './components/auth/require_auth';
+import Loadable from 'react-loadable';
+import MyLoadingComponent from './navigation/MyLoadingComponent';
+
+const VotacaoList = Loadable({
+  loader: () => import('./components/api/posts/votacao_list'),
+  loading: MyLoadingComponent,
+});
+
+const VotacaoNew = Loadable({
+  loader: () => import('./components/api/posts/votacao_new'),
+  loading: MyLoadingComponent,
+});
+const VotacaoResultado = Loadable({
+  loader: () => import('./components/api/posts/votacao_resultado'),
+  loading: MyLoadingComponent,
+});
+const ListVotacaoScreen = Loadable({
+  loader: () => import('./components/api/usuario/listVotacaoScreen'),
+  loading: MyLoadingComponent,
+});
+const TrocarSenha = Loadable({
+  loader: () => import('./components/auth/trocarsenha'),
+  loading: MyLoadingComponent,
+});
+const EsqueciSenha = Loadable({
+  loader: () => import('./components/auth/esquecisenha'),
+  loading: MyLoadingComponent,
+});
 
 const createStoreWithMiddleware = applyMiddleware(reduxThunk)(createStore);
 const store = createStoreWithMiddleware(reducers);

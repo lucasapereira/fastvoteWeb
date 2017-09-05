@@ -1,6 +1,7 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "FastVote",
+  "name":
+    "Sistema de votação para condomínios, sindicatos, clubes, associações, etc.",
   "icons": [
     {
       "src": "favicon.ico",
