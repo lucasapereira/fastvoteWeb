@@ -122,7 +122,7 @@ class EsqueciSenha extends React.Component {
                   {this.renderAlert()}
                   {this.renderMsgTrocouSenha()}
                 </div>
-                <div>
+                <div className="divBottomFormLogin">
                   <RaisedButton
                     type="submit"
                     label="Login"

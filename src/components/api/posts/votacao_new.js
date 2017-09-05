@@ -242,7 +242,7 @@ class TelaVotacaoContainer extends Component {
     // if (this.state.codPessoaJuridica) {
     arrForm = (
       <div className="container">
-        <div className="baseContentTrocaSenha">
+        <div className="baseContentWhite">
           <div className="pageTitle">Cadastro de Votação</div>
 
           <Row>

@@ -268,6 +268,7 @@ class VotacaoList extends Component {
     return (
       <div className="container">
         <div className="baseContentWhite">
+          <div className="pageTitle">Votações Cadastradas</div>
           <Grid
             colunas={this.colunas}
             rows={this.props.rows}

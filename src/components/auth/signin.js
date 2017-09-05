@@ -169,7 +169,7 @@ class Signin extends Component {
                 {this.renderSelect()}
               </div>
               <div className="divBottomFormLogin">
-                <hr />
+
                 <div>
                   <RaisedButton
                     type="submit"

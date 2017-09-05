@@ -188,32 +188,20 @@ class ResultadoVotacao extends Component {
           Resultados:{this.getLabel()}
           <hr />
           {this.renderSubtitleReport('Gráficos')}
-          <div id="divGraficos" style={{ textAlign: 'center' }}>
+          <div id="divGraficos">
             <Row>
-              <Col xs={6}>
+              <Col xs={12} md={6}>
                 <div
                   id="graph1"
-                  style={{
-                    display: 'block',
-                    marginLeft: 'auto',
-                    marginRight: 'auto',
-                    width: 350,
-                    height: 220,
-                  }}
+                  className="graphContainer"
                 >
                   <Doughnut data={this.getData()} />
                 </div>
               </Col>
-              <Col xs={6}>
+              <Col xs={12} md={6}>
                 <div
                   id="graph2"
-                  style={{
-                    display: 'block',
-                    marginLeft: 'auto',
-                    marginRight: 'auto',
-                    width: 350,
-                    height: 220,
-                  }}
+                  className="graphContainer"
                 >
                   <Bar data={this.getData()} />
                 </div>

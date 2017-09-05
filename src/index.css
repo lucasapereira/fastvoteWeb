@@ -27,12 +27,13 @@ body {
   /* padding-left: 15px; */
   margin-right: auto;
   margin-left: auto;
-  padding: 10px;
+  padding: 5px;
   background-color: #ffffff;
 }
 
 .pageTitle {
-  font-size: 160%;
+  font-size: 140%;
+  text-align: center;
   color: #b4b4b4;
   margin-left: 20px;
   margin-right: 20px;
@@ -64,7 +65,7 @@ body {
 
 .paperLogin {
   margin: 0 auto;
-  width: 350px;
+  width: 290px;
   /* height: 500px; */
   text-align: center;
   /* position: relative; */
@@ -79,15 +80,15 @@ body {
 }
 
 .divFormLogin {
-  padding: 20px;
+  padding: 10px;
 }
 
 .divBottomFormLogin {
-  padding: 20px;
-  width: 310px;
+  padding: 10px;
+  width: 270px;
   /* position: absolute; */
   bottom: 0;
-  /*border: 1px solid red;*/
+  border-top: 1px dotted #c0c0c0;
 }
 
 .divLinksFormLogin {
@@ -95,6 +96,10 @@ body {
 }
 
 /* tela usuario votacao */
+
+.containerMinhasVotacoes {
+  margin-bottom: 15px;
+}
 
 .paperVotacao {
   margin: 15px 0px 0px 0px;
@@ -199,8 +204,22 @@ body {
 .divToPrint {
   margin: 0 auto;
   padding: 5px;
-  width: 793px;
+  /* width: 793px; */
   /* border: 2px solid blue; - acrescentar 4 pixel da largura */
+}
+
+.graphContainer {
+  margin-left: auto;
+  margin-right: auto;
+  width: 250px;
+  height: 180px;
+}
+
+@media screen and (min-width: 428px) {
+  .graphContainer {
+    width: 350px;
+    height: 220px;
+  }
 }
 
 /* lista votacoes cadastradas */
@@ -226,6 +245,7 @@ body {
 
 .pageSubTitleCadVotacao {
   font-size: 120%;
+  text-align: center;
   color: #000000;
   margin: 10px 20px 10px 20px;
   padding-left: 20px;
@@ -235,14 +255,15 @@ body {
 
 .paperCadVotacao {
   margin: 20px 0px 20px 0px;
-  padding: 15px;
+  padding: 10px;
   text-align: center;
 }
 
 .divSubItemFormVotacao1 {
   height: 220px;
-  padding: 15px;
+  padding: 10px;
   overflow: auto;
+  overflow-x: hidden;
   margin-bottom: 10px;
 }
 

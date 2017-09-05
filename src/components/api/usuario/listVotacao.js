@@ -73,7 +73,7 @@ class InfiniteList extends Component {
       return <MyLoader />;
     }
     return (
-      <div>
+      <div className="containerMinhasVotacoes">
         {this.buildElements()}
         {this.renderPagination()}
       </div>
