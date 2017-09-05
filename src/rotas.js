@@ -84,10 +84,6 @@ const telaPrincipal = token => (
   <Provider store={store}>
     <BrowserRouter>
       <div>
-        <small>
-          Ambiente: <b>{process.env.NODE_ENV}</b> <b>{process.env.REACT_APP_BASE_URL}</b>{' '}
-          <b>{process.env.REACT_APP_BASE_URL}</b>
-        </small>
         <Header />
         <MuiThemeProvider>{rotas(token)}</MuiThemeProvider>
       </div>
