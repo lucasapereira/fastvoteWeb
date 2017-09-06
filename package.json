@@ -2,6 +2,7 @@
   "name": "fastvote",
   "version": "0.2.0",
   "private": true,
+  "homepage": "/frontend",
   "dependencies": {
     "apollo-client": "^1.9.2",
     "axios": "^0.16.2",

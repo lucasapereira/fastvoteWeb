@@ -65,17 +65,34 @@ const rotas = token => (
       exact
       path="/"
       render={() =>
-        (token ? <Redirect to="/usuario/listvotacao" /> : <Redirect to="/auth/signin" />)}
+        (token ? (
+          <Redirect to="/frontend/usuario/listvotacao" />
+        ) : (
+          <Redirect to="/frontend/auth/signin" />
+        ))}
     />
-    <Route path="/usuario/listvotacao" component={RequireAuth(ListVotacaoScreen)} />
-    <Route path="/votacao/nova" component={RequireAuth(VotacaoNew)} />
-    <Route path="/votacao/resultado/:codVotacao" component={RequireAuth(VotacaoResultado)} />
-    <Route path="/auth/esquecisenha" component={EsqueciSenha} />
-    <Route path="/votacao/list" component={RequireAuth(VotacaoList)} />
-    <Route path="/auth/trocarsenha" component={TrocarSenha} />
-    <Route path="/auth/signin" component={Signin} />
-    <Route path="/auth/signout" component={Signout} />
-    <Route path="/auth/forbidden" component={Forbidden} />
+    <Route
+      exact
+      path="/frontend"
+      render={() =>
+        (token ? (
+          <Redirect to="/frontend/usuario/listvotacao" />
+        ) : (
+          <Redirect to="/frontend/auth/signin" />
+        ))}
+    />
+    <Route path="/frontend/usuario/listvotacao" component={RequireAuth(ListVotacaoScreen)} />
+    <Route path="/frontend/votacao/nova" component={RequireAuth(VotacaoNew)} />
+    <Route
+      path="/frontend/votacao/resultado/:codVotacao"
+      component={RequireAuth(VotacaoResultado)}
+    />
+    <Route path="/frontend/auth/esquecisenha" component={EsqueciSenha} />
+    <Route path="/frontend/votacao/list" component={RequireAuth(VotacaoList)} />
+    <Route path="/frontend/auth/trocarsenha" component={TrocarSenha} />
+    <Route path="/frontend/auth/signin" component={Signin} />
+    <Route path="/frontend/auth/signout" component={Signout} />
+    <Route path="/frontend/auth/forbidden" component={Forbidden} />
     <Route component={NoMatch} />
   </Switch>
 );
