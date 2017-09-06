@@ -51,7 +51,7 @@ class EsqueciSenha extends React.Component {
   };
 
   redireciona = () => {
-    this.props.history.push('/usuario/listvotacao');
+    this.props.history.push('/frontend/usuario/listvotacao');
   };
 
   limpaERedireciona = () => {

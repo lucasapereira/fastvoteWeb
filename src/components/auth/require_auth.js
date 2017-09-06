@@ -6,7 +6,7 @@ export default function (ComposedComponent) {
   class Authentication extends Component {
     redirect = (props) => {
       if (!props.authenticated) {
-        this.context.router.history.push('/auth/signin');
+        this.context.router.history.push('/frontend/auth/signin');
         return;
       }
 
@@ -15,13 +15,16 @@ export default function (ComposedComponent) {
       props.funcionalidades.forEach((url) => {
         const arr = props.history.location.pathname.split('/');
 
-        if (`/${arr[1]}/${arr[2]}` === url.trim()) {
+        console.log(`/${arr[2]}/${arr[3]}`);
+        console.log(`${url.trim()}`);
+
+        if (`/${arr[2]}/${arr[3]}` === `${url.trim()}`) {
           autorizado = true;
         }
       });
 
       if (!autorizado) {
-        this.context.router.history.push('/auth/forbidden');
+        this.context.router.history.push('/frontend/auth/forbidden');
       }
     };
 

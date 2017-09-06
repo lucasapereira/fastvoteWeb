@@ -20,7 +20,7 @@ class Header extends Component {
           dsc_label_menu: arrMenu[i].dsc_label_menu,
           cod_menu: arrMenu[i].cod_menu,
           key: arrMenu[i].cod_menu,
-          dsc_url: arrMenu[i].dsc_url,
+          dsc_url: `/frontend${arrMenu[i].dsc_url}`,
         };
 
         for (let j = 0; j < cont; j++) {
@@ -34,12 +34,11 @@ class Header extends Component {
     return pagesMenu;
   };
 
-  renderMenuItem = menu =>
-    (<LinkContainer to={menu.dsc_url} key={menu.dsc_label_menu}>
-      <MenuItem key={menu.cod_menu}>
-        {menu.dsc_label_menu}
-      </MenuItem>
-    </LinkContainer>);
+  renderMenuItem = menu => (
+    <LinkContainer to={menu.dsc_url} key={menu.dsc_label_menu}>
+      <MenuItem key={menu.cod_menu}>{menu.dsc_label_menu}</MenuItem>
+    </LinkContainer>
+  );
 
   renderNavigationMenus = () => {
     if (!this.props.authenticated) {
@@ -60,9 +59,7 @@ class Header extends Component {
       }
       return (
         <LinkContainer to={menu.dsc_url} key={Math.random()}>
-          <NavItem key={menu.cod_menu}>
-            {menu.dsc_title_menu}
-          </NavItem>
+          <NavItem key={menu.cod_menu}>{menu.dsc_title_menu}</NavItem>
         </LinkContainer>
       );
     });
@@ -71,14 +68,14 @@ class Header extends Component {
     if (this.props.authenticated) {
       // show a link to sign out
       return (
-        <LinkContainer to="/auth/signout">
+        <LinkContainer to="/frontend/auth/signout">
           <NavItem eventKey={1}>Sair</NavItem>
         </LinkContainer>
       );
     }
     // show a link to sign in or sign up
     return (
-      <LinkContainer to="/auth/signin">
+      <LinkContainer to="/frontend/auth/signin">
         <NavItem>Entrar</NavItem>
       </LinkContainer>
     );
@@ -88,7 +85,7 @@ class Header extends Component {
     if (this.props.authenticated) {
       // show a link to sign out
       return (
-        <LinkContainer to="/auth/trocarsenha">
+        <LinkContainer to="/frontend/auth/trocarsenha">
           <NavItem eventKey={2}>Trocar Senha</NavItem>
         </LinkContainer>
       );

@@ -7,7 +7,7 @@ class Signout extends Component {
   componentWillMount() {
     this.props.client.resetStore();
     this.props.signoutUser();
-    this.props.history.push('/auth/signin');
+    this.props.history.push('/frontend/auth/signin');
   }
 
   render() {

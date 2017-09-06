@@ -30,7 +30,7 @@ const validate = (values) => {
 class Signin extends Component {
   redirectToMainPage(props) {
     if (props.authenticated) {
-      props.history.push('/usuario/listvotacao');
+      props.history.push('/frontend/usuario/listvotacao');
     }
   }
 
@@ -81,11 +81,7 @@ class Signin extends Component {
 
   renderAlert() {
     if (this.props.errorMessage) {
-      return (
-        <div className="alert alert-danger">
-          {this.props.errorMessage}
-        </div>
-      );
+      return <div className="alert alert-danger">{this.props.errorMessage}</div>;
     }
   }
 
@@ -96,13 +92,13 @@ class Signin extends Component {
   };
 
   renderEmpresas = () =>
-    this.props.empresasAuth.map(empresa =>
-      (<MenuItem
+    this.props.empresasAuth.map(empresa => (
+      <MenuItem
         value={empresa.cod_usuario_representacao}
         primaryText={empresa.sgl_pessoa_juridica}
         key={empresa.cod_usuario_representacao}
-      />),
-    );
+      />
+    ));
 
   renderSelect = () => {
     if (this.props.empresasAuth && this.props.empresasAuth.length > 1) {
@@ -165,11 +161,8 @@ class Signin extends Component {
                   validate={required}
                 />
               </div>
-              <div>
-                {this.renderSelect()}
-              </div>
+              <div>{this.renderSelect()}</div>
               <div className="divBottomFormLogin">
-
                 <div>
                   <RaisedButton
                     type="submit"
@@ -186,18 +179,16 @@ class Signin extends Component {
                 </div>
 
                 <div className="divLinksFormLogin">
-                  <Link to={'/auth/esquecisenha'}>
+                  <Link to={'/frontend/auth/esquecisenha'}>
                     <b>Primeiro Acesso</b>
                   </Link>
                   <br />
-                  <Link to={'/auth/esquecisenha'}>
+                  <Link to={'/frontend/auth/esquecisenha'}>
                     <b>Esqueci minha senha</b>
                   </Link>
                 </div>
               </div>
-              <div>
-                {this.renderAlert()}
-              </div>
+              <div>{this.renderAlert()}</div>
             </form>
           </div>
         </Paper>
