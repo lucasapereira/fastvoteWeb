@@ -28,7 +28,9 @@ const queryOptions = {
       variables: {
         type: (props.params && props.params.type && props.params.type.toUpperCase()) || 'TOP',
         codVotacao,
+        dscResposta: props.dscResposta,
       },
+      fetchPolicy: 'network-only',
     };
   },
 };

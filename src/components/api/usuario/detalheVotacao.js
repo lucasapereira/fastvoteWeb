@@ -9,6 +9,7 @@ class DetalheVotacao extends Component {
     if (!this.props.data.resultVotacao) {
       return;
     }
+
     let countItemResp = 1;
 
     return this.props.data.resultVotacao.nodes.map((row) => {
@@ -16,12 +17,8 @@ class DetalheVotacao extends Component {
 
       arrResp.push(
         <tr>
-          <td width="10%">
-            {countItemResp++}
-          </td>
-          <td width="40%">
-            {row.dscResposta}
-          </td>
+          <td width="10%">{countItemResp++}</td>
+          <td width="40%">{row.dscResposta}</td>
           <td width="50%">
             <ProgressBar
               bsStyle="success"
@@ -42,17 +39,9 @@ class DetalheVotacao extends Component {
     }
 
     if (this.props.error) {
-      return (
-        <div>
-          Erro: {this.props.error.message}
-        </div>
-      );
+      return <div>Erro: {this.props.error.message}</div>;
     }
-    return (
-      <tbody>
-        {this.renderDetalheVotacao()}
-      </tbody>
-    );
+    return <tbody>{this.renderDetalheVotacao()}</tbody>;
   }
 }
 export default compose(QueryResultadoList)(DetalheVotacao);

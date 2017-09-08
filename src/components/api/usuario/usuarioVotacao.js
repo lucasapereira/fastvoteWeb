@@ -78,7 +78,9 @@ class UsuarioVotacao extends Component {
 
     // mostra resultado na table
     if (stringResp === true) {
-      stringResp = <DetalheVotacao rows={rows} votacao={votacao} />;
+      stringResp = (
+        <DetalheVotacao rows={rows} votacao={votacao} dscResposta={votacao.dscResposta} />
+      );
       // const qtdResp = rows.length;
     }
 
@@ -106,7 +108,7 @@ class UsuarioVotacao extends Component {
     );
 
     if (votacao.datFimVotacao.length > 0 || votacao.flgMostraResultadoEmTempoReal) {
-      const link = `/votacao/resultado/${votacao.codVotacao}`;
+      const link = `/frontend/votacao/resultado/${votacao.codVotacao}`;
 
       botaoResultado = (
         <Link to={link}>

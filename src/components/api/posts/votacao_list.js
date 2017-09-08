@@ -156,7 +156,7 @@ class VotacaoList extends Component {
     };
 
     const botaoResultado = (codVotacao) => {
-      const link = `/votacao/resultado/${codVotacao}`;
+      const link = `/frontend/votacao/resultado/${codVotacao}`;
 
       return (
         <Link to={link}>
