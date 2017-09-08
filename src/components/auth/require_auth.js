@@ -14,10 +14,6 @@ export default function (ComposedComponent) {
 
       props.funcionalidades.forEach((url) => {
         const arr = props.history.location.pathname.split('/');
-
-        console.log(`/${arr[2]}/${arr[3]}`);
-        console.log(`${url.trim()}`);
-
         if (`/${arr[2]}/${arr[3]}` === `${url.trim()}`) {
           autorizado = true;
         }
