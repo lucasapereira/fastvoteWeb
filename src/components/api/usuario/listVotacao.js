@@ -17,9 +17,6 @@ class InfiniteList extends Component {
   }
 
   buildElements = () => {
-    if (this.state.totalCount === -1) {
-      return <div>Nenhuma votação cadastrada.</div>;
-    }
     this.props.rows.map((votacao) => {
       if (this.state.totalCount === -1) {
         this.state.totalCount = votacao.totalCount;
