@@ -17,7 +17,11 @@ class InfiniteList extends Component {
   }
 
   buildElements = () => {
-    this.props.rows.map((votacao) => {
+    if (this.props.rows.length === 0) {
+      return <div>Nenhuma votação cadastrada.</div>;
+    }
+
+    return this.props.rows.map((votacao) => {
       if (this.state.totalCount === -1) {
         this.state.totalCount = votacao.totalCount;
       }
@@ -31,6 +35,7 @@ class InfiniteList extends Component {
       );
     });
   };
+
   handleOnClickPagination = (prop) => {
     this.setState({
       pageSelected: prop.selected,
