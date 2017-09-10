@@ -51,7 +51,7 @@ export const getStorage = (key) => {
  */
 export const setStorage = (key, value, expires) => {
   if (expires === undefined || expires === null) {
-    expires = 60 * 60; // default: seconds for 1 hour
+    expires = 60 * 60 * 60; // default: seconds for 1 hour
   } else {
     expires = Math.abs(expires); // make sure it's positive
   }

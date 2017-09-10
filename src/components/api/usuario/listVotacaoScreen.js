@@ -2,6 +2,7 @@ import React from 'react';
 import VotacaoList from './listVotacao';
 import { getStorage } from '../../generic/storage';
 import axios from 'axios';
+import AlertContainer from 'react-alert';
 import { authOptions } from '../../generic/myAxios';
 
 function urlB64ToUint8Array(base64String) {
@@ -33,8 +34,15 @@ const sendSubscriptionToServer = async (endpoint, key, auth) => {
       authOptions(),
     );
 
-    console.log(response);
+    if (response.data.success === true) {
+      localStorage.setItem('webpushtoken', true);
+    } else {
+      this.msg.error('Houve um erro ao cadastrar WebPush');
+      localStorage.setItem('webpushtoken', false);
+    }
   } catch (e) {
+    this.msg.error('Houve um erro ao cadastrar WebPush');
+    localStorage.setItem('webpushtoken', false);
     console.log(e);
   }
 };
@@ -54,22 +62,30 @@ const subscribeWebPush = () => {
 
         if (isSubscribed) {
           console.log('User IS subscribed.');
+
+          if (localStorage.getItem('webpushtoken') !== true) {
+            const endpoint = subscription.endpoint;
+            const key = subscription.getKey('p256dh');
+            const auth = subscription.getKey('auth');
+            sendSubscriptionToServer(endpoint, key, auth);
+          }
         } else {
           console.log('User is NOT subscribed.');
 
           registration.pushManager
             .subscribe(subscribeOptions)
-            .then((subscription) => {
+            .then((subscriptionNew) => {
               // Update status to subscribe current user on server, and to let
               // other users know this user has subscribed
-              const endpoint = subscription.endpoint;
-              const key = subscription.getKey('p256dh');
-              const auth = subscription.getKey('auth');
+              const endpoint = subscriptionNew.endpoint;
+              const key = subscriptionNew.getKey('p256dh');
+              const auth = subscriptionNew.getKey('auth');
               sendSubscriptionToServer(endpoint, key, auth);
             })
             .catch((e) => {
               // A problem occurred with the subscription.
-              console.log('Unable to subscribe to push.', e);
+              this.msg.error('Houve um erro ao se inscrever no WebPush');
+              console.log(e);
             });
         }
       }),
@@ -87,6 +103,7 @@ const ListVotacaoScreen = (props) => {
     <div className="container">
       <div className="baseContent">
         <VotacaoList urep={codUsuarioRepresentacao} cod_pessoa={codPessoa} screenProps={props} />
+        <AlertContainer ref={a => (this.msg = a)} {...this.alertOptions} />
       </div>
     </div>
   );
