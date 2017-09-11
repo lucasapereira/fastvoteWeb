@@ -66,7 +66,7 @@ class TrocarSenha extends React.Component {
 
   renderMsgTrocouSenha = () => (
     <Dialog title="Senha trocada com sucesso." modal open={this.props.senhaTrocadaComSucesso}>
-      <FlatButton label="Ok" primary onClick={this.clear} />,
+      <FlatButton label="Ok" primary onClick={this.clear} />
     </Dialog>
   );
 
