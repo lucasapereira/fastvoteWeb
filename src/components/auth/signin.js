@@ -43,6 +43,28 @@ class Signin extends Component {
       .getRenderedComponent() // on Field, returns ReduxFormMaterialUITextField
       .getRenderedComponent() // on ReduxFormMaterialUITextField, returns TextField
       .focus(); // on TextField
+
+    let times = 0;
+    const interval = setInterval(() => {
+      times += 1;
+      if (
+        this.refs.cpfField
+          .getRenderedComponent()
+          .getRenderedComponent()
+          .getValue()
+      ) {
+        this.refs.senhaField
+          .getRenderedComponent()
+          .getRenderedComponent()
+          .setState({
+            ...this.refs.senhaField.getRenderedComponent().getRenderedComponent().state,
+            hasValue: true,
+          });
+        clearInterval(interval);
+      } else if (times >= 10) {
+        clearInterval(interval);
+      }
+    }, 100);
   }
 
   componentWillReceiveProps(nextProps) {

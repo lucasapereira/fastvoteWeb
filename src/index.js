@@ -16,7 +16,6 @@ self.addEventListener('push', event => {
   const jsonObj = JSON.parse(event.data.text());
   const timestamp = new Date().getTime();
   const id = `myid${timestamp}`;
-  console.log(jsonObj);
   const notificationFilter = {
     tag: 'ident',
   };
