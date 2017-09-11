@@ -125,7 +125,7 @@ class EsqueciSenha extends React.Component {
                 <div className="divBottomFormLogin">
                   <RaisedButton
                     type="submit"
-                    label="Login"
+                    label="Recuperar Senha"
                     disabled={pristine || submitting}
                     primary
                   />

@@ -8,7 +8,7 @@ const query = gql`
     ) {
       edges {
         node {
-          codUsuario
+          codUsuarioRepresentacao
           nomCompletoPessoa
           vlrPeso
         }
@@ -40,7 +40,7 @@ const queryOptions = {
         rows = dados.edges.map(linhas => ({
           id: linhas.node.codUsuario,
           key: linhas.node.codUsuario,
-          codUsuario: linhas.node.codUsuario,
+          codUsuarioRepresentacao: linhas.node.codUsuarioRepresentacao,
           // codDadosAdicionais: linhas.node.codDadosAdicionais,
           nomCompletoPessoa: linhas.node.nomCompletoPessoa,
           vlrPeso: linhas.node.vlrPeso,
