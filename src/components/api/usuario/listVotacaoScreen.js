@@ -61,7 +61,7 @@ const subscribeWebPush = () => {
         const isSubscribed = !(subscription === null);
 
         if (isSubscribed) {
-          console.log('User IS subscribed.');
+          //    console.log('User IS subscribed.');
 
           if (getStorage('webpushtoken') !== true) {
             const endpoint = subscription.endpoint;
@@ -70,7 +70,7 @@ const subscribeWebPush = () => {
             sendSubscriptionToServer(endpoint, key, auth);
           }
         } else {
-          console.log('User is NOT subscribed.');
+          //   console.log('User is NOT subscribed.');
 
           registration.pushManager
             .subscribe(subscribeOptions)
