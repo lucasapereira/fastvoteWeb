@@ -50,7 +50,7 @@ class TrocarSenha extends React.Component {
   };
   onSubmit = (values) => {
     if (!this.state.isValid) {
-      this.props.authError('Nova senha inválida.');
+      this.props.authError('Crie uma nova senha mais forte.');
     } else if (this.state.password !== values.senhaNova2) {
       this.props.authError('Senhas diferentes.');
     } else {
@@ -102,7 +102,7 @@ class TrocarSenha extends React.Component {
                   ref="passComponent"
                   withRef
                   minLength={6}
-                  minScore={2}
+                  minScore={1}
                   scoreWords={['fraca', 'média', 'boa', 'forte', 'excelente']}
                   inputProps={inputProps}
                   changeCallback={this.changeCallback}
