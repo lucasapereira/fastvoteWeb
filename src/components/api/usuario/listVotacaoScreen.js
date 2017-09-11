@@ -97,7 +97,11 @@ const ListVotacaoScreen = (props) => {
   const codUsuarioRepresentacao = getStorage('cod_usuario_representacao');
   const codPessoa = getStorage('cod_pessoa');
 
-  subscribeWebPush();
+  Notification.requestPermission().then((status) => {
+    if (status === 'granted') {
+      subscribeWebPush();
+    }
+  });
 
   return (
     <div className="container">
