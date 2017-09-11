@@ -1,7 +1,6 @@
 {
   "short_name": "FastVote",
-  "name":
-    "Sistema de votação para condomínios, sindicatos, clubes, associações, etc.",
+  "name": "Sistema de votação para condomínios, sindicatos, clubes, etc.",
   "icons": [
     {
       "src": "./imgs/icon-192x192.png",

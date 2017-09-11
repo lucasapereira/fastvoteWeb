@@ -47,22 +47,24 @@ class Signin extends Component {
     let times = 0;
     const interval = setInterval(() => {
       times += 1;
-      if (
-        this.refs.cpfField
-          .getRenderedComponent()
-          .getRenderedComponent()
-          .getValue()
-      ) {
-        this.refs.senhaField
-          .getRenderedComponent()
-          .getRenderedComponent()
-          .setState({
-            ...this.refs.senhaField.getRenderedComponent().getRenderedComponent().state,
-            hasValue: true,
-          });
-        clearInterval(interval);
-      } else if (times >= 10) {
-        clearInterval(interval);
+      if (this.refs.cpfField) {
+        if (
+          this.refs.cpfField
+            .getRenderedComponent()
+            .getRenderedComponent()
+            .getValue()
+        ) {
+          this.refs.senhaField
+            .getRenderedComponent()
+            .getRenderedComponent()
+            .setState({
+              ...this.refs.senhaField.getRenderedComponent().getRenderedComponent().state,
+              hasValue: true,
+            });
+          clearInterval(interval);
+        } else if (times >= 10) {
+          clearInterval(interval);
+        }
       }
     }, 100);
   }
