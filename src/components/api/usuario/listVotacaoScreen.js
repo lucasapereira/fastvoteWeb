@@ -1,8 +1,9 @@
 import React from 'react';
 import VotacaoList from './listVotacao';
-import { getStorage } from '../../generic/storage';
+import { getStorage, setStorage, removeStorage } from '../../generic/storage';
 import axios from 'axios';
 import AlertContainer from 'react-alert';
+
 import { authOptions } from '../../generic/myAxios';
 
 function urlB64ToUint8Array(base64String) {
@@ -35,15 +36,14 @@ const sendSubscriptionToServer = async (endpoint, key, auth) => {
     );
 
     if (response.data.success === true) {
-      localStorage.setItem('webpushtoken', true);
+      setStorage('webpushtoken', true);
     } else {
       this.msg.error('Houve um erro ao cadastrar WebPush');
-      localStorage.setItem('webpushtoken', false);
+      removeStorage('webpushtoken');
     }
   } catch (e) {
     this.msg.error('Houve um erro ao cadastrar WebPush');
-    localStorage.setItem('webpushtoken', false);
-    console.log(e);
+    removeStorage('webpushtoken');
   }
 };
 
@@ -63,7 +63,7 @@ const subscribeWebPush = () => {
         if (isSubscribed) {
           console.log('User IS subscribed.');
 
-          if (localStorage.getItem('webpushtoken') !== true) {
+          if (getStorage('webpushtoken') !== true) {
             const endpoint = subscription.endpoint;
             const key = subscription.getKey('p256dh');
             const auth = subscription.getKey('auth');

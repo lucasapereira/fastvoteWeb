@@ -179,6 +179,7 @@ export const signinUser = ({ cpf, senha, empresas }) => async (dispatch) => {
 
 export function signoutUser() {
   removeStorage('token');
+  removeStorage('webpush');
   removeStorage('menus');
   removeStorage('nom_completo_pessoa');
   removeStorage('cod_usuario');
