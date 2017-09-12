@@ -55,56 +55,108 @@ class ResultadoVotacao extends Component {
     printingPdf: false,
   };
 
-  printDocument = () => {
+  printDocument = async () => {
     this.setState({
       printingPdf: true,
     });
 
-    const options = { padding: 5, pagesplit: true, dpi: 192 };
+    //  const options = { padding: 5, pagesplit: true, dpi: 192 };
     const pdf = new jsPDF('p', 'pt', 'a4');
 
-    // const input = document.getElementById('divToPrint');
-    const input = document.getElementById('divGraficos');
+    const header = document.getElementById('divHeader');
 
-    html2canvas(input, { padding: 5, pagesplit: true }).then((canvas) => {
+    header.style.transform = header.style.webkitTransform = 'scale(2)';
+    header.style.transformOrigin = header.style.webkitTransformOrigin = '0 0';
+
+    const headerOptions = {
+      padding: 5,
+      dpi: 192,
+      width: header.offsetWidth * 2,
+      height: header.offsetHeight * 2,
+    };
+
+    const headerCanvas = await html2canvas(header, headerOptions);
+    const headerData = headerCanvas.toDataURL('image/png');
+
+    const footer = document.getElementById('divFooter');
+
+    footer.style.transform = footer.style.webkitTransform = 'scale(2)';
+    footer.style.transformOrigin = footer.style.webkitTransformOrigin = '0 0';
+
+    const footerOptions = {
+      padding: 5,
+      dpi: 192,
+      width: footer.offsetWidth * 2,
+      height: footer.offsetHeight * 2,
+    };
+
+    const footerCanvas = await html2canvas(footer, footerOptions);
+    const footerData = footerCanvas.toDataURL('image/png');
+
+    const input = document.getElementById('divToPrint');
+
+    input.style.transform = input.style.webkitTransform = 'scale(2)';
+    input.style.transformOrigin = input.style.webkitTransformOrigin = '0 0';
+
+    const options = {
+      padding: 5,
+      pagesplit: true,
+      dpi: 192,
+      width: input.offsetWidth * 2,
+      height: input.offsetHeight * 2,
+    };
+
+    html2canvas(input, options).then((canvas) => {
       const imgData = canvas.toDataURL('image/png');
 
       // criar constante de topo e footer para acrescentar nas paginas
-      const topoHtml = ReactDOMServer.renderToStaticMarkup(this.renderHeader());
-      // const footerHtml = ReactDOMServer.renderToStaticMarkup(this.renderFooter());
 
-      console.log('topo', topoHtml);
+      //   const footerHtml = ReactDOMServer.renderToStaticMarkup(this.renderFooter());
 
-      const imgWidth = 210;
-      const pageHeight = 295;
+      //   console.log('topo', topoHtml);
+
+      const imgWidth = 595;
+      const pageHeight = 842;
       const imgHeight = canvas.height * imgWidth / canvas.width;
 
       let heightLeft = imgHeight;
       let position = 0;
 
-      const specialElementHandlers = {
-        'DIV to be rendered out': function (element, renderer) {
-          return true;
-        },
-      };
+      console.log('canvas.height', canvas.height);
+      console.log('canvas.width', canvas.width);
 
-      pdf.fromHTML(topoHtml, 20, 20, {
-        width: 200,
-        elementHandlers: specialElementHandlers,
-      });
+      console.log('heightLeft', heightLeft);
 
-      // pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-      // heightLeft -= pageHeight;
+      console.log('imgHeight', imgHeight);
+
+      pdf.addImage(headerData, 'PNG', 0, position, imgWidth, 30);
+
+      pdf.addImage(imgData, 'PNG', 0, position + 30, imgWidth, pageHeight - 60);
+
+      pdf.addImage(footerData, 'PNG', 0, 812, imgWidth, 30);
+
+      heightLeft -= pageHeight;
 
       while (heightLeft >= 0) {
-        position = heightLeft - imgHeight;
         pdf.addPage();
+        pdf.setPage(2);
+
+        position = heightLeft - imgHeight;
+        pdf.addImage(headerData, 'PNG', 0, position, imgWidth, 30);
         pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+
+        pdf.addImage(footerData, 'PNG', 0, 812, imgWidth, 30);
         heightLeft -= pageHeight;
       }
 
-      pdf.save('relatorio.pdf');
-
+      const currentTime = new Date();
+      pdf.save(`Relatório${currentTime}.pdf`);
+      input.style.transform = input.style.webkitTransform = 'scale(1)';
+      input.style.transformOrigin = input.style.webkitTransformOrigin = '0 0';
+      header.style.transform = input.style.webkitTransform = 'scale(1)';
+      header.style.transformOrigin = input.style.webkitTransformOrigin = '0 0';
+      footer.style.transform = input.style.webkitTransform = 'scale(1)';
+      footer.style.transformOrigin = input.style.webkitTransformOrigin = '0 0';
       this.setState({
         printingPdf: false,
       });
@@ -191,18 +243,12 @@ class ResultadoVotacao extends Component {
           <div id="divGraficos">
             <Row>
               <Col xs={12} md={6}>
-                <div
-                  id="graph1"
-                  className="graphContainer"
-                >
+                <div id="graph1" className="graphContainer">
                   <Doughnut data={this.getData()} />
                 </div>
               </Col>
               <Col xs={12} md={6}>
-                <div
-                  id="graph2"
-                  className="graphContainer"
-                >
+                <div id="graph2">
                   <Bar data={this.getData()} />
                 </div>
               </Col>
@@ -323,11 +369,15 @@ class ResultadoVotacao extends Component {
         </div>
 
         <Card className="cardResultado">
-          <div id="divToPrint" className="divToPrint">
+          <div id="divHeader" className="divToPrint">
             {this.renderHeader()}
+          </div>
+          <div id="divToPrint" className="divToPrint">
             {this.renderDadosDaVotacao()}
             {this.renderGraficos()}
             <ResultadoVotacaoPessoa codVotacao={this.props.match.params.codVotacao} />
+          </div>
+          <div id="divFooter" className="divToPrint">
             {this.renderFooter()}
           </div>
         </Card>

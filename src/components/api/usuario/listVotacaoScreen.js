@@ -36,6 +36,7 @@ const sendSubscriptionToServer = async (endpoint, key, auth) => {
     );
 
     if (response.data.success === true) {
+      console.log('funcionou a substricao');
       setStorage('webpushtoken', true);
     } else {
       this.msg.error('Houve um erro ao cadastrar WebPush');
@@ -61,7 +62,7 @@ const subscribeWebPush = () => {
         const isSubscribed = !(subscription === null);
 
         if (isSubscribed) {
-          //    console.log('User IS subscribed.');
+          console.log('User IS subscribed.');
 
           if (getStorage('webpushtoken') !== true) {
             const endpoint = subscription.endpoint;
@@ -70,11 +71,12 @@ const subscribeWebPush = () => {
             sendSubscriptionToServer(endpoint, key, auth);
           }
         } else {
-          //   console.log('User is NOT subscribed.');
+          console.log('User is NOT subscribed.');
 
           registration.pushManager
             .subscribe(subscribeOptions)
             .then((subscriptionNew) => {
+              console.log('tentando fazer a subscrição');
               // Update status to subscribe current user on server, and to let
               // other users know this user has subscribed
               const endpoint = subscriptionNew.endpoint;
@@ -99,7 +101,10 @@ const ListVotacaoScreen = (props) => {
 
   Notification.requestPermission().then((status) => {
     if (status === 'granted') {
+      console.log('granted');
       subscribeWebPush();
+    } else {
+      console.log('not granted');
     }
   });
 
