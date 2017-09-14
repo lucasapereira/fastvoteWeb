@@ -12,6 +12,7 @@ import MyLoader from '../../generic/myLoader';
 
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
+import ReactDOMServer from 'react-dom/server';
 
 import logoImg from '../../../assets/imgs/logo.png';
 import logoImgGray from '../../../assets/imgs/logoGray.png';
@@ -111,7 +112,7 @@ class ResultadoVotacao extends Component {
 
     html2canvas(input, options).then((canvas) => {
       const imgData = canvas.toDataURL('image/png');
-      console.log('Aooo', imgData);
+      console.log('AOoo', imgData);
       // criar constante de topo e footer para acrescentar nas paginas
 
       //   const footerHtml = ReactDOMServer.renderToStaticMarkup(this.renderFooter());
@@ -154,14 +155,12 @@ class ResultadoVotacao extends Component {
 
       const currentTime = new Date();
       pdf.save(`Relatório${currentTime}.pdf`);
-
       input.style.transform = input.style.webkitTransform = 'scale(1)';
       input.style.transformOrigin = input.style.webkitTransformOrigin = '0 0';
       header.style.transform = input.style.webkitTransform = 'scale(1)';
       header.style.transformOrigin = input.style.webkitTransformOrigin = '0 0';
       footer.style.transform = input.style.webkitTransform = 'scale(1)';
       footer.style.transformOrigin = input.style.webkitTransformOrigin = '0 0';
-
       this.setState({
         printingPdf: false,
       });
@@ -336,54 +335,20 @@ class ResultadoVotacao extends Component {
     </div>
   );
 
-  renderFooter = (numPage) => {
-    const page = numPage || '';
-
-    return (
-      <div
-        id="footerReport"
-        style={{
-          padding: 10,
-          textAlign: 'center',
-          borderTopStyle: 'solid',
-          borderTopWidth: 1,
-          borderTopColor: '#e4e4e4',
-        }}
-      >
-        <img alt={'FastVote'} src={logoImgGray} />
-        <span style={{ float: 'right', fontSize: '18px', color: '#C0C0C0' }}>{page}</span>
-      </div>
-    );
-  };
-
-  renderPages = () => {
-    const numItensPerPage = 3;
-
-    return (
-      <div className="containerReport">
-        <Card className="cardResultado">
-          <div id="divHeader">{this.renderHeader()}</div>
-          <div id="divContent">
-            {this.renderDadosDaVotacao()}
-            {this.renderGraficos()}
-          </div>
-          <div id="divFooter">{this.renderFooter()}</div>
-        </Card>
-
-        <Card className="cardResultado">
-          <div id="divHeader">{this.renderHeader()}</div>
-          <div id="divContent">
-            <ResultadoVotacaoPessoa
-              codVotacao={this.props.match.params.codVotacao}
-              offset={3}
-              limit={5}
-            />
-          </div>
-          <div id="divFooter">{this.renderFooter(2)}</div>
-        </Card>
-      </div>
-    );
-  };
+  renderFooter = () => (
+    <div
+      id="footerReport"
+      style={{
+        padding: 10,
+        textAlign: 'center',
+        borderTopStyle: 'solid',
+        borderTopWidth: 1,
+        borderTopColor: '#e4e4e4',
+      }}
+    >
+      <img alt={'FastVote'} src={logoImgGray} />
+    </div>
+  );
 
   render() {
     if (this.props.loading) {
@@ -406,7 +371,15 @@ class ResultadoVotacao extends Component {
           </Row>
         </div>
 
-        {this.renderPages()}
+        <Card className="cardResultado">
+          <div id="divHeader">{this.renderHeader()}</div>
+          <div id="divContent">
+            {this.renderDadosDaVotacao()}
+            {this.renderGraficos()}
+            <ResultadoVotacaoPessoa codVotacao={this.props.match.params.codVotacao} />
+          </div>
+          <div id="divFooter">{this.renderFooter()}</div>
+        </Card>
       </div>
     );
   }

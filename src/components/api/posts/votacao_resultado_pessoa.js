@@ -6,7 +6,17 @@ import { Table } from 'react-bootstrap';
 import MyLoader from '../../generic/myLoader';
 
 class ResultadoVotacaoPessoa extends Component {
+  componentWillMount() {
+    this.props.loadMoreEntries(3, 5);
+  }
+
   getRelatorio = () => {
+    // this.props.offset={0}
+    // this.props.limit={3}
+
+    console.log('OOOFF ', this.props.offset);
+    console.log('LIIIM ', this.props.limit);
+
     if (this.props.rows) {
       return this.props.rows.map(arrayItem => (
         <tr key={arrayItem.nomCompletoPessoa}>
@@ -21,6 +31,7 @@ class ResultadoVotacaoPessoa extends Component {
       ));
     }
   };
+
   render() {
     if (this.props.loading) {
       return <MyLoader />;
