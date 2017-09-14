@@ -82,6 +82,7 @@ const queryOptions = {
       refetch,
       totalCount,
       loadMoreEntries(offset, ITEMS_PER_PAGE = null) {
+        console.log('AOO CHEGOU LOAD MORE ENTRIES', offset, ITEMS_PER_PAGE);
         return fetchMore({
           // query: ... (you can specify a different query. FEED_QUERY is used by default)
           variables: {

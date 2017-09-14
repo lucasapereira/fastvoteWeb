@@ -7,16 +7,10 @@ import MyLoader from '../../generic/myLoader';
 
 class ResultadoVotacaoPessoa extends Component {
   componentWillMount() {
-    this.props.loadMoreEntries(3, 5);
+    this.props.loadMoreEntries(this.props.offset, this.props.limit);
   }
 
   getRelatorio = () => {
-    // this.props.offset={0}
-    // this.props.limit={3}
-
-    console.log('OOOFF ', this.props.offset);
-    console.log('LIIIM ', this.props.limit);
-
     if (this.props.rows) {
       return this.props.rows.map(arrayItem => (
         <tr key={arrayItem.nomCompletoPessoa}>

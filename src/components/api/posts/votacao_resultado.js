@@ -642,8 +642,8 @@ class ResultadoVotacao extends Component {
           <div id="divContent">
             <ResultadoVotacaoPessoa
               codVotacao={this.props.match.params.codVotacao}
-              offset={3}
-              limit={5}
+              offset={2}
+              limit={4}
             />
           </div>
           <div id="divFooter">{this.renderFooter(2)}</div>
