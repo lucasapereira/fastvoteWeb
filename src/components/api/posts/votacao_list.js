@@ -275,7 +275,7 @@ class VotacaoList extends Component {
             apaga={this.apagaVotacao}
             items_grid={this.state.items_grid}
             setItensGrid={this.setItensGrid}
-            buttonNovo="/fontendvotacao/nova"
+            buttonNovo="/frontend/votacao/nova"
             titulo="Votações"
             handlePageClick={this.handlePageClick}
             totalCount={this.props.totalCount}

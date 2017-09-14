@@ -82,16 +82,19 @@ class TelaVotacaoContainer extends Component {
       this.msg.error('Descrição da votação é obrigatório');
       return;
     }
-    if (this.state.dscVotacao.length === 0) {
+    if (this.state.dscPergunta.length === 0) {
       this.msg.error('Pergunta é obrigatório');
       return;
     }
 
-    const arrayVotacaoUsuario = this.state.selectedRows.map((row) => {
-      const arrUsuario = [];
-      arrUsuario.push(`${row.codUsuarioRepresentacao}, ${row.vlrPeso}`);
-      return arrUsuario;
-    });
+    if (this.state.arrayRespostas.length < 2) {
+      this.msg.error('Cadastre mais alternativas');
+      return;
+    }
+
+    const arrayVotacaoUsuario = this.state.selectedRows.map(
+      row => `${row.codUsuarioRepresentacao}, ${row.vlrPeso}`,
+    );
 
     this.props
       .gravaVotacao({
@@ -106,7 +109,8 @@ class TelaVotacaoContainer extends Component {
       .then(() => {
         this.props.history.push('/frontend/votacao/list');
       })
-      .catch(() => {
+      .catch((e) => {
+        console.log(e);
         this.msg.error('Não foi possível realizar a operação.');
       });
 
