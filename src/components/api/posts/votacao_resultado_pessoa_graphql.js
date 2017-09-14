@@ -1,8 +1,8 @@
 import { gql, graphql } from 'react-apollo';
 
 const query = gql`
-  query Feed($codVotacao: Int) {
-    relatorioVotos(codvotacao: $codVotacao) {
+  query Feed($codVotacao: Int, $offseta: Int, $limita: Int) {
+    relatorioVotos(codvotacao: $codVotacao, offseta: $offseta, limita: $limita) {
       nodes {
         totalCount
         datHoraVoto
@@ -28,6 +28,8 @@ const queryOptions = {
       variables: {
         type: (props.params && props.params.type && props.params.type.toUpperCase()) || 'TOP',
         codVotacao: props.codVotacao,
+        offseta: props.offset,
+        limita: props.limit,
       },
     };
   },
