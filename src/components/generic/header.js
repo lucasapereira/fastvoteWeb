@@ -112,10 +112,24 @@ class Header extends Component {
       <Navbar collapseOnSelect className="navbar navbar-inverse">
         <Navbar.Header>
           <Navbar.Brand>
-            <a href="https://www.fastvote.com.br/">
-              <img alt={'FastVote'} src={logoImg} />
-            </a>
+            <div>
+              <div style={{ display: 'inline' }}>
+                <a href="https://www.fastvote.com.br/">
+                  <img alt={'FastVote'} src={logoImg} />
+                </a>
+              </div>
+              <div
+                style={{
+                  display: 'inline',
+                  position: 'absolute',
+                  bottom: 0,
+                }}
+              >
+                &nbsp;{process.env.REACT_APP_VERSION}
+              </div>
+            </div>
           </Navbar.Brand>
+
           <Navbar.Toggle />
         </Navbar.Header>
         <Navbar.Collapse>

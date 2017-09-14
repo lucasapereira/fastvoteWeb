@@ -123,7 +123,8 @@ export const routeTo = () => {
   }
 
   const networkInterface = createNetworkInterface({
-    uri: `${process.env.REACT_APP_BASE_URL}/graphql`,
+    uri: `${process.env.REACT_APP_BASE_URL_BACKEND}:${process.env
+      .REACT_APP_BASE_URL_BACKEND_PORT}/graphql`,
   });
 
   networkInterface.use([

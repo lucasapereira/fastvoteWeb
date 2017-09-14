@@ -2,6 +2,10 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
+
+console.log(process.env);
+console.log(process.env.REACT_APP_BASE_URL_BACKEND);
+
 /*eslint-disable */
 ReactDOM.render(<App />, document.getElementById('root'));
 
