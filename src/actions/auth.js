@@ -13,6 +13,7 @@ export const AUTHENTICATION_PROCESS = 'AUTHENTICATION_PROCESS';
 export const SENHA_TROCADA = 'SENHA_TROCADA';
 export const SET_SENHA_TROCADA = 'SET_SENHA_TROCADA';
 export const ACL_USER = 'ACL_USER';
+export const EMAIL_OK = 'EMAIL_OK';
 
 export function setSenhaTrocadaComSucesso(flag) {
   return {
@@ -48,6 +49,41 @@ export const getEmpresas = field => (dispatch) => {
           dispatch({
             type: CPF_ERROR,
             payload: response.data.err_dev.message,
+          });
+        }
+      })
+      .catch((e) => {
+        // If request is bad...
+        // - Show an error to the user
+        dispatch({
+          type: CPF_ERROR,
+          payload: e.message,
+        });
+      });
+  } else {
+    dispatch({
+      type: CPF_ERROR,
+      payload: 'CPF inválido',
+    });
+  }
+};
+
+export const getEmail = field => (dispatch) => {
+  const cpf = field.target.value;
+
+  if (cpf && cpf.length === 11) {
+    axios
+      .get(`/users/getEmail?num_cpf_pessoa=${cpf}`, authOptions())
+      .then((response) => {
+        if (response.data.success === true) {
+          dispatch({
+            type: EMAIL_OK,
+            payload: response.data.message,
+          });
+        } else {
+          dispatch({
+            type: CPF_ERROR,
+            payload: response.data.message,
           });
         }
       })

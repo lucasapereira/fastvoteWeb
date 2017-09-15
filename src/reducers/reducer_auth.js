@@ -9,6 +9,7 @@ import {
   AUTHENTICATION_PROCESS,
   SENHA_TROCADA,
   SET_SENHA_TROCADA,
+  EMAIL_OK,
 } from '../actions/auth';
 
 const initialState = {
@@ -21,6 +22,7 @@ const initialState = {
   loading: false,
   senhaTrocadaComSucesso: false,
   funcionalidades: [],
+  email: '',
 };
 export default function (state = initialState, action) {
   switch (action.type) {
@@ -86,6 +88,13 @@ export default function (state = initialState, action) {
         ...state,
         cpf_error: false,
         empresas: action.payload,
+      };
+    case EMAIL_OK:
+      return {
+        ...state,
+        cpf_error: false,
+        error: '',
+        email: action.payload,
       };
     default:
       return {

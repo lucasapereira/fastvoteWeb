@@ -1,15 +1,16 @@
 import React from 'react';
 import Recaptcha from 'react-recaptcha';
 import { required, email, cpf } from '../generic/validations';
-import { Field, reduxForm } from 'redux-form';
+import { Field, reduxForm, formValueSelector } from 'redux-form';
 import RaisedButton from 'material-ui/RaisedButton';
 import { TextField } from 'redux-form-material-ui';
 import { connect } from 'react-redux';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
-import { esqueciSenha, setSenhaTrocadaComSucesso } from '../../actions';
+import { esqueciSenha, setSenhaTrocadaComSucesso, getEmail } from '../../actions';
 import MyLoader from '../generic/myLoader';
 import Paper from 'material-ui/Paper';
+import _ from 'lodash';
 
 // site key
 const sitekey = '6LerwiwUAAAAAN_S41XhiuIPWwcvEcy9KPsroZ1T';
@@ -19,19 +20,10 @@ class EsqueciSenha extends React.Component {
     recaptchaResponse: '',
   };
 
-  // specifying your onload callback function
-  callback = () => {
-    console.log('Done!!!!');
-  };
-
   verifyCallback = (response) => {
     this.setState({
       recaptchaResponse: response,
     });
-  };
-
-  expiredCallback = () => {
-    console.log('Recaptcha expired');
   };
 
   // define a variable to store the recaptcha instance
@@ -46,8 +38,6 @@ class EsqueciSenha extends React.Component {
     this.props.setSenhaTrocadaComSucesso(false);
     this.props.reset();
     this.recaptchaInstance.reset();
-
-    //
   };
 
   redireciona = () => {
@@ -71,6 +61,12 @@ class EsqueciSenha extends React.Component {
   onSubmit = (values) => {
     this.props.esqueciSenha(values.email, this.state.recaptchaResponse, values.cpf);
   };
+
+  getEmail = (values) => {
+    if (!_.isEmpty(this.props.cpf) && !this.props.limpa_tela && !cpf(this.props.cpf)) {
+      this.props.getEmail(values);
+    }
+  };
   render() {
     const { handleSubmit, pristine, submitting } = this.props;
 
@@ -90,13 +86,14 @@ class EsqueciSenha extends React.Component {
                     component={TextField}
                     hintText="CPF"
                     floatingLabelText="CPF"
-                    onBlur={this.getEmpresas}
+                    onBlur={this.getEmail}
                     withRef
                     ref="cpfField"
                     maxLength="11"
                     validate={[required, cpf]}
                   />
                 </div>
+                {this.props.email}
                 <Field
                   name="email"
                   component={TextField}
@@ -154,8 +151,19 @@ function mapStateToProps(state) {
     empresasAuth: state.auth.empresas,
     loading: state.auth.loading,
     senhaTrocadaComSucesso: state.auth.senhaTrocadaComSucesso,
+    email: state.auth.email,
   };
 }
+
+const selector = formValueSelector('esquecisenha'); // <-- same as form name
+EsqueciSenha = connect((state) => {
+  // or together as a group
+  /* eslint no-shadow:0 */
+  const cpf = selector(state, 'cpf');
+  return {
+    cpf,
+  };
+})(EsqueciSenha);
 
 export default reduxForm({
   form: 'esquecisenha', // a unique identifier for this form
@@ -163,5 +171,6 @@ export default reduxForm({
   connect(mapStateToProps, {
     esqueciSenha,
     setSenhaTrocadaComSucesso,
+    getEmail,
   })(EsqueciSenha),
 );
