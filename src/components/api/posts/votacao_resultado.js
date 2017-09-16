@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import { compose } from 'react-apollo';
 import { Doughnut, Bar } from 'react-chartjs-2';
 import FlatButton from 'material-ui/FlatButton';
-import Card from 'material-ui/Card';
 import Icon from 'react-icon';
 import { Table, Row, Col } from 'react-bootstrap';
 
 import { QueryResultadoList } from '../../../graphql/resultado';
+
 import ResultadoVotacaoPessoa from './votacao_resultado_pessoa';
 import MyLoader from '../../generic/myLoader';
 
@@ -52,6 +52,13 @@ const colorArray = [
 class ResultadoVotacao extends Component {
   state = {
     printingPdf: false,
+    numPages: 1,
+  };
+
+  setNumPages = (x) => {
+    this.setState({
+      numPages: x,
+    });
   };
 
   printDocument = async () => {
@@ -59,16 +66,15 @@ class ResultadoVotacao extends Component {
       printingPdf: true,
     });
 
-    //  const options = { padding: 5, pagesplit: true, dpi: 192 };
     const pdf = new jsPDF('p', 'pt', 'a4');
     let input;
     const imgWidth = 595;
-    const pageHeight = 842;
+    // const pageHeight = 842;
+
+    const pages = this.state.numPages + 1;
 
     const results = [];
-    for (let i = 1; i < 9; i++) {
-      // Inicio Relatorio
-
+    for (let i = 1; i < pages + 1; i++) {
       input = document.getElementById(`page${i}`);
       input.style.transform = input.style.webkitTransform = 'scale(2)';
       input.style.transformOrigin = input.style.webkitTransformOrigin = '0 0';
@@ -82,28 +88,27 @@ class ResultadoVotacao extends Component {
       };
 
       results.push(html2canvas(input, options));
+
+      input.style.transform = input.style.webkitTransform = 'scale(1)';
+      input.style.transformOrigin = input.style.webkitTransformOrigin = '0 0';
     }
 
     const arrImgsJaCriadas = await Promise.all(results);
 
-    for (let i = 0; i < 8; i++) {
-      const canvas = arrImgsJaCriadas[i];
+    for (let i = 0; i < pages; i++) {
       if (i > 0) {
         pdf.addPage();
       }
+
+      const canvas = arrImgsJaCriadas[i];
       const imgHeight = canvas.height * imgWidth / canvas.width;
       const imgData = canvas.toDataURL('image/png');
-      pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
-      console.log(i);
-    }
 
-    console.log('saiu');
+      pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+    }
 
     const currentTime = new Date();
     pdf.save(`Relatório${currentTime}.pdf`);
-
-    input.style.transform = input.style.webkitTransform = 'scale(1)';
-    input.style.transformOrigin = input.style.webkitTransformOrigin = '0 0';
 
     this.setState({
       printingPdf: false,
@@ -238,42 +243,12 @@ class ResultadoVotacao extends Component {
     }
   };
 
-  renderTitleReport = text => (
-    <div
-      style={{
-        fontSize: '160%',
-        textAlign: 'center',
-        fontWeight: 'bold',
-        marginTop: 20,
-        borderBottomStyle: 'groove',
-        borderBottomWidth: 2,
-        borderBottomColor: '#b4b4b4',
-      }}
-    >
-      {text}
-    </div>
-  );
+  renderTitleReport = text => <div className="titleReport">{text}</div>;
 
-  renderSubtitleReport = text => (
-    <div
-      style={{
-        fontSize: '140%',
-        textAlign: 'left',
-        fontWeight: 'bold',
-        marginTop: 20,
-        marginBottom: 20,
-        borderBottomStyle: 'solid',
-        borderBottomWidth: 2,
-        borderBottomColor: '#b4b4b4',
-        color: '#c0c0c0',
-      }}
-    >
-      {text}
-    </div>
-  );
+  renderSubtitleReport = text => <div className="subtitleReport">{text}</div>;
 
   renderHeader = () => (
-    <div id="headerReport" style={{ padding: 10, backgroundColor: '#000000', textAlign: 'right' }}>
+    <div id="headerReport" className="headerReport">
       <img alt={'FastVote'} src={logoImg} />
     </div>
   );
@@ -282,131 +257,32 @@ class ResultadoVotacao extends Component {
     const page = numPage || '';
 
     return (
-      <div
-        id="footerReport"
-        style={{
-          padding: 10,
-          textAlign: 'center',
-          borderTopStyle: 'solid',
-          borderTopWidth: 1,
-          borderTopColor: '#e4e4e4',
-        }}
-      >
+      <div id="footerReport" className="footerReport">
         <img alt={'FastVote'} src={logoImgGray} />
-        <span style={{ float: 'right', fontSize: '18px', color: '#C0C0C0' }}>{page}</span>
+        <span className="footerPageLabel">{page}</span>
       </div>
     );
   };
 
-  renderPages = () => {
-    const numItensPerPage = 3;
-
-    return (
-      <div className="containerReport">
-        <div id="page1">
-          <Card className="cardResultado">
-            <div id="divHeader">{this.renderHeader()}</div>
-            <div id="divContent">
-              {this.renderDadosDaVotacao()}
-              {this.renderGraficos()}
-            </div>
-            <div id="divFooter">{this.renderFooter(1)}</div>
-          </Card>
+  renderPages = () => (
+    <div idName="containerReport" className="containerReport">
+      <div id="page1" className="divResultado">
+        {this.renderHeader()}
+        <div id="divContent">
+          {this.renderDadosDaVotacao()}
+          {this.renderGraficos()}
         </div>
-        <div id="page2">
-          <Card className="cardResultado">
-            <div id="divHeader">{this.renderHeader()}</div>
-            <div id="divContent">
-              <ResultadoVotacaoPessoa
-                codVotacao={this.props.match.params.codVotacao}
-                offset={2}
-                limit={4}
-              />
-            </div>
-            <div id="divFooter">{this.renderFooter(2)}</div>
-          </Card>
-        </div>
-        <div id="page3">
-          <Card className="cardResultado">
-            <div id="divHeader">{this.renderHeader()}</div>
-            <div id="divContent">
-              <ResultadoVotacaoPessoa
-                codVotacao={this.props.match.params.codVotacao}
-                offset={2}
-                limit={4}
-              />
-            </div>
-            <div id="divFooter">{this.renderFooter(2)}</div>
-          </Card>
-        </div>
-        <div id="page4">
-          <Card className="cardResultado">
-            <div id="divHeader">{this.renderHeader()}</div>
-            <div id="divContent">
-              <ResultadoVotacaoPessoa
-                codVotacao={this.props.match.params.codVotacao}
-                offset={2}
-                limit={4}
-              />
-            </div>
-            <div id="divFooter">{this.renderFooter(2)}</div>
-          </Card>
-        </div>
-        <div id="page5">
-          <Card className="cardResultado">
-            <div id="divHeader">{this.renderHeader()}</div>
-            <div id="divContent">
-              <ResultadoVotacaoPessoa
-                codVotacao={this.props.match.params.codVotacao}
-                offset={2}
-                limit={4}
-              />
-            </div>
-            <div id="divFooter">{this.renderFooter(2)}</div>
-          </Card>
-        </div>
-        <div id="page6">
-          <Card className="cardResultado">
-            <div id="divHeader">{this.renderHeader()}</div>
-            <div id="divContent">
-              <ResultadoVotacaoPessoa
-                codVotacao={this.props.match.params.codVotacao}
-                offset={2}
-                limit={4}
-              />
-            </div>
-            <div id="divFooter">{this.renderFooter(2)}</div>
-          </Card>
-        </div>
-        <div id="page7">
-          <Card className="cardResultado">
-            <div id="divHeader">{this.renderHeader()}</div>
-            <div id="divContent">
-              <ResultadoVotacaoPessoa
-                codVotacao={this.props.match.params.codVotacao}
-                offset={2}
-                limit={4}
-              />
-            </div>
-            <div id="divFooter">{this.renderFooter(2)}</div>
-          </Card>
-        </div>
-        <div id="page8">
-          <Card className="cardResultado">
-            <div id="divHeader">{this.renderHeader()}</div>
-            <div id="divContent">
-              <ResultadoVotacaoPessoa
-                codVotacao={this.props.match.params.codVotacao}
-                offset={2}
-                limit={4}
-              />
-            </div>
-            <div id="divFooter">{this.renderFooter(2)}</div>
-          </Card>
-        </div>
+        {this.renderFooter(1)}
       </div>
-    );
-  };
+
+      <ResultadoVotacaoPessoa
+        codVotacao={this.props.match.params.codVotacao}
+        renderHeader={this.renderHeader}
+        renderFooter={this.renderFooter}
+        setNumPages={this.setNumPages}
+      />
+    </div>
+  );
 
   render() {
     if (this.props.loading) {
