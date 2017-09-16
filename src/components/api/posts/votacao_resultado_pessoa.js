@@ -5,7 +5,8 @@ import { Table } from 'react-bootstrap';
 
 import MyLoader from '../../generic/myLoader';
 
-const numItensPerPage = 3;
+// Define a quantidade de rows na grid por pagina
+const numItensPerPage = 1;
 
 class ResultadoVotacaoPessoa extends Component {
   /* componentWillMount() {
@@ -49,7 +50,7 @@ class ResultadoVotacaoPessoa extends Component {
 
       let arrayContent = [];
       const arrayPages = [];
-      let count = 1;
+      let countItens = 1;
       let countPage = 1;
 
       this.props.rows.map((arrayItem) => {
@@ -65,15 +66,16 @@ class ResultadoVotacaoPessoa extends Component {
           </tr>,
         );
 
-        if (count === numItensPerPage || (countPage === qtdPages && count === itensRestante)) {
+        if (
+          countItens === numItensPerPage ||
+          (countPage === qtdPages && countItens === itensRestante)
+        ) {
           arrayPages.push(this.renderPage(arrayContent, ++countPage));
-
           arrayContent = [];
-
-          count = 0;
+          countItens = 0;
         }
 
-        count++;
+        countItens++;
 
         return arrayContent;
       });
