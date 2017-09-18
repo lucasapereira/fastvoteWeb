@@ -19,7 +19,9 @@ const query = gql`
 const queryOptions = {
   options(props) {
     let codVotacao;
-    if (props.votacao) {
+    if (props.codVotacao) {
+      codVotacao = props.codVotacao;
+    } else if (props.votacao) {
       codVotacao = props.votacao.codVotacao;
     } else if (props.match) {
       codVotacao = props.match.params.codVotacao;

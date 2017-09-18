@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
-import { compose } from 'react-apollo';
-import { Doughnut, Bar } from 'react-chartjs-2';
+// import { compose } from 'react-apollo';
+// import { Doughnut, Bar } from 'react-chartjs-2';
 import FlatButton from 'material-ui/FlatButton';
 import Icon from 'react-icon';
-import { Table, Row, Col } from 'react-bootstrap';
+// import { Table, Row, Col } from 'react-bootstrap';
+import { Row, Col } from 'react-bootstrap';
 
-import { QueryResultadoList } from '../../../graphql/resultado';
+// import { QueryResultadoList } from '../../../graphql/resultado';
 
 import ResultadoVotacaoPessoa from './votacao_resultado_pessoa';
+import ResultadoVotacaoGrafico from './votacao_resultado_grafico';
 import MyLoader from '../../generic/myLoader';
 
 import jsPDF from 'jspdf';
@@ -16,46 +18,13 @@ import html2canvas from 'html2canvas';
 import logoImg from '../../../assets/imgs/logo.png';
 import logoImgGray from '../../../assets/imgs/logoGray.png';
 
-const colorArray = [
-  '#CDCD00',
-  '#FFDAB9',
-  '#1E90FF',
-  '#A2CD5A',
-  '#708090',
-  '#87CEEB',
-  '#9ACD32',
-  '#FFFACD',
-  '#00CED1',
-  '#43CD80',
-  '#6495ED',
-  '#5F9EA0',
-  '#7EC0EE',
-  '#8470FF',
-  '#006400',
-  '#1E90FF',
-  '#4169E1',
-  '#00FF7F',
-  '#836FFF',
-  '#FFA07A',
-  '#FFD700',
-  '#D02090',
-  '#FF7F00',
-  '#6E7B8B',
-  '#FF4500',
-  '#CD4F39',
-  '#DAA520',
-  '#F4A460',
-  '#FF6EB4',
-  '#00F5FF',
-];
-
 class ResultadoVotacao extends Component {
   state = {
     printingPdf: false,
     numPages: 1,
   };
 
-  setNumPages = (x) => {
+  setNumPages = x => {
     this.setState({
       numPages: x,
     });
@@ -76,6 +45,8 @@ class ResultadoVotacao extends Component {
     const results = [];
     for (let i = 1; i < pages + 1; i++) {
       input = document.getElementById(`page${i}`);
+
+      input.style.transform = input.style.width = '1190px';
       input.style.transform = input.style.webkitTransform = 'scale(2)';
       input.style.transformOrigin = input.style.webkitTransformOrigin = '0 0';
 
@@ -89,6 +60,7 @@ class ResultadoVotacao extends Component {
 
       results.push(html2canvas(input, options));
 
+      input.style.transform = input.style.width = '100%';
       input.style.transform = input.style.webkitTransform = 'scale(1)';
       input.style.transformOrigin = input.style.webkitTransformOrigin = '0 0';
     }
@@ -115,52 +87,38 @@ class ResultadoVotacao extends Component {
     });
   };
 
-  getLabel = () => {
-    if (this.props.data.resultVotacao) {
-      return this.props.data.resultVotacao.nodes[0].dscVotacao;
-    }
-  };
+  renderHeader = () => (
+    <div id="headerReport" className="headerReport">
+      <img alt={'FastVote'} src={logoImg} />
+    </div>
+  );
 
-  houveVotos = () => {
-    let flg = false;
-    if (this.props.data.resultVotacao) {
-      this.props.data.resultVotacao.nodes.forEach((arrayItem) => {
-        if (parseFloat(arrayItem.multi) > 0) {
-          flg = true;
-        }
-      });
-    }
-    return flg;
-  };
+  renderFooter = numPage => {
+    const page = numPage || '';
 
-  getData = () => {
-    const arrayLabel = [];
-    const arrayColor = [];
-    const arrayData = [];
+    let today = new Date();
+    let dd = today.getDate();
+    let mm = today.getMonth() + 1; //January is 0!
+    let yy = today.getFullYear();
+    let hh = today.getHours();
+    let ii = today.getMinutes();
+    let ss = today.getSeconds();
 
-    let index = 0;
+    dd = dd < 10 ? '0' + dd : dd;
+    mm = mm < 10 ? '0' + mm : mm;
+    hh = hh < 10 ? '0' + hh : hh;
+    ii = ii < 10 ? '0' + ii : ii;
+    ss = ss < 10 ? '0' + ss : ss;
 
-    if (this.props.data.resultVotacao) {
-      this.props.data.resultVotacao.nodes.forEach((arrayItem) => {
-        arrayLabel[index] = `${arrayItem.dscResposta} - [${arrayItem.multi}]`;
-        arrayColor[index] = colorArray[index];
-        arrayData[index] = arrayItem.multi;
+    today = dd + '/' + mm + '/' + yy + ' ' + hh + ':' + ii + ':' + ss;
 
-        index++;
-      });
-    }
-
-    return {
-      labels: arrayLabel,
-      datasets: [
-        {
-          label: this.props.data.resultVotacao.nodes[0].dscPergunta,
-          data: arrayData,
-          backgroundColor: arrayColor,
-          hoverBackgroundColor: arrayColor,
-        },
-      ],
-    };
+    return (
+      <div id="footerReport" className="footerReport">
+        <span className="footerDateLabel">{today}</span>
+        <img alt={'FastVote'} src={logoImgGray} />
+        <span className="footerPageLabel">{page}</span>
+      </div>
+    );
   };
 
   buttonExportaPdf = () => {
@@ -173,6 +131,7 @@ class ResultadoVotacao extends Component {
         </div>
       );
     }
+
     return (
       <div className="divBtnExportaRelatorio">
         <FlatButton
@@ -185,113 +144,11 @@ class ResultadoVotacao extends Component {
     );
   };
 
-  renderGraficos = () => {
-    if (this.houveVotos()) {
-      return (
-        <div>
-          {this.renderSubtitleReport('Gráficos')}
-          <div id="divGraficos">
-            <Row>
-              <Col xs={12} md={6}>
-                <div id="graph1" className="graphContainer">
-                  <Doughnut data={this.getData()} />
-                </div>
-              </Col>
-              <Col xs={12} md={6}>
-                <div id="graph2" className="graphContainer">
-                  <Bar data={this.getData()} />
-                </div>
-              </Col>
-            </Row>
-          </div>
-        </div>
-      );
-    }
-
-    return <div>Nenhum voto computado até o momento.</div>;
-  };
-
-  renderResultadoAgregado = () =>
-    this.props.data.resultVotacao.nodes.map(arrayItem => (
-      <tr key={arrayItem.dscResposta}>
-        <td>{arrayItem.dscResposta}</td>
-        <td>{arrayItem.multi}</td>
-      </tr>
-    ));
-
-  renderDadosDaVotacao = () => {
-    if (this.props.data.resultVotacao) {
-      return (
-        <div>
-          {this.renderTitleReport(this.props.data.resultVotacao.nodes[0].dscVotacao)}
-          <b>Pergunta:</b>{' '}
-          <div style={{ fontSize: '120%' }}>
-            {this.props.data.resultVotacao.nodes[0].dscPergunta}
-          </div>
-          {this.renderSubtitleReport('Resultado Agregado')}
-          <Table striped responsive>
-            <thead>
-              <tr>
-                <th>Opção</th>
-                <th>Qtd. Votos</th>
-              </tr>
-            </thead>
-            <tbody>{this.renderResultadoAgregado()}</tbody>
-          </Table>
-        </div>
-      );
-    }
-  };
-
-  renderTitleReport = text => <div className="titleReport">{text}</div>;
-
-  renderSubtitleReport = text => <div className="subtitleReport">{text}</div>;
-
-  renderHeader = () => (
-    <div id="headerReport" className="headerReport">
-      <img alt={'FastVote'} src={logoImg} />
-    </div>
-  );
-
-  renderFooter = (numPage) => {
-    const page = numPage || '';
-
-    return (
-      <div id="footerReport" className="footerReport">
-        <img alt={'FastVote'} src={logoImgGray} />
-        <span className="footerPageLabel">{page}</span>
-      </div>
-    );
-  };
-
-  renderPages = () => (
-    <div idName="containerReport" className="containerReport">
-      <div id="page1" className="divResultado">
-        {this.renderHeader()}
-        <div id="divContent">
-          {this.renderDadosDaVotacao()}
-          {this.renderGraficos()}
-        </div>
-        {this.renderFooter(1)}
-      </div>
-
-      <ResultadoVotacaoPessoa
-        codVotacao={this.props.match.params.codVotacao}
-        renderHeader={this.renderHeader}
-        renderFooter={this.renderFooter}
-        setNumPages={this.setNumPages}
-      />
-    </div>
-  );
-
   render() {
     if (this.props.loading) {
       return <MyLoader />;
     }
 
-    // <Paper className="paperVotacao" zDepth={2} rounded>
-    // <div style={{ width: '500px' }}>
-    //
     return (
       <div className="container">
         <div className="divTopoRelatorio">
@@ -299,16 +156,29 @@ class ResultadoVotacao extends Component {
             <Col xs={12} sm={8}>
               <div className="pageTitle">Relatório de resultado da votação</div>
             </Col>
-            <Col xs={12} sm={4}>
+            <Col xsHidden sm={4}>
               {this.buttonExportaPdf()}
             </Col>
           </Row>
         </div>
 
-        {this.renderPages()}
+        <div idName="containerReport" className="containerReport">
+          <ResultadoVotacaoGrafico
+            codVotacao={this.props.match.params.codVotacao}
+            renderHeader={this.renderHeader}
+            renderFooter={this.renderFooter}
+          />
+
+          <ResultadoVotacaoPessoa
+            codVotacao={this.props.match.params.codVotacao}
+            renderHeader={this.renderHeader}
+            renderFooter={this.renderFooter}
+            setNumPages={this.setNumPages}
+          />
+        </div>
       </div>
     );
   }
 }
 
-export default compose(QueryResultadoList)(ResultadoVotacao);
+export default ResultadoVotacao;

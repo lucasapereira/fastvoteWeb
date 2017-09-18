@@ -6,7 +6,7 @@ import { Table } from 'react-bootstrap';
 import MyLoader from '../../generic/myLoader';
 
 // Define a quantidade de rows na grid por pagina
-const numItensPerPage = 1;
+const numItensPerPage = 38;
 
 class ResultadoVotacaoPessoa extends Component {
   /* componentWillMount() {
@@ -16,7 +16,7 @@ class ResultadoVotacaoPessoa extends Component {
   renderPage = (content, page) => {
     if (this.props.rows) {
       return (
-        <div id={`page${page}`} className="divResultado">
+        <div id={`page${page}`} className="divResultadoReport">
           {this.props.renderHeader()}
           <div className="subtitleReport">Participantes</div>
           <div id="divContent">
@@ -52,8 +52,9 @@ class ResultadoVotacaoPessoa extends Component {
       const arrayPages = [];
       let countItens = 1;
       let countPage = 1;
+      let flgLastPage = false;
 
-      this.props.rows.map((arrayItem) => {
+      this.props.rows.map(arrayItem => {
         arrayContent.push(
           <tr key={arrayItem.nomCompletoPessoa}>
             <td>{arrayItem.nomCompletoPessoa}</td>
@@ -63,13 +64,28 @@ class ResultadoVotacaoPessoa extends Component {
             <td>{arrayItem.numCpfPessoa}</td>
             <td>{arrayItem.numTelefone}</td>
             <td>{arrayItem.dscEmail}</td>
-          </tr>,
+          </tr>
         );
 
-        if (
-          countItens === numItensPerPage ||
-          (countPage === qtdPages && countItens === itensRestante)
-        ) {
+        if (countPage === qtdPages && countItens === itensRestante) {
+          flgLastPage = true;
+        }
+
+        if (countItens === numItensPerPage || flgLastPage) {
+          if (flgLastPage) {
+            const qtsItensComplete = numItensPerPage - itensRestante;
+
+            for (let itemComplete = 0; itemComplete < qtsItensComplete; itemComplete++) {
+              arrayContent.push(
+                <tr key={`${arrayItem.nomCompletoPessoa}-${itemComplete}`}>
+                  <td colSpan="7" style={{ textAlign: 'center', color: '#C0C0C0' }}>
+                    ***
+                  </td>
+                </tr>
+              );
+            }
+          }
+
           arrayPages.push(this.renderPage(arrayContent, ++countPage));
           arrayContent = [];
           countItens = 0;
