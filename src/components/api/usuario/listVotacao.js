@@ -21,7 +21,7 @@ class InfiniteList extends Component {
       return <div>Nenhuma votação cadastrada.</div>;
     }
 
-    return this.props.rows.map((votacao) => {
+    return this.props.rows.map(votacao => {
       if (this.state.totalCount === -1) {
         this.state.totalCount = votacao.totalCount;
       }
@@ -36,7 +36,7 @@ class InfiniteList extends Component {
     });
   };
 
-  handleOnClickPagination = (prop) => {
+  handleOnClickPagination = prop => {
     this.setState({
       pageSelected: prop.selected,
     });
@@ -53,8 +53,7 @@ class InfiniteList extends Component {
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
-          }}
-        >
+          }}>
           <ReactPaginate
             previousLabel={'anterior'}
             nextLabel={'próximo'}

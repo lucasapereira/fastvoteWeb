@@ -27,6 +27,7 @@ class TelaVotacaoContainer extends Component {
       codPessoaJuridica: getStorage('cod_pessoa_juridica'),
       dscVotacao: '',
       dscPergunta: '',
+      dscResumo: '',
       arrayRespostas: [],
       numRespostas: 3,
       activeCheckboxes: [],
@@ -35,7 +36,7 @@ class TelaVotacaoContainer extends Component {
     };
   }
 
-  handleCheck = (id) => {
+  handleCheck = id => {
     const found = this.state.activeCheckboxes.includes(id);
 
     if (found) {
@@ -49,24 +50,26 @@ class TelaVotacaoContainer extends Component {
     }
   };
 
-  setUsuarioPodeVotar = (selectedRows) => {
+  setUsuarioPodeVotar = selectedRows => {
     this.setState({
       selectedRows,
     });
   };
 
-  handleChange = (event) => {
+  handleChange = event => {
     if (event.target.name === 'dsc_votacao') {
       this.setState({ dscVotacao: event.target.value });
     } else if (event.target.name === 'dsc_pergunta') {
       this.setState({ dscPergunta: event.target.value });
+    } else if (event.target.name === 'dsc_resumo') {
+      this.setState({ dscResumo: event.target.value });
     } else {
       const arrName = event.target.name.split('_');
       this.state.arrayRespostas[arrName[2] - 1] = event.target.value;
     }
   };
 
-  altNumRespostas = (x) => {
+  altNumRespostas = x => {
     if (this.state.numRespostas >= 0) {
       // Se retira elemento, remove reposta do state array
       if (x < 0) {
@@ -93,12 +96,13 @@ class TelaVotacaoContainer extends Component {
     }
 
     const arrayVotacaoUsuario = this.state.selectedRows.map(
-      row => `${row.codUsuarioRepresentacao}, ${row.vlrPeso}`,
+      row => `${row.codUsuarioRepresentacao}, ${row.vlrPeso}`
     );
 
     this.props
       .gravaVotacao({
         variables: {
+          dscresumo: this.state.dscResumo,
           dscvotacao: this.state.dscVotacao,
           codpessoajuridica: this.state.codPessoaJuridica,
           dscpergunta: this.state.dscPergunta,
@@ -109,7 +113,7 @@ class TelaVotacaoContainer extends Component {
       .then(() => {
         this.props.history.push('/frontend/votacao/list');
       })
-      .catch((e) => {
+      .catch(e => {
         console.log(e);
         this.msg.error('Não foi possível realizar a operação.');
       });
@@ -125,7 +129,7 @@ class TelaVotacaoContainer extends Component {
     //
   };
 
-  renderButtonVariosSelection = (selectedRows) => {
+  renderButtonVariosSelection = selectedRows => {
     this.setUsuarioPodeVotar(selectedRows);
 
     const botaoSalvar = () => (
@@ -163,7 +167,7 @@ class TelaVotacaoContainer extends Component {
     </Row>
   );
 
-  openModal = (i) => {
+  openModal = i => {
     this.setState({
       modalIsOpen: true,
       codModal: i,
@@ -283,6 +287,17 @@ class TelaVotacaoContainer extends Component {
                   floatingLabelText="Pergunta da Votação"
                   onChange={this.handleChange}
                   fullWidth
+                />
+
+                <TextField
+                  name="dsc_resumo"
+                  hintText="Informe aqui os detalhes, questões, informações sobre essa votação."
+                  multiLine
+                  floatingLabelText="Resumo"
+                  rows={2}
+                  rowsMax={6}
+                  fullWidth
+                  onChange={this.handleChange}
                 />
               </div>
             </Col>

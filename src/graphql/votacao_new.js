@@ -13,23 +13,6 @@ const dadosAdicionais = gql`
   }
 `;
 
-const dadosAdicionaisOptions = {
-  options(props) {
-    return {
-      ResultDadosAdicionais: [
-        {
-          codDadosAdicionais: 1,
-          dscDadosAdicionais: 'Bloco AAAA',
-        },
-        {
-          codDadosAdicionais: 2,
-          dscDadosAdicionais: 'Bloco BBBB',
-        },
-      ],
-    };
-  },
-};
-
 export const allUsuariosQuePodemVotar = gql`
   query Feed($codpessoajuridica: Int) {
     allUsuariosQuePodemVotar(codpessoajuridica: $codpessoajuridica) {
@@ -59,18 +42,20 @@ export const allUsuariosQuePodemVotarOptions = {
   },
 };
 
-export const ResultDadosAdicionais = graphql(dadosAdicionais, dadosAdicionaisOptions);
+export const ResultDadosAdicionais = graphql(dadosAdicionais);
 
 const mutationGravaVotacao = gql`
   mutation createVotacao(
     $dscvotacao: String
     $codpessoajuridica: Int
     $dscpergunta: String
+    $dscresumo: String
     $votacaousuarioarray: [String]
     $dscrespostaarray: [String]
   ) {
     createVotacao(
       input: {
+        dscresumo: $dscresumo
         dscvotacao: $dscvotacao
         codpessoajuridica: $codpessoajuridica
         dscpergunta: $dscpergunta

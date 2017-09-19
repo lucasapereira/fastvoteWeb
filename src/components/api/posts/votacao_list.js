@@ -81,12 +81,12 @@ class VotacaoList extends Component {
   enviaPushInicioFimVotacao = (row, acao) =>
     axios.get(
       `/votacao/enviaPushInicioFimVotacao?cod_votacao=${row.codVotacao}&dsc_pergunta=${row.dscPergunta}&acao=${acao}`,
-      authOptions(),
+      authOptions()
     );
 
   apagaVotacao = async (cols, pageSelected) => {
     try {
-      await cols.map(async (row) => {
+      await cols.map(async row => {
         await this.props.apagaVotacao({
           variables: {
             codVotacao: row,
@@ -155,7 +155,7 @@ class VotacaoList extends Component {
         });
     };
 
-    const botaoResultado = (codVotacao) => {
+    const botaoResultado = codVotacao => {
       const link = `/frontend/votacao/resultado/${codVotacao}`;
 
       return (
@@ -197,7 +197,7 @@ class VotacaoList extends Component {
       </span>
     );
 
-    const botaoMostraResultadoEmTempoReal = (flgMostraResultadoEmTempoReal) => {
+    const botaoMostraResultadoEmTempoReal = flgMostraResultadoEmTempoReal => {
       Icon.setDefaultFontPrefix('glyphicon');
 
       let label = 'Mostra Resultados';
@@ -294,5 +294,5 @@ export default compose(
   MutationFinalizaVotacao,
   MutationApagaVotacao,
   MutationMostraResultadoEmTempoReal,
-  QueryVotacaoList,
+  QueryVotacaoList
 )(VotacaoList);

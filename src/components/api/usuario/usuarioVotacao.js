@@ -10,22 +10,26 @@ import Paper from 'material-ui/Paper';
 import Icon from 'react-icon';
 import { Table, Row, Col } from 'react-bootstrap';
 import DetalheVotacao from './detalheVotacao';
+import VotacaoResumo from './votacao_resumo';
 
 import { QueryVoto, mutationVota } from './usuarioVotacaoGraphql';
 import confirm from '../../generic/confirm';
 import MyLoader from '../../generic/myLoader';
 
 class UsuarioVotacao extends Component {
-  onPress = (votacao) => {
+  state = {
+    modalIsOpen: false,
+  };
+  onPress = votacao => {
     confirm(`${votacao.dscResposta}`).then(
       () => {
         this.vota(votacao);
       },
-      () => {},
+      () => {}
     );
   };
 
-  getStatusVotacao = (votacao) => {
+  getStatusVotacao = votacao => {
     let codStatus = 0; // Fechada
 
     if (votacao.dentroVigenciaVotacao === 'Votação em andamento.') {
@@ -41,7 +45,7 @@ class UsuarioVotacao extends Component {
     return codStatus;
   };
 
-  renderLabelResultado = (votacao) => {
+  renderLabelResultado = votacao => {
     const { rows } = this.props;
 
     const flgStatus = this.getStatusVotacao(votacao);
@@ -94,7 +98,7 @@ class UsuarioVotacao extends Component {
       </fieldset>
     );
   };
-  renderResultado = (votacao) => {
+  renderResultado = votacao => {
     Icon.setDefaultFontPrefix('glyphicon');
     let botaoResultado = (
       <FlatButton
@@ -104,6 +108,16 @@ class UsuarioVotacao extends Component {
         disabled
         primary
         icon={<Icon glyph="stats" style={{ color: '#C0C0C0' }} />}
+      />
+    );
+
+    let botaoResumo = (
+      <RaisedButton
+        label="Resumo"
+        fullWidth
+        primary
+        onClick={this.openModal}
+        style={{ marginTop: 5 }}
       />
     );
 
@@ -133,13 +147,14 @@ class UsuarioVotacao extends Component {
           </Col>
           <Col xs={12} sm={3} md={2} className="btnDetalheResultado">
             {botaoResultado}
+            {botaoResumo}
           </Col>
         </Row>
       </div>
     );
   };
 
-  vota = (votacao) => {
+  vota = votacao => {
     this.props
       .vota({
         variables: {
@@ -151,7 +166,7 @@ class UsuarioVotacao extends Component {
       .then(() => {
         this.props.refetchLista();
       })
-      .catch((error) => {
+      .catch(error => {
         console.log('there was an error sending the query', error);
       });
   };
@@ -219,6 +234,18 @@ class UsuarioVotacao extends Component {
     );
   }
 
+  openModal = i => {
+    this.setState({
+      modalIsOpen: true,
+    });
+  };
+
+  closeModal = () => {
+    this.setState({
+      modalIsOpen: false,
+    });
+  };
+
   renderBotoesVotacao = (rows, mobile = false) => {
     let style = { margin: 10 };
     let flgFull = false;
@@ -252,7 +279,16 @@ class UsuarioVotacao extends Component {
     if (this.props.error) {
       return <div>Erro: {this.props.error.message}</div>;
     }
-    return <div>{this.renderVotacao()}</div>;
+    return (
+      <div>
+        {this.renderVotacao()}
+        <VotacaoResumo
+          codVotacao={this.props.votacao.codVotacao}
+          modalIsOpen={this.state.modalIsOpen}
+          closeModal={this.closeModal}
+        />
+      </div>
+    );
   }
 }
 
