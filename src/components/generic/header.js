@@ -48,7 +48,7 @@ class Header extends Component {
     const menus = JSON.parse(getStorage('menus'));
     const menuHierarquizado = this.montaMenuHierarquizado(menus);
 
-    return _.map(menuHierarquizado, (menu) => {
+    return _.map(menuHierarquizado, menu => {
       if (_.isObject(menu.pages)) {
         return (
           <NavDropdown title={menu.dsc_title_menu} id={menu.dsc_url} key={menu.cod_menu}>
@@ -123,8 +123,7 @@ class Header extends Component {
                   display: 'inline',
                   position: 'absolute',
                   bottom: 0,
-                }}
-              >
+                }}>
                 &nbsp;{process.env.REACT_APP_VERSION}
               </div>
             </div>

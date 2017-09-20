@@ -35,7 +35,7 @@ class ResultadoVotacao extends Component {
       printingPdf: true,
     });
 
-    const pdf = new jsPDF('p', 'pt', 'a4');
+    const pdf = new jsPDF('p', 'pt', 'a4', true);
     let input;
     const imgWidth = 595;
     // const pageHeight = 842;
@@ -76,7 +76,7 @@ class ResultadoVotacao extends Component {
       const imgHeight = canvas.height * imgWidth / canvas.width;
       const imgData = canvas.toDataURL('image/png');
 
-      pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+      pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight, undefined, 'FAST');
     }
 
     const currentTime = new Date();

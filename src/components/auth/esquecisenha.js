@@ -20,7 +20,7 @@ class EsqueciSenha extends React.Component {
     recaptchaResponse: '',
   };
 
-  verifyCallback = (response) => {
+  verifyCallback = response => {
     this.setState({
       recaptchaResponse: response,
     });
@@ -53,16 +53,15 @@ class EsqueciSenha extends React.Component {
     <Dialog
       title="Foi enviado um e-mail com a senha."
       modal
-      open={this.props.senhaTrocadaComSucesso}
-    >
+      open={this.props.senhaTrocadaComSucesso}>
       <FlatButton label="Ok" primary onClick={this.limpaERedireciona} />,
     </Dialog>
   );
-  onSubmit = (values) => {
+  onSubmit = values => {
     this.props.esqueciSenha(values.email, this.state.recaptchaResponse, values.cpf);
   };
 
-  getEmail = (values) => {
+  getEmail = values => {
     if (!_.isEmpty(this.props.cpf) && !this.props.limpa_tela && !cpf(this.props.cpf)) {
       this.props.getEmail(values);
     }
@@ -93,7 +92,7 @@ class EsqueciSenha extends React.Component {
                     validate={[required, cpf]}
                   />
                 </div>
-                {this.props.email}
+                <div style={{ marginTop: 8, marginBottom: 8 }}>{this.props.email}</div>
                 <Field
                   name="email"
                   component={TextField}
@@ -156,7 +155,7 @@ function mapStateToProps(state) {
 }
 
 const selector = formValueSelector('esquecisenha'); // <-- same as form name
-EsqueciSenha = connect((state) => {
+EsqueciSenha = connect(state => {
   // or together as a group
   /* eslint no-shadow:0 */
   const cpf = selector(state, 'cpf');
@@ -172,5 +171,5 @@ export default reduxForm({
     esqueciSenha,
     setSenhaTrocadaComSucesso,
     getEmail,
-  })(EsqueciSenha),
+  })(EsqueciSenha)
 );
