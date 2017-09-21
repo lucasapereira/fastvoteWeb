@@ -24,11 +24,14 @@ const initialState = {
   funcionalidades: [],
   email: '',
 };
-export default function (state = initialState, action) {
+export default function(state = initialState, action) {
   switch (action.type) {
     case SET_SENHA_TROCADA:
       return {
         ...state,
+        error: '',
+        email: '',
+        cpf_error: false,
         senhaTrocadaComSucesso: false,
       };
     case SENHA_TROCADA:

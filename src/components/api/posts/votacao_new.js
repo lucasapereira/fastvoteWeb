@@ -35,7 +35,9 @@ class TelaVotacaoContainer extends Component {
       error_dsc_pergunta: '',
     };
   }
-
+  componentDidMount() {
+    this.nameInput.focus();
+  }
   handleCheck = id => {
     const found = this.state.activeCheckboxes.includes(id);
 
@@ -275,6 +277,9 @@ class TelaVotacaoContainer extends Component {
             <Col xs={12}>
               <div className="paperCadVotacao">
                 <TextField
+                  ref={input => {
+                    this.nameInput = input;
+                  }}
                   name="dsc_votacao"
                   errorText={this.state.error_dsc_votacao}
                   floatingLabelText="Descrição da Votação"

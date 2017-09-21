@@ -33,13 +33,13 @@ export const limpaTela = value => ({
   payload: value,
 });
 
-export const getEmpresas = field => (dispatch) => {
+export const getEmpresas = field => dispatch => {
   const cpf = field.target.value;
 
   if (cpf && cpf.length === 11) {
     axios
       .get(`/users/getRepsByCPF?num_cpf_pessoa=${cpf}`, authOptions())
-      .then((response) => {
+      .then(response => {
         if (response.data.success === true) {
           dispatch({
             type: EMPRESAS_OK,
@@ -52,7 +52,7 @@ export const getEmpresas = field => (dispatch) => {
           });
         }
       })
-      .catch((e) => {
+      .catch(e => {
         // If request is bad...
         // - Show an error to the user
         dispatch({
@@ -68,13 +68,13 @@ export const getEmpresas = field => (dispatch) => {
   }
 };
 
-export const getEmail = field => (dispatch) => {
+export const getEmail = field => dispatch => {
   const cpf = field.target.value;
 
   if (cpf && cpf.length === 11) {
     axios
       .get(`/users/getEmail?num_cpf_pessoa=${cpf}`, authOptions())
-      .then((response) => {
+      .then(response => {
         if (response.data.success === true) {
           dispatch({
             type: EMAIL_OK,
@@ -87,7 +87,7 @@ export const getEmail = field => (dispatch) => {
           });
         }
       })
-      .catch((e) => {
+      .catch(e => {
         // If request is bad...
         // - Show an error to the user
         dispatch({
@@ -103,7 +103,7 @@ export const getEmail = field => (dispatch) => {
   }
 };
 
-export const trocarSenha = (senhaAntiga, senhaNova) => async (dispatch) => {
+export const trocarSenha = (senhaAntiga, senhaNova) => async dispatch => {
   dispatch({
     type: AUTHENTICATION_PROCESS,
   });
@@ -116,7 +116,7 @@ export const trocarSenha = (senhaAntiga, senhaNova) => async (dispatch) => {
         senhaAntiga,
         senhaNova,
       },
-      authOptions(),
+      authOptions()
     );
 
     if (response.data.success === true) {
@@ -132,7 +132,7 @@ export const trocarSenha = (senhaAntiga, senhaNova) => async (dispatch) => {
   }
 };
 
-export const esqueciSenha = (email, recaptcha, cpf) => async (dispatch) => {
+export const esqueciSenha = (email, recaptcha, cpf) => async dispatch => {
   dispatch({
     type: AUTHENTICATION_PROCESS,
   });
@@ -146,7 +146,7 @@ export const esqueciSenha = (email, recaptcha, cpf) => async (dispatch) => {
         recaptcha,
         num_cpf_pessoa: cpf,
       },
-      authOptions(),
+      authOptions()
     );
 
     if (response.data.success === true) {
@@ -162,7 +162,7 @@ export const esqueciSenha = (email, recaptcha, cpf) => async (dispatch) => {
   }
 };
 
-export const signinUser = ({ cpf, senha, empresas }) => async (dispatch) => {
+export const signinUser = ({ cpf, senha, empresas }) => async dispatch => {
   dispatch({
     type: AUTHENTICATION_PROCESS,
   });
@@ -178,7 +178,7 @@ export const signinUser = ({ cpf, senha, empresas }) => async (dispatch) => {
         cod_usuario_representacao: empresas.toString(),
         cod_sistema: '2',
       },
-      authOptions(),
+      authOptions()
     );
 
     if (response.data.success === true) {

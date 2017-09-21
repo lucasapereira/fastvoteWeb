@@ -54,7 +54,7 @@ class EsqueciSenha extends React.Component {
       title="Foi enviado um e-mail com a senha."
       modal
       open={this.props.senhaTrocadaComSucesso}>
-      <FlatButton label="Ok" primary onClick={this.limpaERedireciona} />,
+      <FlatButton label="Ok" primary onClick={this.limpaERedireciona} />
     </Dialog>
   );
   onSubmit = values => {
@@ -72,6 +72,11 @@ class EsqueciSenha extends React.Component {
     if (this.props.loading) {
       return <MyLoader />;
     }
+
+    if (!this.props.cpf && this.props.email.length > 0) {
+      this.props.setSenhaTrocadaComSucesso(false);
+    }
+
     return (
       <div className="container">
         <Paper className="paperLogin" zDepth={2} rounded>
