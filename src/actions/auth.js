@@ -182,7 +182,7 @@ export const signinUser = ({ cpf, senha, empresas }) => async dispatch => {
     );
 
     if (response.data.success === true) {
-      setStorage('token', response.data.token, 60 * 60);
+      setStorage('token', response.data.token);
       setStorage('nom_completo_pessoa', response.data.message.nom_completo_pessoa);
       setStorage('cod_usuario', response.data.message.cod_usuario);
       setStorage('cod_usuario_representacao', response.data.message.cod_usuario_representacao);
@@ -195,8 +195,8 @@ export const signinUser = ({ cpf, senha, empresas }) => async dispatch => {
       const acl = await axios.get('/users/getFuncionalidades', authOptions());
 
       if (menu.data.success === true && acl.data.success === true) {
-        setStorage('menus', JSON.stringify(menu.data.message), 60 * 60);
-        setStorage('funcionalidades', JSON.stringify(acl.data.message), 60 * 60);
+        setStorage('menus', JSON.stringify(menu.data.message));
+        setStorage('funcionalidades', JSON.stringify(acl.data.message));
 
         dispatch({
           type: AUTH_USER,
