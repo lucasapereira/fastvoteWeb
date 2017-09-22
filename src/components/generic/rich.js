@@ -106,16 +106,16 @@ class StyleButton extends React.Component {
   }
 }
 const BLOCK_TYPES = [
-  { label: 'H1', style: 'header-one' },
-  { label: 'H2', style: 'header-two' },
-  { label: 'H3', style: 'header-three' },
-  { label: 'H4', style: 'header-four' },
-  { label: 'H5', style: 'header-five' },
-  { label: 'H6', style: 'header-six' },
-  { label: 'Blockquote', style: 'blockquote' },
-  { label: 'UL', style: 'unordered-list-item' },
-  { label: 'OL', style: 'ordered-list-item' },
-  { label: 'Code Block', style: 'code-block' },
+  { label: 'Cabeçalho 1', style: 'header-one' },
+  { label: 'Cabeçalho 2', style: 'header-two' },
+  { label: 'Cabeçalho 3', style: 'header-three' },
+  { label: 'Cabeçalho 4', style: 'header-four' },
+  { label: 'Cabeçalho 5', style: 'header-five' },
+  { label: 'Cabeçalho 6', style: 'header-six' },
+  { label: 'Bloco de citação', style: 'blockquote' },
+  { label: 'Lista não ordenada', style: 'unordered-list-item' },
+  { label: 'Lista ordenada', style: 'ordered-list-item' },
+  { label: 'Bloco de código', style: 'code-block' },
 ];
 const BlockStyleControls = props => {
   const { editorState } = props;
@@ -142,7 +142,7 @@ var INLINE_STYLES = [
   { label: 'Negrito', style: 'BOLD' },
   { label: 'Itálico', style: 'ITALIC' },
   { label: 'Sublinhado', style: 'UNDERLINE' },
-  { label: 'Monospace', style: 'CODE' },
+  { label: 'Sombreado', style: 'CODE' },
 ];
 const InlineStyleControls = props => {
   var currentStyle = props.editorState.getCurrentInlineStyle();

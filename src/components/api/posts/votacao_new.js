@@ -222,6 +222,17 @@ class TelaVotacaoContainer extends Component {
             </p>
           </div>
         );
+      } else if (this.state.codModal === 3) {
+        title = 'Cadastro de Resumo';
+        content = (
+          <div>
+            <h4>Cadastrando as informações da votação</h4>
+            <p>
+              Esse campo é utilizado para informar os usuários todas as informações necessárias para
+              realizar o voto.
+            </p>
+          </div>
+        );
       } else {
         title = 'Habilitação de usuários para votar';
         content = (
@@ -297,9 +308,22 @@ class TelaVotacaoContainer extends Component {
                   onChange={this.handleChange}
                   fullWidth
                 />
-                <br />
-                <RichEditorExample onChange={this.onChange} editorState={this.state.editorState} />
               </div>
+            </Col>
+          </Row>
+          <Row>
+            <Col xs={12}>
+              <div className="pageSubTitleCadVotacao">
+                Resumo{' '}
+                <OverlayTrigger placement="top" overlay={tooltip}>
+                  <Icon
+                    glyph="question-sign"
+                    style={{ color: 'blue' }}
+                    onClick={() => this.openModal(3)}
+                  />
+                </OverlayTrigger>
+              </div>
+              <RichEditorExample onChange={this.onChange} editorState={this.state.editorState} />
             </Col>
           </Row>
           <Row>
