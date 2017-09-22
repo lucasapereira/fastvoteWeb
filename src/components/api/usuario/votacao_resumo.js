@@ -21,6 +21,10 @@ class VotacaoResumo extends Component {
     const contentState = convertFromRaw(JSON.parse(resumo));
     let html = stateToHTML(contentState);
 
+    if (html === '<p><br></p>') {
+      html = '<p>O resumo não foi cadastrado.</p>';
+    }
+
     return (
       <Modal show={this.props.modalIsOpen} onHide={this.props.closeModal}>
         <Modal.Header closeButton>
