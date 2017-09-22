@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { compose } from 'react-apollo';
 import { Modal, Button } from 'react-bootstrap';
+
+import { Editor, EditorState, RichUtils, convertFromRaw, convertToRaw } from 'draft-js';
+import { stateToHTML } from 'draft-js-export-html';
 import { QueryResultadoVotacaoPessoa } from './votacao_resumo_graphql';
 import MyLoader from '../../generic/myLoader';
 
@@ -15,16 +18,17 @@ class VotacaoResumo extends Component {
 
     let resumo = this.props.data.allTbVotacaos.nodes[0].dscResumo;
 
-    if (!resumo) {
-      resumo = 'Resumo não cadastrado.';
-    }
+    const contentState = convertFromRaw(JSON.parse(resumo));
+    let html = stateToHTML(contentState);
 
     return (
       <Modal show={this.props.modalIsOpen} onHide={this.props.closeModal}>
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-sm">Resumo da Votação</Modal.Title>
         </Modal.Header>
-        <Modal.Body>{resumo}</Modal.Body>
+        <Modal.Body>
+          <div className="content" dangerouslySetInnerHTML={{ __html: html }} />
+        </Modal.Body>
         <Modal.Footer>
           <Button onClick={this.props.closeModal}>Close</Button>
         </Modal.Footer>

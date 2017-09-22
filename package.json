@@ -12,6 +12,8 @@
     "bootstrap": "^3.3.7",
     "canvas2image": "^1.0.5",
     "chart.js": "^2.7.0",
+    "draft-js": "^0.10.2",
+    "draft-js-export-html": "^1.2.0",
     "flow-bin": "^0.54.1",
     "halogen": "^0.2.0",
     "html2canvas": "^0.5.0-beta4",

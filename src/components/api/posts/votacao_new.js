@@ -5,6 +5,9 @@ import { Row, Col, Modal, Button, Tooltip, OverlayTrigger } from 'react-bootstra
 import TextField from 'material-ui/TextField';
 import FlatButton from 'material-ui/FlatButton';
 import Icon from 'react-icon';
+import { Editor, EditorState, RichUtils, convertFromRaw, convertToRaw } from 'draft-js';
+
+import RichEditorExample from '../../../components/generic/rich';
 
 import CompPerguntaRespostas from '../novaVotacao/compPerguntaRespostas';
 import CompDadosAdicionais from '../novaVotacao/compDadosAdicionais';
@@ -27,14 +30,16 @@ class TelaVotacaoContainer extends Component {
       codPessoaJuridica: getStorage('cod_pessoa_juridica'),
       dscVotacao: '',
       dscPergunta: '',
-      dscResumo: '',
       arrayRespostas: [],
       numRespostas: 3,
       activeCheckboxes: [],
       selectedRows: [],
       error_dsc_pergunta: '',
+      editorState: EditorState.createEmpty(),
     };
   }
+
+  onChange = editorState => this.setState({ editorState });
   componentDidMount() {
     this.nameInput.focus();
   }
@@ -63,8 +68,6 @@ class TelaVotacaoContainer extends Component {
       this.setState({ dscVotacao: event.target.value });
     } else if (event.target.name === 'dsc_pergunta') {
       this.setState({ dscPergunta: event.target.value });
-    } else if (event.target.name === 'dsc_resumo') {
-      this.setState({ dscResumo: event.target.value });
     } else {
       const arrName = event.target.name.split('_');
       this.state.arrayRespostas[arrName[2] - 1] = event.target.value;
@@ -85,26 +88,27 @@ class TelaVotacaoContainer extends Component {
   handleAdd = () => {
     if (this.state.dscVotacao.length === 0) {
       this.msg.error('Descrição da votação é obrigatório');
-      return;
     }
     if (this.state.dscPergunta.length === 0) {
       this.msg.error('Pergunta é obrigatório');
-      return;
     }
 
     if (this.state.arrayRespostas.length < 2) {
       this.msg.error('Cadastre mais alternativas');
-      return;
     }
 
     const arrayVotacaoUsuario = this.state.selectedRows.map(
       row => `${row.codUsuarioRepresentacao}, ${row.vlrPeso}`
     );
 
+    const rawDraftContentState = JSON.stringify(
+      convertToRaw(this.state.editorState.getCurrentContent())
+    );
+
     this.props
       .gravaVotacao({
         variables: {
-          dscresumo: this.state.dscResumo,
+          dscresumo: rawDraftContentState,
           dscvotacao: this.state.dscVotacao,
           codpessoajuridica: this.state.codPessoaJuridica,
           dscpergunta: this.state.dscPergunta,
@@ -293,17 +297,8 @@ class TelaVotacaoContainer extends Component {
                   onChange={this.handleChange}
                   fullWidth
                 />
-
-                <TextField
-                  name="dsc_resumo"
-                  hintText="Informe aqui os detalhes, questões, informações sobre essa votação."
-                  multiLine
-                  floatingLabelText="Resumo"
-                  rows={2}
-                  rowsMax={6}
-                  fullWidth
-                  onChange={this.handleChange}
-                />
+                <br />
+                <RichEditorExample onChange={this.onChange} editorState={this.state.editorState} />
               </div>
             </Col>
           </Row>
