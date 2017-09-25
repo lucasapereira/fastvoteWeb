@@ -133,13 +133,13 @@ class ResultadoVotacaoGrafico extends Component {
           <div className="divGraficos" id="divGraficos">
             <Row>
               <Col xs={12} md={6}>
-                <div id="graph1" className="graphContainer">
-                  <Doughnut data={this.getData()} />
+                <div className="graphContainer">
+                  <Doughnut data={this.getData()} height={250} />
                 </div>
               </Col>
               <Col xs={12} md={6}>
-                <div id="graph2" className="graphContainer">
-                  <Bar data={this.getData()} />
+                <div className="graphContainer">
+                  <Bar data={this.getData()} height={250} />
                 </div>
               </Col>
             </Row>
