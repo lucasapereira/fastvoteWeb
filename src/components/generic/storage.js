@@ -4,7 +4,7 @@
     returns:
         <boolean> : telling if operation succeeded
  */
-export const removeStorage = (name) => {
+export const removeStorage = name => {
   try {
     /* eslint no-undef : 0 */
     localStorage.removeItem(name);
@@ -21,7 +21,7 @@ export const removeStorage = (name) => {
         <string> : value of localStorage key
         null : in case of expired key or failure
  */
-export const getStorage = (key) => {
+export const getStorage = key => {
   const now = Date.now(); // epoch time, lets deal only with integer
   // set expiration for storage
   let expiresIn = localStorage.getItem(`${key}_expiresIn`);
@@ -51,7 +51,7 @@ export const getStorage = (key) => {
  */
 export const setStorage = (key, value, expires) => {
   if (expires === undefined || expires === null) {
-    expires = 60 * 60 * 60; // default: seconds for 1 hour
+    expires = 60 * 60 * 10; // default: seconds for 1 hour
   } else {
     expires = Math.abs(expires); // make sure it's positive
   }
