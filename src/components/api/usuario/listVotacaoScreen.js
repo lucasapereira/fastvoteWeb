@@ -32,7 +32,7 @@ const sendSubscriptionToServer = async (endpoint, key, auth) => {
         auth: encodedAuth,
         notificationEndPoint: endpoint,
       },
-      authOptions(),
+      authOptions()
     );
 
     if (response.data.success === true) {
@@ -51,19 +51,17 @@ const sendSubscriptionToServer = async (endpoint, key, auth) => {
 const subscribeOptions = {
   userVisibleOnly: true,
   applicationServerKey: urlB64ToUint8Array(
-    'BLGTBEW8k2eHj-5ZJOlTQTuwlNDusaoSqDoOBUd5vgil2t6XbKrGQP5imGf6k6bys4TSwVgtWn9HRJVsBXczy_w',
+    'BLGTBEW8k2eHj-5ZJOlTQTuwlNDusaoSqDoOBUd5vgil2t6XbKrGQP5imGf6k6bys4TSwVgtWn9HRJVsBXczy_w'
   ),
 };
 
 const subscribeWebPush = () => {
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.ready.then(registration =>
-      registration.pushManager.getSubscription().then((subscription) => {
+      registration.pushManager.getSubscription().then(subscription => {
         const isSubscribed = !(subscription === null);
 
         if (isSubscribed) {
-          console.log('User IS subscribed.');
-
           if (getStorage('webpushtoken') !== true) {
             const endpoint = subscription.endpoint;
             const key = subscription.getKey('p256dh');
@@ -71,12 +69,9 @@ const subscribeWebPush = () => {
             sendSubscriptionToServer(endpoint, key, auth);
           }
         } else {
-          console.log('User is NOT subscribed.');
-
           registration.pushManager
             .subscribe(subscribeOptions)
-            .then((subscriptionNew) => {
-              console.log('tentando fazer a subscrição');
+            .then(subscriptionNew => {
               // Update status to subscribe current user on server, and to let
               // other users know this user has subscribed
               const endpoint = subscriptionNew.endpoint;
@@ -84,29 +79,30 @@ const subscribeWebPush = () => {
               const auth = subscriptionNew.getKey('auth');
               sendSubscriptionToServer(endpoint, key, auth);
             })
-            .catch((e) => {
+            .catch(e => {
               // A problem occurred with the subscription.
-              this.msg.error('Houve um erro ao se inscrever no WebPush');
               console.log(e);
             });
         }
-      }),
+      })
     );
   }
 };
 
-const ListVotacaoScreen = (props) => {
+const ListVotacaoScreen = props => {
   const codUsuarioRepresentacao = getStorage('cod_usuario_representacao');
   const codPessoa = getStorage('cod_pessoa');
+  var isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
 
-  Notification.requestPermission().then((status) => {
-    if (status === 'granted') {
-      console.log('granted');
-      subscribeWebPush();
-    } else {
-      console.log('not granted');
-    }
-  });
+  if (!isSafari) {
+    Notification.requestPermission().then(status => {
+      if (status === 'granted') {
+        subscribeWebPush();
+      } else {
+        console.log('not granted');
+      }
+    });
+  }
 
   return (
     <div className="container">
