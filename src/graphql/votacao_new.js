@@ -52,6 +52,7 @@ const mutationGravaVotacao = gql`
     $dscresumo: String
     $votacaousuarioarray: [String]
     $dscrespostaarray: [String]
+    $dscarquivoarray: [String]
   ) {
     createVotacao(
       input: {
@@ -61,6 +62,7 @@ const mutationGravaVotacao = gql`
         dscpergunta: $dscpergunta
         votacaousuarioarray: $votacaousuarioarray
         dscrespostaarray: $dscrespostaarray
+        dscarquivoarray: $dscarquivoarray
       }
     ) {
       clientMutationId

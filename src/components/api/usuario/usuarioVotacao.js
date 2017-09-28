@@ -7,8 +7,7 @@ import { compose } from 'react-apollo';
 import { withRouter, Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Paper from 'material-ui/Paper';
-import Icon from 'react-icon';
-import { Table, Row, Col } from 'react-bootstrap';
+import { Table, Row, Col, Glyphicon } from 'react-bootstrap';
 import DetalheVotacao from './detalheVotacao';
 import VotacaoResumo from './votacao_resumo';
 
@@ -99,7 +98,6 @@ class UsuarioVotacao extends Component {
     );
   };
   renderResultado = votacao => {
-    Icon.setDefaultFontPrefix('glyphicon');
     let botaoResultado = (
       <FlatButton
         backgroundColor="#e8e8e8"
@@ -107,7 +105,7 @@ class UsuarioVotacao extends Component {
         fullWidth
         disabled
         primary
-        icon={<Icon glyph="stats" style={{ color: '#C0C0C0' }} />}
+        icon={<Glyphicon glyph="stats" style={{ color: '#C0C0C0' }} />}
       />
     );
 
@@ -133,7 +131,7 @@ class UsuarioVotacao extends Component {
             fullWidth
             labelStyle={{ color: '#FFFFFF' }}
             primary
-            icon={<Icon glyph="stats" style={{ color: '#FFFFFF' }} />}
+            icon={<Glyphicon glyph="stats" style={{ color: '#FFFFFF' }} />}
           />
         </Link>
       );

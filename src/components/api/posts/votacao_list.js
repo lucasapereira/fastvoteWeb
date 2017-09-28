@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import FlatButton from 'material-ui/FlatButton';
-import Icon from 'react-icon';
+
 import { Link } from 'react-router-dom';
 import { compose } from 'react-apollo';
 import axios from 'axios';
@@ -8,7 +8,7 @@ import Grid from '../../generic/grid';
 import { authOptions } from '../../generic/myAxios';
 import MyLoader from '../../generic/myLoader';
 import AlertContainer from 'react-alert';
-import { Row, Col } from 'react-bootstrap';
+import { Row, Col, Glyphicon } from 'react-bootstrap';
 
 import {
   QueryVotacaoList,
@@ -161,7 +161,7 @@ class VotacaoList extends Component {
       return (
         <Link to={link}>
           <FlatButton
-            icon={<Icon glyph="stats" />}
+            icon={<Glyphicon glyph="stats" />}
             label="Resultado"
             fullWidth
             // backgroundColor="#a4c639"
@@ -175,7 +175,7 @@ class VotacaoList extends Component {
       <span>
         <FlatButton
           onClick={handleInicia}
-          icon={<Icon glyph="time" style={{ color: 'green' }} />}
+          icon={<Glyphicon glyph="time" style={{ color: 'green' }} />}
           label="Inicia"
           fullWidth
           // backgroundColor="#a4c639"
@@ -188,7 +188,7 @@ class VotacaoList extends Component {
       <span>
         <FlatButton
           onClick={handleFinaliza}
-          icon={<Icon glyph="time" style={{ color: 'red' }} />}
+          icon={<Glyphicon glyph="time" style={{ color: 'red' }} />}
           label="Finaliza"
           fullWidth
           // backgroundColor="#a4c639"
@@ -198,8 +198,6 @@ class VotacaoList extends Component {
     );
 
     const botaoMostraResultadoEmTempoReal = flgMostraResultadoEmTempoReal => {
-      Icon.setDefaultFontPrefix('glyphicon');
-
       let label = 'Mostra Resultados';
       let icon = 'eye-open';
 
@@ -212,7 +210,7 @@ class VotacaoList extends Component {
         <span>
           <FlatButton
             onClick={handleMostraResultadoEmTempoReal}
-            icon={<Icon glyph={icon} />}
+            icon={<Glyphicon glyph={icon} />}
             label={label}
             fullWidth
             // backgroundColor="#a4c639"

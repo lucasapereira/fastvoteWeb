@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import FlatButton from 'material-ui/FlatButton';
-import Icon from 'react-icon';
 import ReactDataGrid from 'react-data-grid';
 import { confirmable } from 'react-confirm';
 import ReactPaginate from 'react-paginate';
@@ -9,7 +8,7 @@ import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import confirm from './confirm';
 import MyLoader from './myLoader';
-import { Row, Col } from 'react-bootstrap';
+import { Row, Col, Glyphicon } from 'react-bootstrap';
 import update from 'react-addons-update';
 
 const { Toolbar, Data: { Selectors } } = require('react-data-grid-addons');
@@ -28,7 +27,7 @@ class Grid extends Component {
     };
   }
 
-  componentWillReceiveProps = (nextProps) => {
+  componentWillReceiveProps = nextProps => {
     if (nextProps.rows) {
       this.setState({
         loading: false,
@@ -46,13 +45,13 @@ class Grid extends Component {
     });
   };
 
-  onRowsSelected = (rows) => {
+  onRowsSelected = rows => {
     this.setState({
       selectedIndexes: this.state.selectedIndexes.concat(rows.map(r => r.rowIdx)),
     });
   };
 
-  onRowsDeselected = (rows) => {
+  onRowsDeselected = rows => {
     const rowIndexes = rows.map(r => r.rowIdx);
     this.setState({
       selectedIndexes: this.state.selectedIndexes.filter(i => rowIndexes.indexOf(i) === -1),
@@ -67,7 +66,7 @@ class Grid extends Component {
     });
     this.props.setItensGrid(value, 0);
   };
-  handleOnClickPagination = (prop) => {
+  handleOnClickPagination = prop => {
     this.setState({
       pageSelected: prop.selected,
     });
@@ -84,7 +83,7 @@ class Grid extends Component {
       () => {
         this.handleExclusion();
       },
-      () => {},
+      () => {}
     );
   };
   handleGridSort = (sortColumn, sortDirection) => {
@@ -103,7 +102,7 @@ class Grid extends Component {
     });
   };
 
-  handleFilterChange = (filter) => {
+  handleFilterChange = filter => {
     const newFilters = Object.assign({}, this.state.filters);
     if (filter.filterTerm) {
       newFilters[filter.column.key] = filter;
@@ -125,7 +124,7 @@ class Grid extends Component {
         const filteredRows = this.getRows();
         return this.props.renderButtonsOneSelection(
           filteredRows[this.state.selectedIndexes[0]],
-          this.state.pageSelected,
+          this.state.pageSelected
         );
       }
     }
@@ -144,8 +143,6 @@ class Grid extends Component {
   };
 
   renderButtonApaga = () => {
-    Icon.setDefaultFontPrefix('glyphicon');
-
     if (this.props.apaga) {
       let disabledExclusion = true;
 
@@ -156,7 +153,7 @@ class Grid extends Component {
       return (
         <FlatButton
           onClick={this.handleOnClick}
-          icon={<Icon glyph="remove" style={{ color: '#FFFFFF' }} />}
+          icon={<Glyphicon glyph="remove" style={{ color: '#FFFFFF' }} />}
           label="Excluir"
           fullWidth
           disabled={disabledExclusion}
@@ -169,13 +166,11 @@ class Grid extends Component {
   };
 
   renderButtonNovo = () => {
-    Icon.setDefaultFontPrefix('glyphicon');
-
     if (this.props.buttonNovo) {
       return (
         <Link to={this.props.buttonNovo}>
           <FlatButton
-            icon={<Icon glyph="plus" />}
+            icon={<Glyphicon glyph="plus" />}
             label="Novo"
             fullWidth
             backgroundColor="#a4c639"
@@ -196,8 +191,7 @@ class Grid extends Component {
             }}
             floatingLabelText="Qtd por página"
             value={this.props.items_grid}
-            onChange={this.setItensGrid}
-          >
+            onChange={this.setItensGrid}>
             <MenuItem value={20} primaryText="Vinte" />
             <MenuItem value={50} primaryText="Cinquenta" />
             <MenuItem value={100} primaryText="Cem" />

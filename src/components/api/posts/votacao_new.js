@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
 import { compose } from 'react-apollo';
 import AlertContainer from 'react-alert';
-import { Row, Col, Modal, Button, Tooltip, OverlayTrigger } from 'react-bootstrap';
+import { Row, Col, Modal, Button, Tooltip, OverlayTrigger, Glyphicon } from 'react-bootstrap';
 import TextField from 'material-ui/TextField';
 import FlatButton from 'material-ui/FlatButton';
-import Icon from 'react-icon';
-import { Editor, EditorState, RichUtils, convertFromRaw, convertToRaw } from 'draft-js';
+import { EditorState, convertToRaw } from 'draft-js';
+import Dropzone from 'react-dropzone';
+import FormData from 'form-data';
+import axios from 'axios';
 
 import RichEditorExample from '../../../components/generic/rich';
+import { authOptions } from '../../../components/generic/myAxios';
 
 import CompPerguntaRespostas from '../novaVotacao/compPerguntaRespostas';
 import CompDadosAdicionais from '../novaVotacao/compDadosAdicionais';
@@ -36,6 +39,9 @@ class TelaVotacaoContainer extends Component {
       selectedRows: [],
       error_dsc_pergunta: '',
       editorState: EditorState.createEmpty(),
+      accepted: [],
+      rejected: [],
+      filenames: [],
     };
   }
 
@@ -114,6 +120,7 @@ class TelaVotacaoContainer extends Component {
           dscpergunta: this.state.dscPergunta,
           votacaousuarioarray: arrayVotacaoUsuario,
           dscrespostaarray: this.state.arrayRespostas,
+          dscarquivoarray: this.state.filenames,
         },
       })
       .then(() => {
@@ -144,7 +151,7 @@ class TelaVotacaoContainer extends Component {
         <Col xs={12} sm={4}>
           <FlatButton
             onClick={this.handleAdd}
-            icon={<Icon glyph="plus" style={{ color: 'white' }} />}
+            icon={<Glyphicon glyph="plus" style={{ color: 'white' }} />}
             label="Adicionar Votação"
             labelStyle={{ color: 'white' }}
             fullWidth
@@ -163,7 +170,7 @@ class TelaVotacaoContainer extends Component {
       <Col xs={12} sm={8} />
       <Col xs={12} sm={4}>
         <FlatButton
-          icon={<Icon glyph="plus" />}
+          icon={<Glyphicon glyph="plus" />}
           label="Adicionar Votação"
           fullWidth
           disabled
@@ -274,14 +281,13 @@ class TelaVotacaoContainer extends Component {
 
   render() {
     let arrForm = '';
+    let dropzoneRef;
 
     const tooltip = (
       <Tooltip id="tooltip">
         <strong>Clique</strong>
       </Tooltip>
     );
-
-    Icon.setDefaultFontPrefix('glyphicon');
 
     // if (this.state.codPessoaJuridica) {
     arrForm = (
@@ -297,14 +303,14 @@ class TelaVotacaoContainer extends Component {
                   }}
                   name="dsc_votacao"
                   errorText={this.state.error_dsc_votacao}
-                  floatingLabelText="Descrição da Votação"
+                  floatingLabelText="Descrição da assembléia"
                   onChange={this.handleChange}
                   fullWidth
                 />
                 <TextField
                   name="dsc_pergunta"
                   errorText={this.state.error_dsc_pergunta}
-                  floatingLabelText="Pergunta da Votação"
+                  floatingLabelText="Pergunta"
                   onChange={this.handleChange}
                   fullWidth
                 />
@@ -314,9 +320,9 @@ class TelaVotacaoContainer extends Component {
           <Row>
             <Col xs={12}>
               <div className="pageSubTitleCadVotacao">
-                Resumo{' '}
+                Pauta{' '}
                 <OverlayTrigger placement="top" overlay={tooltip}>
-                  <Icon
+                  <Glyphicon
                     glyph="question-sign"
                     style={{ color: 'blue' }}
                     onClick={() => this.openModal(3)}
@@ -324,6 +330,89 @@ class TelaVotacaoContainer extends Component {
                 </OverlayTrigger>
               </div>
               <RichEditorExample onChange={this.onChange} editorState={this.state.editorState} />
+
+              <section>
+                <div className="dropzone">
+                  <Dropzone
+                    ref={node => {
+                      dropzoneRef = node;
+                    }}
+                    onDrop={(accepted, rejected) => {
+                      //this.setState({ accepted, rejected });
+
+                      let aOptions = authOptions();
+
+                      rejected.forEach(file => {
+                        this.msg.error('Arquivo rejeitado: ' + file.name);
+                      });
+
+                      accepted.forEach(file => {
+                        this.state.accepted.push(file);
+                        this.forceUpdate();
+                        console.log('file', file);
+                        //this.state.accepted.push(file);
+                        let data = new FormData();
+
+                        data.append('file', file, file.fileName);
+
+                        let options = {
+                          ...aOptions,
+                          accept: 'application/json',
+                          'Content-Type': `multipart/form-data; boundary=${data._boundary}`,
+                        };
+
+                        axios
+                          .post('/votacao/upload', data, options)
+                          .then(response => {
+                            if (response.data && response.data.filename) {
+                              this.state.filenames.push(
+                                `${response.data.filename}, ${response.data.originalname}`
+                              );
+                            } else {
+                              var index = this.state.accepted.indexOf(file);
+                              if (index > -1) {
+                                this.state.accepted.splice(index, 1);
+                              }
+                            }
+                          })
+                          .catch(e => {
+                            console.log(e);
+                            const indexFile = this.state.accepted.indexOf(file);
+                            if (indexFile > -1) {
+                              this.state.accepted.splice(indexFile, 1);
+
+                              this.forceUpdate();
+                              this.msg.error('Erro ao fazer upload do arquivo.');
+                            }
+                          });
+                      });
+                    }}>
+                    <p>Arraste ou clique aqui para fazer o upload dos arquivos.</p>
+                  </Dropzone>
+
+                  <aside>
+                    <h2>Arquivos adicionados:</h2>
+                    <ul>
+                      {this.state.accepted.map(f => (
+                        <li key={f.name}>
+                          {f.name} - {f.size} bytes
+                        </li>
+                      ))}
+                    </ul>
+                  </aside>
+                  <FlatButton
+                    onClick={() => {
+                      dropzoneRef.open();
+                    }}
+                    icon={<Glyphicon glyph="plus" style={{ color: 'white' }} />}
+                    label="Adicionar arquivos"
+                    labelStyle={{ color: 'white' }}
+                    fullWidth
+                    backgroundColor="#a4c639"
+                    hoverColor="#8AA62F"
+                  />
+                </div>
+              </section>
             </Col>
           </Row>
           <Row>
@@ -331,7 +420,7 @@ class TelaVotacaoContainer extends Component {
               <div className="pageSubTitleCadVotacao">
                 Respostas{' '}
                 <OverlayTrigger placement="top" overlay={tooltip}>
-                  <Icon
+                  <Glyphicon
                     glyph="question-sign"
                     style={{ color: 'blue' }}
                     onClick={() => this.openModal(1)}
@@ -348,7 +437,7 @@ class TelaVotacaoContainer extends Component {
               <div className="pageSubTitleCadVotacao">
                 Filtro dados adicionais{' '}
                 <OverlayTrigger placement="top" overlay={tooltip}>
-                  <Icon
+                  <Glyphicon
                     glyph="question-sign"
                     style={{ color: 'blue' }}
                     onClick={() => this.openModal(2)}
@@ -367,7 +456,7 @@ class TelaVotacaoContainer extends Component {
               <div className="pageSubTitleCadVotacao">
                 Habilitação de Usuários{' '}
                 <OverlayTrigger placement="top" overlay={tooltip}>
-                  <Icon
+                  <Glyphicon
                     glyph="question-sign"
                     style={{ color: 'blue' }}
                     onClick={() => this.openModal(3)}

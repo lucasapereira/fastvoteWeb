@@ -2,14 +2,10 @@ import React, { Component } from 'react';
 
 import TextField from 'material-ui/TextField';
 import FlatButton from 'material-ui/FlatButton';
-import { Row, Col } from 'react-bootstrap';
-
-import Icon from 'react-icon';
+import { Row, Col, Glyphicon } from 'react-bootstrap';
 
 class CompPerguntaRespostas extends Component {
   renderRespostas = () => {
-    Icon.setDefaultFontPrefix('glyphicon');
-
     const arrDescricao = [];
 
     for (let i = 1; i <= this.props.numRespostas; i++) {
@@ -19,7 +15,7 @@ class CompPerguntaRespostas extends Component {
           <FlatButton
             onClick={() => this.props.altNumRespostas(-1)}
             fullWidth
-            icon={<Icon glyph="remove" style={{ color: 'red' }} />}
+            icon={<Glyphicon glyph="remove" style={{ color: 'red' }} />}
           />
         );
       }
@@ -37,7 +33,7 @@ class CompPerguntaRespostas extends Component {
             </Col>
             <Col xs={2}>{btnDel}</Col>
           </Row>
-        </div>,
+        </div>
       );
     }
 
@@ -53,7 +49,7 @@ class CompPerguntaRespostas extends Component {
           <Col xs={12} sm={6}>
             <FlatButton
               onClick={() => this.props.altNumRespostas(1)}
-              icon={<Icon glyph="plus" style={{ color: 'green' }} />}
+              icon={<Glyphicon glyph="plus" style={{ color: 'green' }} />}
               label="Adicionar"
               labelStyle={{ color: 'green' }}
               fullWidth

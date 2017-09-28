@@ -2,9 +2,8 @@ import React, { Component } from 'react';
 // import { compose } from 'react-apollo';
 // import { Doughnut, Bar } from 'react-chartjs-2';
 import FlatButton from 'material-ui/FlatButton';
-import Icon from 'react-icon';
 // import { Table, Row, Col } from 'react-bootstrap';
-import { Row, Col } from 'react-bootstrap';
+import { Row, Col, Glyphicon } from 'react-bootstrap';
 
 // import { QueryResultadoList } from '../../../graphql/resultado';
 
@@ -122,8 +121,6 @@ class ResultadoVotacao extends Component {
   };
 
   buttonExportaPdf = () => {
-    Icon.setDefaultFontPrefix('glyphicon');
-
     if (this.state.printingPdf) {
       return (
         <div className="divBtnExportaRelatorio">
@@ -136,7 +133,7 @@ class ResultadoVotacao extends Component {
       <div className="divBtnExportaRelatorio">
         <FlatButton
           onClick={this.printDocument}
-          icon={<Icon glyph="file" />}
+          icon={<Glyphicon glyph="file" />}
           label="Exportar para PDF"
           fullWidth
         />

@@ -5,6 +5,12 @@ const query = gql`
     allTbVotacaos(orderBy: PRIMARY_KEY_ASC, condition: { codVotacao: $codVotacao }) {
       nodes {
         dscResumo
+        tbVotacaoImagemsByCodVotacao {
+          nodes {
+            dscArquivo
+            nomArquivo
+          }
+        }
       }
     }
   }
