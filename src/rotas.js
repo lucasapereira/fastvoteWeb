@@ -31,6 +31,10 @@ const VotacaoNew = Loadable({
   loader: () => import('./components/api/posts/votacao_new'),
   loading: MyLoadingComponent,
 });
+const DisparaMensagens = Loadable({
+  loader: () => import('./components/api/disparaMensagens/disparaMensagens'),
+  loading: MyLoadingComponent,
+});
 const VotacaoResultado = Loadable({
   loader: () => import('./components/api/posts/votacao_resultado'),
   loading: MyLoadingComponent,
@@ -65,24 +69,26 @@ const rotas = token => (
       exact
       path="/"
       render={() =>
-        (token ? (
+        token ? (
           <Redirect to="/frontend/usuario/listvotacao" />
         ) : (
           <Redirect to="/frontend/auth/signin" />
-        ))}
+        )}
     />
     <Route
       exact
       path="/frontend"
       render={() =>
-        (token ? (
+        token ? (
           <Redirect to="/frontend/usuario/listvotacao" />
         ) : (
           <Redirect to="/frontend/auth/signin" />
-        ))}
+        )}
     />
     <Route path="/frontend/usuario/listvotacao" component={RequireAuth(ListVotacaoScreen)} />
     <Route path="/frontend/votacao/nova" component={RequireAuth(VotacaoNew)} />
+    <Route path="/frontend/votacao/mensagens" component={RequireAuth(DisparaMensagens)} />
+
     <Route
       path="/frontend/votacao/resultado/:codVotacao"
       component={RequireAuth(VotacaoResultado)}
