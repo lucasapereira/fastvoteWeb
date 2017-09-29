@@ -366,7 +366,8 @@ class TelaVotacaoContainer extends Component {
                           .then(response => {
                             if (response.data && response.data.filename) {
                               this.state.filenames.push(
-                                `${response.data.filename}, ${response.data.originalname}`
+                                `${response.data.filename},${response.data
+                                  .originalname},${file.type}`
                               );
                             } else {
                               var index = this.state.accepted.indexOf(file);

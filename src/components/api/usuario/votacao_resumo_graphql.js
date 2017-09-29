@@ -9,6 +9,7 @@ const query = gql`
           nodes {
             dscArquivo
             nomArquivo
+            dscType
           }
         }
       }

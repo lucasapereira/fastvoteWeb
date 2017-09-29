@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { compose } from 'react-apollo';
 import { Modal, Button } from 'react-bootstrap';
-import FlatButton from 'material-ui/FlatButton';
 import { convertFromRaw } from 'draft-js';
 import { stateToHTML } from 'draft-js-export-html';
+import AlertContainer from 'react-alert';
 
 import axios from 'axios';
 import { QueryResultadoVotacaoPessoa } from './votacao_resumo_graphql';
@@ -13,22 +13,48 @@ import { authOptions } from '../../generic/myAxios';
 const FileDownload = require('react-file-download');
 
 class VotacaoResumo extends Component {
-  download = () => {
+  alertOptions = {
+    offset: 14,
+    position: 'bottom left',
+    theme: 'dark',
+    time: 5000,
+    transition: 'scale',
+  };
+
+  download = file => {
+    const aOptions = authOptions();
+    const novoOptions = {
+      ...aOptions,
+      responseType: 'blob',
+      headers: {
+        ...aOptions.headers,
+        Accept: file.dscType,
+      },
+    };
     axios
-      .get('/votacao/getArquivoVotacao?filename=16c1a6f3eb4136a329852389750025b2', authOptions())
+      .get(`/votacao/getArquivoVotacao?filename=${file.dscArquivo}`, novoOptions)
       .then(response => {
-        console.log(response);
         if (response.data) {
-          FileDownload(response.data, 'about_blank.pdf');
+          FileDownload(response.data, file.nomArquivo, file.dscType);
         } else {
-          //  this.msg.error('Erro ao fazer upload do arquivo.');
+          this.msg.error('Erro ao fazer download do arquivo.');
         }
       })
       .catch(e => {
         console.log(e);
 
-        //this.msg.error('Erro ao fazer upload do arquivo.');
+        this.msg.error('Erro ao fazer download do arquivo.');
       });
+  };
+
+  showFiles = () => {
+    return this.props.data.allTbVotacaos.nodes[0].tbVotacaoImagemsByCodVotacao.nodes.map(file => {
+      return (
+        <a href="#" onClick={() => this.download(file)} key={file.dscArquivo}>
+          {file.nomArquivo}
+        </a>
+      );
+    });
   };
 
   render = () => {
@@ -56,20 +82,12 @@ class VotacaoResumo extends Component {
         <Modal.Body>
           <div className="content" dangerouslySetInnerHTML={{ __html: html }} />
 
-          <FlatButton
-            onClick={() => {
-              this.download();
-            }}
-            label="Adicionar arquivos"
-            labelStyle={{ color: 'white' }}
-            fullWidth
-            backgroundColor="#a4c639"
-            hoverColor="#8AA62F"
-          />
+          {this.showFiles()}
         </Modal.Body>
         <Modal.Footer>
           <Button onClick={this.props.closeModal}>Close</Button>
         </Modal.Footer>
+        <AlertContainer ref={a => (this.msg = a)} {...this.alertOptions} />
       </Modal>
     );
   };
