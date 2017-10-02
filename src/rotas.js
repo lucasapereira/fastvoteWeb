@@ -32,7 +32,7 @@ const VotacaoNew = Loadable({
   loading: MyLoadingComponent,
 });
 const DisparaMensagens = Loadable({
-  loader: () => import('./components/api/disparaMensagens/disparaMensagens'),
+  loader: () => import('./components/api/mensagens/mensagens'),
   loading: MyLoadingComponent,
 });
 const VotacaoResultado = Loadable({

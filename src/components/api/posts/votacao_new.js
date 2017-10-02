@@ -332,9 +332,11 @@ class TelaVotacaoContainer extends Component {
               </div>
               <RichEditorExample onChange={this.onChange} editorState={this.state.editorState} />
 
+              <div className="pageSubTitleCadVotacao">Anexos da mensagem</div>
               <section>
                 <div className="dropzone">
                   <Dropzone
+                    className="fileContainer"
                     ref={node => {
                       dropzoneRef = node;
                     }}
@@ -389,18 +391,24 @@ class TelaVotacaoContainer extends Component {
                           });
                       });
                     }}>
-                    <p>Arraste ou clique aqui para fazer o upload dos arquivos.</p>
+                    <p>
+                      <div className="fileIcon">
+                        <Glyphicon glyph="download-alt" />
+                      </div>
+                      <div>Arraste os arquivos para cá ou clique aqui para fazer o upload.</div>
+                    </p>
                   </Dropzone>
 
                   <aside>
-                    <h2>Arquivos adicionados:</h2>
-                    <ul>
+                    <div className="labelFile">Arquivos adicionados:</div>
+                    <ul className="listFile">
                       {this.state.accepted.map(f => (
-                        <li key={f.name}>
-                          {f.name} - {f.size} bytes
+                        <li key={f.name} className="listItem">
+                          <Glyphicon glyph="glyphicon-file" /> {f.name} - {f.size} bytes
                         </li>
                       ))}
                     </ul>
+                   
                   </aside>
                   <FlatButton
                     onClick={() => {

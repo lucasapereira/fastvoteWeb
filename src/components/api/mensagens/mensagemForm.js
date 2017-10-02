@@ -16,7 +16,7 @@ const email = value =>
 const tooManyPizzas = value => (value > 15 ? 'Are you mad?' : undefined);
 */
 
-class DisparaMensagemForm extends Component {
+class MensagemForm extends Component {
   render() {
     const { handleSubmit, pristine, numPizzas, reset, submitting } = this.props;
 
@@ -80,13 +80,13 @@ class DisparaMensagemForm extends Component {
 
         <Row>
           <Col xs={12}>
-            <div className="pageSubTitleCadVotacao">Mensagem </div>
+            <div className="pageSubTitleCadVotacao">Mensagem</div>
           </Col>
         </Row>
 
         <Row>
           <Col xs={12}>
-            <div className="pageSubTitleCadVotacao">Destinatários </div>
+            <div className="pageSubTitleCadVotacao">Destinatários</div>
           </Col>
         </Row>
       </form>
@@ -98,17 +98,17 @@ class DisparaMensagemForm extends Component {
 
 const selector = formValueSelector('example');
 
-DisparaMensagemForm = connect(state => ({
+MensagemForm = connect(state => ({
   dsc_titulo: selector(state, 'dsc_titulo'),
   dsc_subtitulo: selector(state, 'dsc_subtitulo'),
-}))(DisparaMensagemForm);
+}))(MensagemForm);
 
-DisparaMensagemForm = reduxForm({
+MensagemForm = reduxForm({
   form: 'example',
   initialValues: {
-    dsc_titulo: 'aaaaaaaaaaaaaa',
-    dsc_subtitulo: 'bbbbbbb',
+    dsc_titulo: 'Teste Titulo',
+    dsc_subtitulo: 'Teste Subtitulo',
   },
-})(DisparaMensagemForm);
+})(MensagemForm);
 
-export default DisparaMensagemForm;
+export default MensagemForm;

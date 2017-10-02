@@ -4,11 +4,11 @@ import { compose } from 'react-apollo';
 import Grid from '../../generic/grid';
 import MyLoader from '../../generic/myLoader';
 
-import { QueryResultadoList } from './disparaMensagensListGraph';
+import { QueryResultadoList } from './mensagensListGraph';
 
 import { getStorage } from '../../../components/generic/storage';
 
-class DisparaMensagensList extends Component {
+class MensagensList extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -70,4 +70,4 @@ class DisparaMensagensList extends Component {
   }
 }
 
-export default compose(QueryResultadoList)(DisparaMensagensList);
+export default compose(QueryResultadoList)(MensagensList);

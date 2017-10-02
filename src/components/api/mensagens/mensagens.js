@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import DisparaMensagemList from './disparaMensagemList';
-import DisparaMensagemForm from './disparaMensagemForm';
+import MensagensList from './mensagensList';
+import MensagemForm from './mensagemForm';
 
-class DisparaMensagem extends Component {
+class Mensagens extends Component {
   render() {
     return (
       <div className="container">
         <div className="baseContentWhite">
           <div className="pageTitle">Mensagens Cadastradas</div>
-          <DisparaMensagemList
+          <MensagensList
           // codPessoaJuridica={this.state.codPessoaJuridica}
           // activeCheckboxes={this.state.activeCheckboxes}
           // renderButtonVariosSelection={this.renderButtonVariosSelection}
@@ -19,7 +19,7 @@ class DisparaMensagem extends Component {
           />
 
           <div className="pageTitle">Envio de Mensagens</div>
-          <DisparaMensagemForm />
+          <MensagemForm />
         </div>
       </div>
     );
@@ -30,5 +30,5 @@ function mapStateToProps(state) {
   return {};
 }
 
-export default connect(mapStateToProps)(DisparaMensagem);
-// export default compose(MutationGravaVotacao)(DisparaMensagem);
+export default connect(mapStateToProps)(Mensagens);
+// export default compose(MutationGravaVotacao)(Mensagens);

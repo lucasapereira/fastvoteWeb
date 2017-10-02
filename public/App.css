@@ -445,6 +445,37 @@ body {
   padding: 5px;
 }
 
+.fileIcon {
+  color: #F8E191;
+  margin-top: 15px;
+  font-size: 100px;
+}
+
+.fileContainer {
+  font-size: 150%;
+  text-align: center;
+  color: #DBA901;
+  border: 5px dotted #F8E191;
+  background-color: #F7F2E0;
+}
+
+.labelFile {
+  font-size: 120%;
+  font-weight: bold;
+  color: #C1C1C1;
+  border-bottom: 1px solid #C0C0C0;
+}
+
+.listFile {
+  
+  color: #FFFF00;
+}
+
+.listItem {
+  
+  color: #FF0000;
+}
+
 /* Tela Troca Senha */
 
 .divFormTrocaSenha {
