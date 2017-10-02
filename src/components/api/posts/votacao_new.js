@@ -317,6 +317,7 @@ class TelaVotacaoContainer extends Component {
               </div>
             </Col>
           </Row>
+
           <Row>
             <Col xs={12}>
               <div className="pageSubTitleCadVotacao">
@@ -416,6 +417,7 @@ class TelaVotacaoContainer extends Component {
               </section>
             </Col>
           </Row>
+
           <Row>
             <Col xs={12} sm={6}>
               <div className="pageSubTitleCadVotacao">

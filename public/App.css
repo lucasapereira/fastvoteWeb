@@ -440,6 +440,11 @@ body {
   height: 540px;
 }
 
+.dropzone {
+  border: 1px solid red;
+  padding: 5px;
+}
+
 /* Tela Troca Senha */
 
 .divFormTrocaSenha {
