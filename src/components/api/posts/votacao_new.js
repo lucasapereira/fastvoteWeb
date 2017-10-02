@@ -289,6 +289,30 @@ class TelaVotacaoContainer extends Component {
       </Tooltip>
     );
 
+    let fileList = this.state.accepted.length ? (
+      this.state.accepted.map(f => {
+        let nameFile = f.name;
+        let sizeFile = f.size;
+        let labelFile = '';
+
+        if (nameFile.length > 18) {
+          labelFile = nameFile.substr(0, 5) + '...' + nameFile.substr(-10);
+        } else {
+          labelFile = nameFile;
+        }
+
+        return (
+          <div key={f.name} className="listItem">
+            <Glyphicon glyph="file" /> {labelFile} - {sizeFile} bytes
+          </div>
+        );
+      })
+    ) : (
+      <div className="listItem">
+        <Glyphicon glyph="ban-circle" /> Nenhum arquivo selecionado...
+      </div>
+    );
+
     // if (this.state.codPessoaJuridica) {
     arrForm = (
       <div className="container">
@@ -401,23 +425,7 @@ class TelaVotacaoContainer extends Component {
 
                   <aside>
                     <div className="labelFile">Arquivos adicionados:</div>
-                    {this.state.accepted.map(f => {
-                      let nameFile = f.name;
-                      let sizeFile = f.size;
-                      let labelFile = '';
-
-                      if (nameFile.length > 18) {
-                        labelFile = nameFile.substr(0, 5) + '...' + nameFile.substr(-10);
-                      } else {
-                        labelFile = nameFile;
-                      }
-
-                      return (
-                        <div key={f.name} className="listItem">
-                          <Glyphicon glyph="file" /> {labelFile} - {sizeFile} bytes
-                        </div>
-                      );
-                    })}
+                    {fileList}
                   </aside>
                 </div>
               </section>
