@@ -475,7 +475,7 @@ class TelaVotacaoContainer extends Component {
               </div>
             </Col>
           </Row>
-          {this.renderModal()};
+          {this.renderModal()}
         </div>
       </div>
     );
