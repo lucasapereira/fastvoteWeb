@@ -303,7 +303,7 @@ class TelaVotacaoContainer extends Component {
 
         return (
           <div key={f.name} className="listItem">
-            <Glyphicon glyph="file" /> {labelFile} - {sizeFile} bytes
+            <Glyphicon glyph="file" /> {labelFile} - {sizeFile} bytes <Glyphicon glyph="trash" />
           </div>
         );
       })
@@ -425,7 +425,7 @@ class TelaVotacaoContainer extends Component {
 
                   <aside>
                     <div className="labelFile">Arquivos adicionados:</div>
-                    {fileList}
+                    <div className="fileListContainer">{fileList}</div>
                   </aside>
                 </div>
               </section>

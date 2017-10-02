@@ -468,7 +468,11 @@ body {
   margin-bottom: 2px;
 }
 
-.listFile {}
+
+.fileListContainer {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
 
 .listItem {
   color: #A7A7A7;
