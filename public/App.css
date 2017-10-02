@@ -441,14 +441,14 @@ body {
 }
 
 .dropzone {
-  border: 1px solid red;
+  border: 2px solid #CECECE;
   padding: 5px;
 }
 
 .fileIcon {
   color: #F8E191;
   margin-top: 15px;
-  font-size: 100px;
+  font-size: 90px;
 }
 
 .fileContainer {
@@ -464,16 +464,16 @@ body {
   font-weight: bold;
   color: #C1C1C1;
   border-bottom: 1px solid #C0C0C0;
+  margin-top: 5px;
+  margin-bottom: 2px;
 }
 
-.listFile {
-  
-  color: #FFFF00;
-}
+.listFile {}
 
 .listItem {
-  
-  color: #FF0000;
+  color: #A7A7A7;
+  list-style-type: none;
+  font-size: 90%;
 }
 
 /* Tela Troca Senha */

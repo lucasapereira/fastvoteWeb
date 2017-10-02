@@ -401,26 +401,24 @@ class TelaVotacaoContainer extends Component {
 
                   <aside>
                     <div className="labelFile">Arquivos adicionados:</div>
-                    <ul className="listFile">
-                      {this.state.accepted.map(f => (
-                        <li key={f.name} className="listItem">
-                          <Glyphicon glyph="glyphicon-file" /> {f.name} - {f.size} bytes
-                        </li>
-                      ))}
-                    </ul>
-                   
+                    {this.state.accepted.map(f => {
+                      let nameFile = f.name;
+                      let sizeFile = f.size;
+                      let labelFile = '';
+
+                      if (nameFile.length > 18) {
+                        labelFile = nameFile.substr(0, 5) + '...' + nameFile.substr(-10);
+                      } else {
+                        labelFile = nameFile;
+                      }
+
+                      return (
+                        <div key={f.name} className="listItem">
+                          <Glyphicon glyph="file" /> {labelFile} - {sizeFile} bytes
+                        </div>
+                      );
+                    })}
                   </aside>
-                  <FlatButton
-                    onClick={() => {
-                      dropzoneRef.open();
-                    }}
-                    icon={<Glyphicon glyph="plus" style={{ color: 'white' }} />}
-                    label="Adicionar arquivos"
-                    labelStyle={{ color: 'white' }}
-                    fullWidth
-                    backgroundColor="#a4c639"
-                    hoverColor="#8AA62F"
-                  />
                 </div>
               </section>
             </Col>
@@ -490,7 +488,19 @@ class TelaVotacaoContainer extends Component {
       </div>
     );
     // }
-
+    /*
+    <FlatButton
+                    onClick={() => {
+                      dropzoneRef.open();
+                    }}
+                    icon={<Glyphicon glyph="plus" style={{ color: 'white' }} />}
+                    label="Adicionar arquivos"
+                    labelStyle={{ color: 'white' }}
+                    fullWidth
+                    backgroundColor="#a4c639"
+                    hoverColor="#8AA62F"
+                  />
+                  */
     return (
       <div className="container">
         <div className="baseContent">{arrForm}</div>
