@@ -279,6 +279,14 @@ class TelaVotacaoContainer extends Component {
     return modal;
   };
 
+  deleteFile = file => {
+    const indexFile = this.state.accepted.indexOf(file);
+    if (indexFile > -1) {
+      this.state.accepted.splice(indexFile, 1);
+      this.forceUpdate();
+    }
+  };
+
   render() {
     let arrForm = '';
     let dropzoneRef;
@@ -303,7 +311,8 @@ class TelaVotacaoContainer extends Component {
 
         return (
           <div key={f.name} className="listItem">
-            <Glyphicon glyph="file" /> {labelFile} - {sizeFile} bytes <Glyphicon glyph="trash" />
+            <Glyphicon glyph="file" /> {labelFile} - {sizeFile} bytes{' '}
+            <Glyphicon glyph="trash" onClick={() => this.deleteFile(f)} />
           </div>
         );
       })
@@ -376,7 +385,6 @@ class TelaVotacaoContainer extends Component {
                       accepted.forEach(file => {
                         this.state.accepted.push(file);
                         this.forceUpdate();
-                        console.log('file', file);
                         //this.state.accepted.push(file);
                         let data = new FormData();
 
