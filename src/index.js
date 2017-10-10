@@ -40,8 +40,8 @@ window.addEventListener(
           history.back(1);
         }
       },
-      false,
+      false
     );
   },
-  false,
+  false
 );

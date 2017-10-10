@@ -480,6 +480,11 @@ body {
   font-size: 90%;
 }
 
+.markedAsDone {
+  text-decoration: line-through;
+  color: #777;
+}
+
 /* Tela Troca Senha */
 
 .divFormTrocaSenha {
