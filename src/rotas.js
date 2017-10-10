@@ -2,16 +2,16 @@ import React from 'react';
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { Provider } from 'react-redux';
-import { createStore, applyMiddleware } from 'redux';
+import { createStore, applyMiddleware, compose } from 'redux';
 import reduxThunk from 'redux-thunk';
-
+import Loadable from 'react-loadable';
 import { AUTH_USER } from './actions/auth';
 
 import { ApolloProvider, ApolloClient, createNetworkInterface } from 'react-apollo';
 
 import { getStorage } from './components/generic/storage';
 
-import reducers from './reducers';
+import { client, reducers } from './reducers';
 
 import Header from './components/generic/header';
 
@@ -19,7 +19,7 @@ import Signin from './components/auth/signin';
 import Forbidden from './components/auth/forbidden';
 import Signout from './components/auth/signout';
 import RequireAuth from './components/auth/require_auth';
-import Loadable from 'react-loadable';
+
 import MyLoadingComponent from './navigation/MyLoadingComponent';
 
 const VotacaoList = Loadable({
@@ -52,8 +52,23 @@ const EsqueciSenha = Loadable({
   loading: MyLoadingComponent,
 });
 
-const createStoreWithMiddleware = applyMiddleware(reduxThunk)(createStore);
-const store = createStoreWithMiddleware(reducers);
+const store = createStore(
+  reducers,
+  {}, // initial state
+  compose(
+    applyMiddleware(client.middleware()),
+    applyMiddleware(reduxThunk),
+    // If you are using the devToolsExtension, you can add it here also
+    /* eslint-disable */
+    typeof window.__REDUX_DEVTOOLS_EXTENSION__ !== 'undefined'
+      ? window.__REDUX_DEVTOOLS_EXTENSION__()
+      : f => f
+    /*eslint-enable*/
+  )
+);
+
+//const createStoreWithMiddleware = applyMiddleware(reduxThunk)(createStore);
+//const store = createStoreWithMiddleware(reducers);
 
 const NoMatch = ({ location }) => (
   <div>
@@ -104,14 +119,12 @@ const rotas = token => (
 );
 
 const telaPrincipal = token => (
-  <Provider store={store}>
-    <BrowserRouter>
-      <div>
-        <Header />
-        <MuiThemeProvider>{rotas(token)}</MuiThemeProvider>
-      </div>
-    </BrowserRouter>
-  </Provider>
+  <BrowserRouter>
+    <div>
+      <Header />
+      <MuiThemeProvider>{rotas(token)}</MuiThemeProvider>
+    </div>
+  </BrowserRouter>
 );
 
 export const routeTo = () => {
@@ -149,5 +162,9 @@ export const routeTo = () => {
     networkInterface,
   });
 
-  return <ApolloProvider client={client}>{telaPrincipal(token)}</ApolloProvider>;
+  return (
+    <ApolloProvider client={client} store={store}>
+      {telaPrincipal(token)}
+    </ApolloProvider>
+  );
 };

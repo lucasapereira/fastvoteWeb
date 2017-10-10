@@ -307,8 +307,6 @@ class VotacaoList extends Component {
     const tzoffset = new Date().getTimezoneOffset() * 60000; // offset in milliseconds
     const localISOTime = new Date(this.state.dateFinalizacao - tzoffset).toISOString().slice(0, -1);
 
-    console.log(this.state.selectedRow);
-
     this.props
       .inicializaFinalizaVotacao({
         variables: {
@@ -357,7 +355,6 @@ class VotacaoList extends Component {
       return <MyLoader />;
     }
 
-    console.log(this.state.dateFinalizacao);
     return (
       <div className="container">
         <div className="baseContentWhite">
