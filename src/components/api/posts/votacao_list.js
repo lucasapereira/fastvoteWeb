@@ -4,31 +4,59 @@ import FlatButton from 'material-ui/FlatButton';
 import { Link } from 'react-router-dom';
 import { compose } from 'react-apollo';
 import axios from 'axios';
+import Checkbox from 'material-ui/Checkbox';
+
+import AlertContainer from 'react-alert';
+import { Row, Col, Glyphicon, Modal, Button } from 'react-bootstrap';
+
+import DatePicker from 'material-ui/DatePicker';
+import TimePicker from 'material-ui/TimePicker';
+import areIntlLocalesSupported from 'intl-locales-supported';
+
 import Grid from '../../generic/grid';
 import { authOptions } from '../../generic/myAxios';
 import MyLoader from '../../generic/myLoader';
-import AlertContainer from 'react-alert';
-import { Row, Col, Glyphicon } from 'react-bootstrap';
+import { getStorage } from '../../generic/storage';
 
 import {
   QueryVotacaoList,
-  MutationIniciaVotacao,
-  MutationFinalizaVotacao,
+  MutationInicializaFinalizaVotacao,
   MutationApagaVotacao,
   MutationMostraResultadoEmTempoReal,
 } from '../../../graphql/votacao';
 
+let DateTimeFormat;
+
+/**
+ * Use the native Intl.DateTimeFormat if available, or a polyfill if not.
+ */
+if (areIntlLocalesSupported(['pt', 'pt-BR'])) {
+  DateTimeFormat = global.Intl.DateTimeFormat;
+} else {
+  const IntlPolyfill = require('intl');
+  DateTimeFormat = IntlPolyfill.DateTimeFormat;
+  require('intl/locale-data/jsonp/pt');
+  require('intl/locale-data/jsonp/pt-BR');
+}
+
 class VotacaoList extends Component {
   constructor(props) {
     super(props);
+    const newDateObj = new Date();
+
+    const dateFinalizacao = new Date(newDateObj.getTime() + 1 * 60000);
+
     this.state = {
       items_grid: 20,
+      showModalFinaliza: false,
+      showModalInicializa: false,
+      checkedAppPush: true,
+      checkedWebPush: true,
+      checkedEmail: true,
+
+      dateFinalizacao,
     };
   }
-
-  state: {
-    items_grid: number,
-  };
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.rows.length > 0) {
@@ -120,25 +148,6 @@ class VotacaoList extends Component {
         });
     };
 
-    const handleFinaliza = () => {
-      const tzoffset = new Date().getTimezoneOffset() * 60000; // offset in milliseconds
-      const localISOTime = new Date(Date.now() - tzoffset).toISOString().slice(0, -1);
-      this.props
-        .finalizaVotacao({
-          variables: {
-            codVotacao: row.codVotacao,
-            datFimVotacao: localISOTime,
-          },
-        })
-        .then(() => {
-          this.props.loadMoreEntries(pageSelected * this.state.items_grid, this.state.items_grid);
-          this.enviaPushInicioFimVotacao(row, 'finaliza');
-        })
-        .catch(() => {
-          this.msg.error('Erro ao realizar a operação');
-        });
-    };
-
     const handleMostraResultadoEmTempoReal = () => {
       this.props
         .mostraResultadoEmTempoReal({
@@ -184,10 +193,25 @@ class VotacaoList extends Component {
       </span>
     );
 
+    const showModalFinaliza = () => {
+      const newDateObj = new Date();
+      const minDateFinalizacao = new Date(newDateObj.getTime() + 1 * 60000);
+      const dateFinalizacao = new Date(newDateObj.getTime() + 1 * 60000);
+      const timeFinalizacao = new Date(newDateObj.getTime() + 1 * 60000);
+      this.setState({
+        showModalFinaliza: true,
+        minDateFinalizacao,
+        dateFinalizacao,
+        timeFinalizacao,
+        selectedRow: row,
+        selectedPage: pageSelected,
+      });
+    };
+
     const botaoFinaliza = (
       <span>
         <FlatButton
-          onClick={handleFinaliza}
+          onClick={showModalFinaliza}
           icon={<Glyphicon glyph="time" style={{ color: 'red' }} />}
           label="Finaliza"
           fullWidth
@@ -258,11 +282,82 @@ class VotacaoList extends Component {
     this.props.loadMoreEntries(selected * this.state.items_grid, this.state.items_grid);
   };
 
+  isMenorQueAgora = (event, time) => {
+    if (this.state.minDateFinalizacao.getTime() >= time.getTime()) {
+      this.msg.error('Data de finalização deve ser maior que a hora atual.');
+
+      this.setState({
+        dateFinalizacao: this.state.minDateFinalizacao,
+      });
+    } else {
+      this.setState({
+        dateFinalizacao: time,
+      });
+    }
+  };
+
+  closeModalFinaliza = () => {
+    this.setState({
+      showModalFinaliza: false,
+    });
+  };
+  handleFinaliza = (datFimVotacao, timeFimVotacao) => {
+    this.closeModalFinaliza();
+
+    const tzoffset = new Date().getTimezoneOffset() * 60000; // offset in milliseconds
+    const localISOTime = new Date(this.state.dateFinalizacao - tzoffset).toISOString().slice(0, -1);
+
+    console.log(this.state.selectedRow);
+
+    this.props
+      .inicializaFinalizaVotacao({
+        variables: {
+          codVotacao: this.state.selectedRow.codVotacao,
+          datiniciofimvotacao: localISOTime,
+          apppush: this.state.checkedAppPush,
+          webpush: this.state.checkedWebPush,
+          email: this.state.checkedEmail,
+          isinicio: false,
+          title: 'Finaliza Votação',
+          subtitle: 'Fim da Votação',
+          body: 'Data de inicio da votação: ',
+          codpessoajuridica: getStorage('cod_pessoa_juridica'),
+        },
+      })
+      .then(() => {
+        this.props.loadMoreEntries(
+          this.state.pageSelected * this.state.items_grid,
+          this.state.items_grid
+        );
+      })
+      .catch(e => {
+        console.log(e);
+        this.msg.error('Erro ao realizar a operação');
+      });
+  };
+
+  updateCheckAppPush = (event, test) => {
+    this.setState({
+      checkedAppPush: test,
+    });
+  };
+  updateCheckWebPush = (event, test) => {
+    this.setState({
+      checkedWebPush: test,
+    });
+  };
+  updateCheckEmail = (event, test) => {
+    this.setState({
+      checkedEmail: test,
+    });
+  };
+
   render() {
     if (this.props.loading) {
       return <MyLoader />;
     }
 
+    console.log(this.state.dateFinalizacao);
     return (
       <div className="container">
         <div className="baseContentWhite">
@@ -280,6 +375,46 @@ class VotacaoList extends Component {
             renderButtonsOneSelection={this.renderButtonsOneSelection}
             loading={this.props.loading}
           />
+          <Modal show={this.state.showModalFinaliza} onHide={this.closeModalFinaliza}>
+            <Modal.Header closeButton>
+              <Modal.Title id="contained-modal-title-sm">Finaliza Votação</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <DatePicker
+                hintText="Dia do término"
+                DateTimeFormat={DateTimeFormat}
+                locale="pt-br"
+                minDate={this.state.minDateFinalizacao}
+                value={this.state.dateFinalizacao}
+                onChange={this.isMenorQueAgora}
+              />
+              <TimePicker
+                format="24hr"
+                hintText="Hora de finalizacao"
+                onChange={this.isMenorQueAgora}
+                value={this.state.dateFinalizacao}
+              />
+              <Checkbox
+                label="App Push"
+                checked={this.state.checkedAppPush}
+                onCheck={this.updateCheckAppPush}
+              />
+              <Checkbox
+                label="Web Push"
+                checked={this.state.checkedWebPush}
+                onCheck={this.updateCheckWebPush}
+              />
+              <Checkbox
+                label="E-mail"
+                checked={this.state.checkedEmail}
+                onCheck={this.updateCheckEmail}
+              />
+            </Modal.Body>
+            <Modal.Footer>
+              <Button onClick={this.closeModalFinaliza}>Fechar</Button>
+              <Button onClick={this.handleFinaliza}>Finalizar</Button>
+            </Modal.Footer>
+          </Modal>
           <AlertContainer ref={a => (this.msg = a)} {...this.alertOptions} />
         </div>
       </div>
@@ -288,8 +423,7 @@ class VotacaoList extends Component {
 }
 
 export default compose(
-  MutationIniciaVotacao,
-  MutationFinalizaVotacao,
+  MutationInicializaFinalizaVotacao,
   MutationApagaVotacao,
   MutationMostraResultadoEmTempoReal,
   QueryVotacaoList

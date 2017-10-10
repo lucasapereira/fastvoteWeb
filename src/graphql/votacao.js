@@ -87,50 +87,54 @@ const queryOptions = {
   },
 };
 
-const mutationFinalizaVotacao = gql`
-  mutation finalizaVotacao($codVotacao: Int!, $datFimVotacao: Datetime) {
-    updateTbVotacaoByCodVotacao(
-      input: { codVotacao: $codVotacao, tbVotacaoPatch: { datFimVotacao: $datFimVotacao } }
-    ) {
-      tbVotacao {
-        datFimVotacao
+const mutationInicializaFinalizaVotacao = gql`
+  mutation inicializaFinalizaVotacao(
+    $codVotacao: Int!
+    $datiniciofimvotacao: Datetime
+    $apppush: Boolean
+    $webpush: Boolean
+    $email: Boolean
+    $isinicio: Boolean
+    $codpessoajuridica: Int
+    $title: String
+    $subtitle: String
+    $body: String
+  ) {
+    iniciaFinalizaVotacao(
+      input: {
+        codvotacao: $codVotacao
+        datiniciofimvotacao: $datiniciofimvotacao
+        apppush: $apppush
+        webpush: $webpush
+        email: $email
+        isinicio: $isinicio
+        title: $title
+        subtitle: $subtitle
+        body: $body
+        codpessoajuridica: $codpessoajuridica
       }
+    ) {
+      boolean
     }
   }
 `;
 
-const mutationFinalizaVotacaoOptions = {
-  name: 'finalizaVotacao',
+const mutationInicializaFinalizaVotacaoOptions = {
+  name: 'inicializaFinalizaVotacao',
   options(props) {
     return {
       name: 'finalizaVotacao',
       variables: {
         codVotacao: props.codVotacao,
-        datFimVotacao: props.datFimVotacao,
-      },
-    };
-  },
-};
-
-const mutationIniciaVotacao = gql`
-  mutation iniciaVotacao($codVotacao: Int!, $datInicioVotacao: Datetime) {
-    updateTbVotacaoByCodVotacao(
-      input: { codVotacao: $codVotacao, tbVotacaoPatch: { datInicioVotacao: $datInicioVotacao } }
-    ) {
-      tbVotacao {
-        datFimVotacao
-      }
-    }
-  }
-`;
-
-const mutationIniciaVotacaoOptions = {
-  name: 'iniciaVotacao',
-  options(props) {
-    return {
-      variables: {
-        codVotacao: props.codVotacao,
-        datInicioVotacao: props.datInicioVotacao,
+        datiniciofimvotacao: props.datiniciofimvotacao,
+        apppush: props.apppush,
+        webpush: props.webpush,
+        email: props.email,
+        isinicio: props.isinicio,
+        title: props.title,
+        subtitle: props.subtitle,
+        body: props.body,
+        codpessoajuridica: parseInt(props.codpessoajuridica, 10),
       },
     };
   },
@@ -187,13 +191,12 @@ const mutationMostraResultadoEmTempoRealOptions = {
 };
 
 export const QueryVotacaoList = graphql(query, queryOptions);
-export const MutationIniciaVotacao = graphql(mutationIniciaVotacao, mutationIniciaVotacaoOptions);
-export const MutationFinalizaVotacao = graphql(
-  mutationFinalizaVotacao,
-  mutationFinalizaVotacaoOptions,
+export const MutationInicializaFinalizaVotacao = graphql(
+  mutationInicializaFinalizaVotacao,
+  mutationInicializaFinalizaVotacaoOptions
 );
 export const MutationApagaVotacao = graphql(mutationApagaVotacao, mutationApagaVotacaoOptions);
 export const MutationMostraResultadoEmTempoReal = graphql(
   mutationMostraResultadoEmTempoReal,
-  mutationMostraResultadoEmTempoRealOptions,
+  mutationMostraResultadoEmTempoRealOptions
 );
