@@ -8,7 +8,7 @@ class Forbidden extends Component {
       <div>
         <h3>Tela não autorizada</h3>
         <div>
-          <RaisedButton label="Tela Principal" containerElement={<Link to="/votacao" />} />
+          <RaisedButton label="Tela Principal" containerElement={<Link to="/frontend/votacao" />} />
           <RaisedButton type="button" label="Voltar" primary onClick={this.props.history.goBack} />
         </div>
       </div>

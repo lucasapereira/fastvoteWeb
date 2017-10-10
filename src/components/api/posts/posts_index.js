@@ -40,7 +40,7 @@ class PostsIndex extends Component {
   };
   getRows = () => Selectors.getRows(this.props);
   getSize = () => this.getRows().length;
-  rowGetter = (rowIdx) => {
+  rowGetter = rowIdx => {
     const rows = this.getRows();
     return rows[rowIdx];
   };
@@ -53,7 +53,7 @@ class PostsIndex extends Component {
       this.props.fetchVotacoes();
     }
   }
-  handleFilterChange = (filter) => {
+  handleFilterChange = filter => {
     const newFilters = Object.assign({}, this.props.filters);
     if (filter.filterTerm) {
       newFilters[filter.column.key] = filter;
@@ -78,14 +78,14 @@ class PostsIndex extends Component {
     this.props.setRows(rows);
   };
 
-  onRowsSelected = (rows) => {
+  onRowsSelected = rows => {
     this.props.setSelectedIndexes(this.props.selectedIndexes.concat(rows.map(r => r.rowIdx)));
   };
 
-  onRowsDeselected = (rows) => {
+  onRowsDeselected = rows => {
     const rowIndexes = rows.map(r => r.rowIdx);
     this.props.setSelectedIndexes(
-      this.props.selectedIndexes.filter(i => rowIndexes.indexOf(i) === -1),
+      this.props.selectedIndexes.filter(i => rowIndexes.indexOf(i) === -1)
     );
   };
 
@@ -100,7 +100,7 @@ class PostsIndex extends Component {
       () => {
         this.handleExclusion();
       },
-      () => {},
+      () => {}
     );
   };
 
@@ -115,7 +115,7 @@ class PostsIndex extends Component {
 
     const buttonsInstance = (
       <div>
-        <Link to="/votacao/nova">
+        <Link to="/frontend/votacao/nova">
           <RaisedButton type="button" label="Novo" primary />
         </Link>
         <RaisedButton
