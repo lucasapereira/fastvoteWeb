@@ -6,7 +6,8 @@ import { bindActionCreators } from 'redux';
 import { Row, Col, Glyphicon } from 'react-bootstrap';
 
 import { QueryResultadoList } from './mensagensGraph';
-import { markAsSend, markAsUnsend, remove } from './mensagensActions';
+
+import * as actions from './mensagensActions';
 
 class MensagensList extends Component {
   render() {
@@ -100,9 +101,11 @@ class MensagensList extends Component {
 }
 
 const mapStateToProps = state => ({ listMensagens: state.mensagens.listMensagens });
-const mapDispatchToProps = dispatch =>
-  bindActionCreators({ markAsSend, markAsUnsend, remove }, dispatch);
-var conn = connect(mapStateToProps, mapDispatchToProps)(MensagensList);
+
+//const mapDispatchToProps = dispatch =>
+//bindActionCreators({ markAsSend, markAsUnsend, remove }, dispatch);
+
+var conn = connect(mapStateToProps, actions)(MensagensList);
 // export default connect(mapStateToProps, mapDispatchToProps)(MensagensList);
 export default compose(QueryResultadoList)(conn);
 

@@ -11,6 +11,8 @@ export function changeValue(e) {
 }
 */
 
+import { client } from '../../../reducers';
+
 export const changeTitulo = event => ({
   type: 'TITULO_CHANGED',
   payload: event.target.value,
