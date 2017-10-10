@@ -16,6 +16,7 @@ import CompPerguntaRespostas from '../novaVotacao/compPerguntaRespostas';
 import CompDadosAdicionais from '../novaVotacao/compDadosAdicionais';
 import CompVotantes from '../novaVotacao/compVotantes';
 import { getStorage } from '../../../components/generic/storage';
+
 import { MutationGravaVotacao } from '../../../graphql/votacao_new';
 
 class TelaVotacaoContainer extends Component {

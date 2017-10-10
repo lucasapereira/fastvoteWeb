@@ -3,7 +3,10 @@ import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
+
 import reduxThunk from 'redux-thunk';
+import multi from 'redux-multi';
+import promise from 'redux-promise';
 
 import { AUTH_USER } from './actions/auth';
 
@@ -52,7 +55,7 @@ const EsqueciSenha = Loadable({
   loading: MyLoadingComponent,
 });
 
-const createStoreWithMiddleware = applyMiddleware(reduxThunk)(createStore);
+const createStoreWithMiddleware = applyMiddleware(reduxThunk, multi, promise)(createStore);
 const store = createStoreWithMiddleware(reducers);
 
 const NoMatch = ({ location }) => (
