@@ -44,7 +44,7 @@ class VotacaoList extends Component {
     super(props);
     const newDateObj = new Date();
 
-    const dateFinalizacao = new Date(newDateObj.getTime() + 1 * 60000);
+    const dateAcao = new Date(newDateObj.getTime() + 1 * 60000);
 
     this.state = {
       items_grid: 20,
@@ -53,8 +53,9 @@ class VotacaoList extends Component {
       checkedAppPush: true,
       checkedWebPush: true,
       checkedEmail: true,
+      agindo: false,
 
-      dateFinalizacao,
+      dateAcao,
     };
   }
 
@@ -183,7 +184,7 @@ class VotacaoList extends Component {
     const botaoInicia = (
       <span>
         <FlatButton
-          onClick={handleInicia}
+          onClick={() => showModal(true)}
           icon={<Glyphicon glyph="time" style={{ color: 'green' }} />}
           label="Inicia"
           fullWidth
@@ -193,16 +194,15 @@ class VotacaoList extends Component {
       </span>
     );
 
-    const showModalFinaliza = () => {
+    const showModal = isInicio => {
       const newDateObj = new Date();
-      const minDateFinalizacao = new Date(newDateObj.getTime() + 1 * 60000);
-      const dateFinalizacao = new Date(newDateObj.getTime() + 1 * 60000);
-      const timeFinalizacao = new Date(newDateObj.getTime() + 1 * 60000);
+      const minDate = new Date(newDateObj.getTime() + 1 * 60000);
+      const dateAcao = new Date(newDateObj.getTime() + 1 * 60000);
       this.setState({
-        showModalFinaliza: true,
-        minDateFinalizacao,
-        dateFinalizacao,
-        timeFinalizacao,
+        showModalFinaliza: !isInicio,
+        showModalInicializa: isInicio,
+        minDate,
+        dateAcao,
         selectedRow: row,
         selectedPage: pageSelected,
       });
@@ -211,7 +211,7 @@ class VotacaoList extends Component {
     const botaoFinaliza = (
       <span>
         <FlatButton
-          onClick={showModalFinaliza}
+          onClick={() => showModal(false)}
           icon={<Glyphicon glyph="time" style={{ color: 'red' }} />}
           label="Finaliza"
           fullWidth
@@ -296,16 +296,33 @@ class VotacaoList extends Component {
     }
   };
 
-  closeModalFinaliza = () => {
+  closeModal = () => {
     this.setState({
       showModalFinaliza: false,
+      showModalInicializa: false,
     });
   };
-  handleFinaliza = (datFimVotacao, timeFimVotacao) => {
-    this.closeModalFinaliza();
 
+  handleInicializaFinaliza = () => {
+    this.setState({
+      agindo: true,
+    });
     const tzoffset = new Date().getTimezoneOffset() * 60000; // offset in milliseconds
-    const localISOTime = new Date(this.state.dateFinalizacao - tzoffset).toISOString().slice(0, -1);
+    const localISOTime = new Date(this.state.dateAcao - tzoffset).toISOString().slice(0, -1);
+
+    let title = '';
+    let subtitle = '';
+    let body = '';
+
+    if (this.state.showModalInicializa) {
+      title = 'Inicio da votação';
+      subtitle = 'Inicio da votação';
+      body = 'Inicio da votação';
+    } else {
+      title = 'Fim da votação';
+      subtitle = 'Fim da votação';
+      body = 'Fim da votação';
+    }
 
     this.props
       .inicializaFinalizaVotacao({
@@ -315,10 +332,10 @@ class VotacaoList extends Component {
           apppush: this.state.checkedAppPush,
           webpush: this.state.checkedWebPush,
           email: this.state.checkedEmail,
-          isinicio: false,
-          title: 'Finaliza Votação',
-          subtitle: 'Fim da Votação',
-          body: 'Data de inicio da votação: ',
+          isinicio: this.state.showModalInicializa,
+          title,
+          subtitle,
+          body,
           codpessoajuridica: getStorage('cod_pessoa_juridica'),
         },
       })
@@ -327,6 +344,11 @@ class VotacaoList extends Component {
           this.state.pageSelected * this.state.items_grid,
           this.state.items_grid
         );
+
+        this.setState({
+          agindo: false,
+        });
+        this.closeModal();
       })
       .catch(e => {
         console.log(e);
@@ -348,6 +370,61 @@ class VotacaoList extends Component {
     this.setState({
       checkedEmail: test,
     });
+  };
+
+  renderModal = () => {
+    if (this.props.loading || this.state.agindo) {
+      return <MyLoader />;
+    }
+
+    return (
+      <Modal
+        show={this.state.showModalFinaliza || this.state.showModalInicializa}
+        onHide={this.closeModal}>
+        <Modal.Header closeButton>
+          <Modal.Title id="contained-modal-title-sm">
+            {this.state.showModalInicializa ? 'Inicializa Votação' : 'Finaliza Votação'}
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <DatePicker
+            hintText="Dia"
+            DateTimeFormat={DateTimeFormat}
+            locale="pt-br"
+            minDate={this.state.minDate}
+            value={this.state.dateAcao}
+            onChange={this.isMenorQueAgora}
+          />
+          <TimePicker
+            format="24hr"
+            hintText="Hora"
+            onChange={this.isMenorQueAgora}
+            value={this.state.dateAcao}
+          />
+          <Checkbox
+            label="App Push"
+            checked={this.state.checkedAppPush}
+            onCheck={this.updateCheckAppPush}
+          />
+          <Checkbox
+            label="Web Push"
+            checked={this.state.checkedWebPush}
+            onCheck={this.updateCheckWebPush}
+          />
+          <Checkbox
+            label="E-mail"
+            checked={this.state.checkedEmail}
+            onCheck={this.updateCheckEmail}
+          />
+        </Modal.Body>
+        <Modal.Footer>
+          <Button onClick={this.closeModal}>Fechar</Button>
+          <Button onClick={this.handleInicializaFinaliza}>
+            {this.state.showModalInicializa ? 'Inicializa' : 'Finaliza'}
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    );
   };
 
   render() {
@@ -372,46 +449,7 @@ class VotacaoList extends Component {
             renderButtonsOneSelection={this.renderButtonsOneSelection}
             loading={this.props.loading}
           />
-          <Modal show={this.state.showModalFinaliza} onHide={this.closeModalFinaliza}>
-            <Modal.Header closeButton>
-              <Modal.Title id="contained-modal-title-sm">Finaliza Votação</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-              <DatePicker
-                hintText="Dia do término"
-                DateTimeFormat={DateTimeFormat}
-                locale="pt-br"
-                minDate={this.state.minDateFinalizacao}
-                value={this.state.dateFinalizacao}
-                onChange={this.isMenorQueAgora}
-              />
-              <TimePicker
-                format="24hr"
-                hintText="Hora de finalizacao"
-                onChange={this.isMenorQueAgora}
-                value={this.state.dateFinalizacao}
-              />
-              <Checkbox
-                label="App Push"
-                checked={this.state.checkedAppPush}
-                onCheck={this.updateCheckAppPush}
-              />
-              <Checkbox
-                label="Web Push"
-                checked={this.state.checkedWebPush}
-                onCheck={this.updateCheckWebPush}
-              />
-              <Checkbox
-                label="E-mail"
-                checked={this.state.checkedEmail}
-                onCheck={this.updateCheckEmail}
-              />
-            </Modal.Body>
-            <Modal.Footer>
-              <Button onClick={this.closeModalFinaliza}>Fechar</Button>
-              <Button onClick={this.handleFinaliza}>Finalizar</Button>
-            </Modal.Footer>
-          </Modal>
+          {this.renderModal()}
           <AlertContainer ref={a => (this.msg = a)} {...this.alertOptions} />
         </div>
       </div>
