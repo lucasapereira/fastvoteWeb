@@ -49,10 +49,18 @@ class MensagemForm extends Component {
       .focus(); // on TextField
   }
 
+  submita(blabla, e) {
+    //  blabla.preventDefault();
+    //  e.preventDefault();
+    // chamar this.props.grava
+    console.log(blabla);
+    console.log(e);
+  }
+
   render() {
     const { handleSubmit, pristine, numPizzas, reset, submitting } = this.props;
     return (
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit(this.submita)}>
         <Row>
           <Col xs={12}>
             <div className="pageSubTitleCadVotacao">Título e configuração de envio</div>
@@ -74,9 +82,6 @@ class MensagemForm extends Component {
             <Glyphicon glyph="search" style={{ color: 'blue' }} onClick={this.props.search} />
             <Glyphicon glyph="refresh" style={{ color: 'black' }} onClick={this.props.clear} />
           </Col>
-        </Row>
-
-        <Row>
           <Col xs={12} md={3}>
             <Field
               name="dt_envio"
@@ -89,9 +94,6 @@ class MensagemForm extends Component {
               fullWidth
             />
           </Col>
-        </Row>
-
-        <Row>
           <Col xs={12} md={3}>
             <Field
               name="hr_envio"
@@ -197,7 +199,7 @@ MensagemForm = connect(mapStateToProps)(MensagemForm);
 MensagemForm = reduxForm({
   form: 'MensagemForm',
   initialValues: {
-    dsc_titulo: 'bla bla bla',
+    //  dsc_titulo: 'bla bla bla',
     delivery: 'delivery',
     name: 'Jane Doe',
     cheese: 'Cheddar',
