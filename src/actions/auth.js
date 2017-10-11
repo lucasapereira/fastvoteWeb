@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { authOptions } from '../components/generic/myAxios';
-import { setStorage, removeStorage } from '../components/generic/storage';
+import { setStorage } from '../components/generic/storage';
 
 export const AUTH_USER = 'auth_user';
 export const UNAUTH_USER = 'unauth_user';
@@ -214,17 +214,6 @@ export const signinUser = ({ cpf, senha, empresas }) => async dispatch => {
 };
 
 export function signoutUser() {
-  removeStorage('token');
-  removeStorage('webpush');
-  removeStorage('menus');
-  removeStorage('nom_completo_pessoa');
-  removeStorage('cod_usuario');
-  removeStorage('cod_usuario_representacao');
-  removeStorage('num_cpf_pessoa');
-  removeStorage('num_telefone');
-  removeStorage('cod_pessoa');
-  removeStorage('funcionalidades');
-  removeStorage('cod_pessoa_juridica');
   return {
     type: UNAUTH_USER,
   };

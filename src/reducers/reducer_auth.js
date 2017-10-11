@@ -1,3 +1,4 @@
+import { removeStorage } from '../components/generic/storage';
 import {
   AUTH_USER,
   UNAUTH_USER,
@@ -54,6 +55,17 @@ export default function(state = initialState, action) {
       };
 
     case UNAUTH_USER:
+      removeStorage('token');
+      removeStorage('webpush');
+      removeStorage('menus');
+      removeStorage('nom_completo_pessoa');
+      removeStorage('cod_usuario');
+      removeStorage('cod_usuario_representacao');
+      removeStorage('num_cpf_pessoa');
+      removeStorage('num_telefone');
+      removeStorage('cod_pessoa');
+      removeStorage('funcionalidades');
+      removeStorage('cod_pessoa_juridica');
       return {
         ...initialState,
       };

@@ -1,13 +1,12 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, compose } from 'redux';
 import reduxThunk from 'redux-thunk';
 import Loadable from 'react-loadable';
-import { AUTH_USER } from './actions/auth';
 
 import { ApolloProvider, ApolloClient, createNetworkInterface } from 'react-apollo';
+import { AUTH_USER, UNAUTH_USER } from './actions/auth';
 
 import { getStorage } from './components/generic/storage';
 
@@ -153,6 +152,26 @@ export const routeTo = () => {
           req.options.headers = {}; // Create the header object if needed.
         }
         req.options.headers['x-access-token'] = getStorage('token');
+        next();
+      },
+    },
+  ]);
+
+  networkInterface.useAfter([
+    {
+      applyAfterware({ response }, next) {
+        if (response.status === 401) {
+          store.dispatch({
+            type: UNAUTH_USER,
+          });
+        }
+
+        if (response.status === 403) {
+          console.log('deu erro 403 de forbidden, melhorar aqui pra ir pra tela de forbidden');
+          store.dispatch({
+            type: UNAUTH_USER,
+          });
+        }
         next();
       },
     },

@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-export default function (ComposedComponent) {
+export default function(ComposedComponent) {
   class Authentication extends Component {
-    redirect = (props) => {
+    redirect = props => {
       if (!props.authenticated) {
         this.context.router.history.push('/frontend/auth/signin');
         return;
@@ -12,7 +12,7 @@ export default function (ComposedComponent) {
 
       let autorizado = false;
 
-      props.funcionalidades.forEach((url) => {
+      props.funcionalidades.forEach(url => {
         const arr = props.history.location.pathname.split('/');
         if (`/${arr[2]}/${arr[3]}` === `${url.trim()}`) {
           autorizado = true;

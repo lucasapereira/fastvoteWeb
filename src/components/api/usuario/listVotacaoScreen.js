@@ -1,15 +1,15 @@
 import React from 'react';
-import VotacaoList from './listVotacao';
-import { getStorage, setStorage, removeStorage } from '../../generic/storage';
 import axios from 'axios';
 import AlertContainer from 'react-alert';
+import VotacaoList from './listVotacao';
+import { getStorage, setStorage, removeStorage } from '../../generic/storage';
 
 import { authOptions } from '../../generic/myAxios';
 
 function urlB64ToUint8Array(base64String) {
   const padding = '='.repeat((4 - base64String.length % 4) % 4);
   const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/');
-
+  /* eslint-disable */
   const rawData = window.atob(base64);
   const outputArray = new Uint8Array(rawData.length);
 
@@ -36,14 +36,11 @@ const sendSubscriptionToServer = async (endpoint, key, auth) => {
     );
 
     if (response.data.success === true) {
-      console.log('funcionou a substricao');
       setStorage('webpushtoken', true);
     } else {
-      this.msg.error('Houve um erro ao cadastrar WebPush');
       removeStorage('webpushtoken');
     }
   } catch (e) {
-    this.msg.error('Houve um erro ao cadastrar WebPush');
     removeStorage('webpushtoken');
   }
 };
