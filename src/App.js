@@ -4,8 +4,6 @@ import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/css/bootstrap-theme.css';
 import { routeTo } from './rotas';
 
-// teste commit
-
 class App extends Component {
   componentDidMount() {
     const ele = document.getElementById('ipl-progress-indicator');
