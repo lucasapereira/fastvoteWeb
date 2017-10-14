@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
+import { compose } from 'react-apollo';
 import Grid from '../../generic/grid';
 import MyLoader from '../../generic/myLoader';
-
-import { compose } from 'react-apollo';
 
 import { QueryResultadoList } from './compVotantesGraph';
 
@@ -13,10 +12,6 @@ class CompVotantes extends Component {
       items_grid: 5000,
     };
   }
-
-  state: {
-    items_grid: number,
-  };
 
   colunas = [
     {
@@ -34,7 +29,7 @@ class CompVotantes extends Component {
     },
   ];
 
-  maskRowsUpdated = (updated) => {
+  maskRowsUpdated = updated => {
     let newPeso = updated.vlrPeso;
 
     if (isNaN(newPeso)) {

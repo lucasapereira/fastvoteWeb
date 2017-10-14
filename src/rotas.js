@@ -51,6 +51,11 @@ const EsqueciSenha = Loadable({
   loading: MyLoadingComponent,
 });
 
+const GestaoUsuario = Loadable({
+  loader: () => import('./components/api/gestaoUsuario/listaUsuarioScreen'),
+  loading: MyLoadingComponent,
+});
+
 const store = createStore(
   reducers,
   {}, // initial state
@@ -102,6 +107,8 @@ const rotas = token => (
     <Route path="/frontend/usuario/listvotacao" component={RequireAuth(ListVotacaoScreen)} />
     <Route path="/frontend/votacao/nova" component={RequireAuth(VotacaoNew)} />
     <Route path="/frontend/votacao/mensagens" component={RequireAuth(DisparaMensagens)} />
+
+    <Route path="/frontend/gestaoUsuario/listaUsuario" component={RequireAuth(GestaoUsuario)} />
 
     <Route
       path="/frontend/votacao/resultado/:codVotacao"
