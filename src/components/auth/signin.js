@@ -1,26 +1,27 @@
 import React, { Component } from 'react';
 import { Field, reduxForm, formValueSelector } from 'redux-form';
-import { signinUser, getEmpresas, limpaTela } from '../../actions';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { TextField, SelectField } from 'redux-form-material-ui';
 import { MenuItem } from 'material-ui';
 import RaisedButton from 'material-ui/RaisedButton';
 import _ from 'lodash';
+import Paper from 'material-ui/Paper';
 import authSchema from '../../jsonschemas/authSchema.json';
 import { required, cpf } from '../generic/validations';
-import { Link } from 'react-router-dom';
+import { signinUser, getEmpresas, limpaTela } from '../../actions';
+
 import MyLoader from '../generic/myLoader';
-import Paper from 'material-ui/Paper';
 
 const Validator = require('jsonschema').Validator;
 
-const validate = (values) => {
+const validate = values => {
   const errors = {};
 
   const v = new Validator();
   const results = v.validate(values, authSchema);
 
-  results.errors.map((error) => {
+  results.errors.map(error => {
     errors[error.argument] = error.name;
     return null;
   });
@@ -92,7 +93,7 @@ class Signin extends Component {
     //
   };
 
-  onSubmit = (values) => {
+  onSubmit = values => {
     values.senha = values.senha.trim();
 
     if (values.empresas) {
@@ -109,7 +110,7 @@ class Signin extends Component {
     }
   }
 
-  getEmpresas = (values) => {
+  getEmpresas = values => {
     if (!_.isEmpty(this.props.cpf) && !this.props.limpa_tela && !cpf(this.props.cpf)) {
       this.props.getEmpresas(values);
     }
@@ -133,8 +134,7 @@ class Signin extends Component {
           hintText="Selecione a empresa"
           validate={required}
           withRef
-          ref="empresasField"
-        >
+          ref="empresasField">
           {this.renderEmpresas()}
         </Field>
       );
@@ -234,7 +234,7 @@ function mapStateToProps(state) {
 
 // Decorate with connect to read form values
 const selector = formValueSelector('signin'); // <-- same as form name
-Signin = connect((state) => {
+Signin = connect(state => {
   // or together as a group
   /* eslint no-shadow:0 */
   const { senha, cpf, empresas } = selector(state, 'senha', 'cpf', 'empresas');
@@ -250,11 +250,11 @@ export default reduxForm(
     form: 'signin',
     validate,
   },
-  validate,
+  validate
 )(
   connect(mapStateToProps, {
     signinUser,
     getEmpresas,
     limpaTela,
-  })(Signin),
+  })(Signin)
 );
