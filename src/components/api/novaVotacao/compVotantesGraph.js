@@ -38,8 +38,8 @@ const queryOptions = {
     if (dados) {
       if (dados.edges) {
         rows = dados.edges.map(linhas => ({
-          id: linhas.node.codUsuario,
-          key: linhas.node.codUsuario,
+          id: linhas.node.codUsuarioRepresentacao,
+          key: linhas.node.codUsuarioRepresentacao,
           codUsuarioRepresentacao: linhas.node.codUsuarioRepresentacao,
           // codDadosAdicionais: linhas.node.codDadosAdicionais,
           nomCompletoPessoa: linhas.node.nomCompletoPessoa,

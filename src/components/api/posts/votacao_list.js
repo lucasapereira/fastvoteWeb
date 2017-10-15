@@ -121,34 +121,17 @@ class VotacaoList extends Component {
             codVotacao: row,
           },
         });
+        await this.props.loadMoreEntries(
+          pageSelected * this.state.items_grid,
+          this.state.items_grid
+        );
       });
-      await this.props.loadMoreEntries(pageSelected * this.state.items_grid, this.state.items_grid);
     } catch (e) {
       this.msg.error('Erro ao realizar a operação');
     }
   };
 
   renderButtonsOneSelection = (row, pageSelected) => {
-    const handleInicia = () => {
-      const tzoffset = new Date().getTimezoneOffset() * 60000; // offset in milliseconds
-      const localISOTime = new Date(Date.now() - tzoffset).toISOString().slice(0, -1);
-
-      this.props
-        .iniciaVotacao({
-          variables: {
-            codVotacao: row.codVotacao,
-            datInicioVotacao: localISOTime,
-          },
-        })
-        .then(() => {
-          this.props.loadMoreEntries(pageSelected * this.state.items_grid, this.state.items_grid);
-          this.enviaPushInicioFimVotacao(row, 'inicia');
-        })
-        .catch(() => {
-          this.msg.error('Erro ao realizar a operação');
-        });
-    };
-
     const handleMostraResultadoEmTempoReal = () => {
       this.props
         .mostraResultadoEmTempoReal({

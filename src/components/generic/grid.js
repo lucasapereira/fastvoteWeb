@@ -6,10 +6,10 @@ import { confirmable } from 'react-confirm';
 import ReactPaginate from 'react-paginate';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
-import confirm from './confirm';
-import MyLoader from './myLoader';
 import { Row, Col, Glyphicon } from 'react-bootstrap';
 import update from 'react-addons-update';
+import confirm from './confirm';
+import MyLoader from './myLoader';
 
 const { Toolbar, Data: { Selectors } } = require('react-data-grid-addons');
 
@@ -73,6 +73,7 @@ class Grid extends Component {
     this.props.handlePageClick(prop);
   };
   handleExclusion = async () => {
+    console.log(this.state);
     const cols = await this.state.selectedIndexes.map(index => this.state.rows[index].id);
 
     await this.props.apaga(cols, this.state.pageSelected);
