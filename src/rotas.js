@@ -56,6 +56,11 @@ const GestaoUsuario = Loadable({
   loading: MyLoadingComponent,
 });
 
+const NovoUsuario = Loadable({
+  loader: () => import('./components/api/gestaoUsuario/novoUsuarioScreen'),
+  loading: MyLoadingComponent,
+});
+
 const store = createStore(
   reducers,
   {}, // initial state
@@ -109,6 +114,7 @@ const rotas = token => (
     <Route path="/frontend/votacao/mensagens" component={RequireAuth(DisparaMensagens)} />
 
     <Route path="/frontend/gestaoUsuario/listaUsuario" component={RequireAuth(GestaoUsuario)} />
+    <Route path="/frontend/gestaoUsuario/novoUsuario" component={RequireAuth(NovoUsuario)} />
 
     <Route
       path="/frontend/votacao/resultado/:codVotacao"
