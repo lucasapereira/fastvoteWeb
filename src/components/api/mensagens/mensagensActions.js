@@ -94,8 +94,34 @@ export const search = () => {
   };
 };
 
-export const addMensagem = description => {
-  console.log('Chamou addMensagem - MENSAGEM_ADDED - mensagensActions', description);
+export const addMensagem = (values, e) => {
+  // addMensagem(values, e) {
+  //  blabla.preventDefault();
+  //  e.preventDefault();
+  // chamar this.props.grava
+  console.log('Chamou addMensagem - MENSAGEM_ADDED - mensagensActions');
+  console.log('submit1: Values - mensagem form', values);
+  console.log('submit2: E - mensagem form', e);
+
+  /*
+     if (!this.state.isValid) {
+      this.props.authError('Crie uma nova senha mais forte.');
+    } else if (this.state.password !== values.senhaNova2) {
+      this.props.authError('Senhas diferentes.');
+    } else {
+      this.props.trocarSenha(values.senhaAntiga, values.senhaNova2);
+    }
+    
+    =====
+    values.senha = values.senha.trim();
+
+    if (values.empresas) {
+      this.props.signinUser(values, () => {});
+    } else if (this.props.empresasAuth.length > 0) {
+      values.empresas = this.props.empresasAuth[0].cod_usuario_representacao;
+      this.props.signinUser(values, () => {});
+    } */
+
   // middleware multi permite retornar um array de actions
   // middleware thunk garante que o search sera chamando quando o request retornar de forma bem sucedidfa (Promisser)
 
