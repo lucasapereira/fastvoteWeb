@@ -275,6 +275,7 @@ class ListaUsuario extends Component {
           colunas={this.colunas}
           rows={this.props.rows}
           items_grid={this.state.items_grid}
+          buttonNovo="/frontend/gestaoUsuario/novoUsuario"
           renderButtonVariosSelection={this.state.renderButtonVariosSelection}
           loading={this.props.loading}
           maskRowsUpdated={this.maskRowsUpdated}

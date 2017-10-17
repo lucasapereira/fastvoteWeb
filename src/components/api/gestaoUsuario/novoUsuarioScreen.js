@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
+import MaterialUiForm from './formNovoUsuario';
 
 class NovoUsuarioScreen extends Component {
   render() {
-    return <div>novo NovoUsuarioScreen</div>;
+    return <MaterialUiForm />;
   }
 }
 
