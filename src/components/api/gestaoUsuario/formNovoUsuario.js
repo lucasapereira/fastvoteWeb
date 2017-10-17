@@ -1,5 +1,7 @@
 import React from 'react';
+
 import { Field, reduxForm } from 'redux-form';
+
 import Paper from 'material-ui/Paper';
 import { RadioButton } from 'material-ui/RadioButton';
 import RaisedButton from 'material-ui/RaisedButton';
@@ -12,8 +14,15 @@ import { renderDatePicker } from '../../generic/forms/myDatePicker';
 
 const MaterialUiForm = props => {
   const { handleSubmit, pristine, reset, submitting } = props;
+
+  const submit = values => {
+    console.log('submit', values);
+
+    props.callMutationUsuario(values);
+  };
+
   return (
-    <form onSubmit={handleSubmit} className="container">
+    <form onSubmit={handleSubmit(submit)} className="container">
       <Paper className="paperLogin" zDepth={2} rounded>
         <div className="divTopoLogin">Criação de usuário</div>
         <div className="divFormLogin">
@@ -25,6 +34,7 @@ const MaterialUiForm = props => {
               validate={[required]}
             />
           </div>
+
           <div>
             <Field
               name="numcpfpessoa"
@@ -42,12 +52,7 @@ const MaterialUiForm = props => {
             />
           </div>
           <div>
-            <Field
-              name="numtelefone"
-              component={renderTextField}
-              label="Telefone"
-              validate={[required, telefone]}
-            />
+            <Field name="numtelefone" component={renderTextField} label="Telefone" />
           </div>
           <div>
             <Field name="sglsexo" component={renderRadioGroup}>
@@ -85,5 +90,4 @@ const MaterialUiForm = props => {
 
 export default reduxForm({
   form: 'MaterialUiForm', // a unique identifier for this form
-  asyncValidate,
 })(MaterialUiForm);
