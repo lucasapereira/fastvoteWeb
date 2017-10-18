@@ -2,32 +2,31 @@ import { gql, graphql } from 'react-apollo';
 
 const mutation = gql`
   mutation criaUsuarioVotacao(
-    $nomCompletoPessoa: String
-    $numCpfPessoa: String
-    $dscEmail: String
-    $codPessoaJuridica: Int
-    $numTelefone: String
-    $codDadosAdicionaisArray: [Int]
-    $vlrPeso: Float
-    $vlrSenha: String
-    $datNascimentoPessoa: Datetime
-    $sglSexo: String
+    $nomcompletopessoa: String
+    $numcpfpesspa: String
+    $dscemail: String
+    $codpessoajuridica: Int
+    $numtelefone: String
+    $coddadosadicionaisarray: [Int]
+    $vlrpeso: Float
+    $vlrsenha: String
+    $datnascimentopessoa: Datetime
+    $sglsexo: String
   ) {
     criaUsuarioVotacao(
       input: {
-        nomcompletopessoa: $nomCompletoPessoa
-        numcpfpessoa: $numCpfPessoa
-        dscemail: $dscEmail
-        codpessoajuridica: $codPessoaJuridica
-        numtelefone: $numTelefone
-        coddadosadicionaisarray: $codDadosAdicionaisArray
-        vlrpeso: $vlrPeso
-        vlrsenha: $vlrSenha
-        datnascimentopessoa: $datNascimentoPessoa
-        sglsexo: $sglSexo
+        nomcompletopessoa: $nomcompletopessoa
+        numcpfpessoa: $numcpfpesspa
+        dscemail: $dscemail
+        codpessoajuridica: $codpessoajuridica
+        numtelefone: $numtelefone
+        coddadosadicionaisarray: $coddadosadicionaisarray
+        vlrpeso: $vlrpeso
+        vlrsenha: $vlrsenha
+        datnascimentopessoa: $datnascimentopessoa
+        sglsexo: $sglsexo
       }
     ) {
-      clientMutationId
       boolean
     }
   }
@@ -36,18 +35,20 @@ const mutation = gql`
 const mutationOptions = {
   name: 'criaUsuarioVotacao',
   options(props) {
+    console.log(props);
     return {
+      name: 'criaUsuarioVotacao',
       variables: {
-        nomCompletoPessoa: props.nomCompletoPessoa,
-        numCpfPessoa: props.numCpfPessoa,
-        dscEmail: props.dscEmail,
-        codPessoaJuridica: props.codPessoaJuridica,
-        numTelefone: props.numTelefone,
-        codDadosAdicionaisArray: props.codDadosAdicionaisArray,
-        vlrPeso: props.vlrPeso,
-        vlrSenha: props.vlrSenha,
-        datNascimentoPessoa: props.datNascimentoPessoa,
-        sglSexo: props.sglSexo,
+        nomcompletopessoa: props.nomcompletopessoa,
+        numcpfpesspa: props.numcpfpesspa,
+        dscemail: props.dscemail,
+        codpessoajuridica: props.codpessoajuridica,
+        numtelefone: props.numtelefone,
+        coddadosadicionaisarray: props.coddadosadicionaisarray,
+        vlrpeso: props.vlrpeso,
+        vlrsenha: props.vlrsenha,
+        datnascimentopessoa: props.datnascimentopessoa,
+        sglsexo: props.sglsexo,
       },
     };
   },
