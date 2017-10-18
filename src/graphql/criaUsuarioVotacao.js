@@ -35,7 +35,6 @@ const mutation = gql`
 const mutationOptions = {
   name: 'criaUsuarioVotacao',
   options(props) {
-    console.log(props);
     return {
       name: 'criaUsuarioVotacao',
       variables: {
