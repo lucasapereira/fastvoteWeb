@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-//import { bindActionCreators } from 'redux';
+import { bindActionCreators } from 'redux';
 
 import { Field, reduxForm, formValueSelector } from 'redux-form';
 
@@ -23,7 +23,7 @@ import { Row, Col, Glyphicon } from 'react-bootstrap';
 import FlatButton from 'material-ui/FlatButton';
 
 // import { QueryResultadoList } from './mensagensGraph';
-// import { addMensagem, search, clear } from './mensagensActions';
+import { addMensagem, search, clear } from './mensagensActions';
 
 // validation functions
 const required = value => (value == null ? 'Required' : undefined);
@@ -49,18 +49,39 @@ class MensagemForm extends Component {
       .focus(); // on TextField
   }
 
-  submita(blabla, e) {
+  /*
+
+  addMensagem(values, e) {
     //  blabla.preventDefault();
     //  e.preventDefault();
     // chamar this.props.grava
-    console.log(blabla);
-    console.log(e);
+    console.log('submit1: Values - mensagem form', values);
+    console.log('submit2: E - mensagem form', e);
+    / *
+     if (!this.state.isValid) {
+      this.props.authError('Crie uma nova senha mais forte.');
+    } else if (this.state.password !== values.senhaNova2) {
+      this.props.authError('Senhas diferentes.');
+    } else {
+      this.props.trocarSenha(values.senhaAntiga, values.senhaNova2);
+    }
+    
+    =====
+    values.senha = values.senha.trim();
+
+    if (values.empresas) {
+      this.props.signinUser(values, () => {});
+    } else if (this.props.empresasAuth.length > 0) {
+      values.empresas = this.props.empresasAuth[0].cod_usuario_representacao;
+      this.props.signinUser(values, () => {});
+    } * /
   }
+  */
 
   render() {
     const { handleSubmit, pristine, numPizzas, reset, submitting } = this.props;
     return (
-      <form onSubmit={handleSubmit(this.submita)}>
+      <form onSubmit={handleSubmit(this.props.addMensagem)}>
         <Row>
           <Col xs={12}>
             <div className="pageSubTitleCadVotacao">Título e configuração de envio</div>
@@ -194,16 +215,17 @@ class MensagemForm extends Component {
 const selector = formValueSelector('MensagemForm');
 
 const mapStateToProps = state => ({ numPizzas: selector(state, 'pizzas') });
-MensagemForm = connect(mapStateToProps)(MensagemForm);
+const mapDispatchToProps = dispatch => bindActionCreators({ addMensagem, search, clear }, dispatch);
+MensagemForm = connect(mapStateToProps, mapDispatchToProps)(MensagemForm);
 
 MensagemForm = reduxForm({
   form: 'MensagemForm',
   initialValues: {
-    //  dsc_titulo: 'bla bla bla',
-    delivery: 'delivery',
-    name: 'Jane Doe',
-    cheese: 'Cheddar',
-    pizzas: 5,
+    // dsc_titulo: 'bla bla bla',
+    // delivery: 'delivery',
+    // name: 'Jane Doe',
+    // cheese: 'Cheddar',
+    // pizzas: 5,
   },
 })(MensagemForm);
 

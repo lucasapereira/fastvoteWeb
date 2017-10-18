@@ -82,3 +82,43 @@ const queryOptions = {
 };
 
 export const QueryResultadoList = graphql(query, queryOptions);
+
+/*
+const mutationGravaVotacao = gql`
+  mutation createVotacao(
+    $dscvotacao: String
+    $codpessoajuridica: Int
+    $dscpergunta: String
+    $dscresumo: String
+    $votacaousuarioarray: [String]
+    $dscrespostaarray: [String]
+    $dscarquivoarray: [String]
+  ) {
+    createVotacao(
+      input: {
+        dscresumo: $dscresumo
+        dscvotacao: $dscvotacao
+        codpessoajuridica: $codpessoajuridica
+        dscpergunta: $dscpergunta
+        votacaousuarioarray: $votacaousuarioarray
+        dscrespostaarray: $dscrespostaarray
+        dscarquivoarray: $dscarquivoarray
+      }
+    ) {
+      clientMutationId
+      boolean
+    }
+  }
+`;
+
+const mutationGravaVotacaoOptions = {
+  name: 'gravaVotacao',
+  options(props) {
+    return {
+      name: 'gravaVotacao',
+    };
+  },
+};
+
+export const MutationGravaVotacao = graphql(mutationGravaVotacao, mutationGravaVotacaoOptions);
+*/
