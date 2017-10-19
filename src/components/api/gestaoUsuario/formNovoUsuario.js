@@ -2,22 +2,27 @@ import React from 'react';
 
 import { Field, reduxForm } from 'redux-form';
 
+import Subheader from 'material-ui/Subheader';
 import Paper from 'material-ui/Paper';
 import { RadioButton } from 'material-ui/RadioButton';
 import RaisedButton from 'material-ui/RaisedButton';
+// import Checkbox from 'material-ui/Checkbox';
+import DadosAdicionaisListCheckBox from './dadosadicionaisListCheckbox';
 import asyncValidate from './asyncValidate';
+
 import { required, cpf, email, telefone } from '../../generic/validations';
 
 import { renderTextField } from '../../generic/forms/myTextField';
 import { renderRadioGroup } from '../../generic/forms/myRadioGroup';
 import { renderDatePicker } from '../../generic/forms/myDatePicker';
 
+import { getStorage } from '../../generic/storage';
+// import { renderCheckbox } from '../../generic/forms/myCheckbox';
+
 const MaterialUiForm = props => {
   const { handleSubmit, pristine, reset, submitting } = props;
 
   const submit = values => {
-    console.log('submit', values);
-
     props.callMutationUsuario(values);
   };
 
@@ -71,7 +76,9 @@ const MaterialUiForm = props => {
               label="Data de nascimento"
             />
           </div>
-
+          <div>
+            <DadosAdicionaisListCheckBox codPessoaJuridica={getStorage('cod_pessoa_juridica')} />
+          </div>
           <div>
             <RaisedButton type="submit" disabled={pristine || submitting} label="Criar" />
 
