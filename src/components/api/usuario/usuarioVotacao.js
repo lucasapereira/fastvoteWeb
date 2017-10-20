@@ -14,6 +14,7 @@ import VotacaoResumo from './votacao_resumo';
 import { QueryVoto, mutationVota } from './usuarioVotacaoGraphql';
 import confirm from '../../generic/confirm';
 import MyLoader from '../../generic/myLoader';
+import QtdVotos from './qtdVotos';
 
 class UsuarioVotacao extends Component {
   state = {
@@ -171,6 +172,7 @@ class UsuarioVotacao extends Component {
 
   renderVotacao() {
     const { votacao } = this.props;
+    console.log(votacao);
 
     let classStatus = 'statusVotacaoNaoIniciada';
     let labelTxtStatus = 'Não Iniciada';
@@ -222,7 +224,8 @@ class UsuarioVotacao extends Component {
     return (
       <Paper className="paperVotacao" zDepth={2} rounded>
         <div className="labelStatus">
-          Status: <span className={classStatus}>{labelTxtStatus}</span>
+          <QtdVotos codVotacao={votacao.codVotacao} />
+          <span className={classStatus}>{labelTxtStatus}</span>
         </div>
         <div className="txtPerguntaVotacoes">{votacao.dscPergunta}</div>
         <div className="divRespostasVotacoes">{labelTxtResposta}</div>
