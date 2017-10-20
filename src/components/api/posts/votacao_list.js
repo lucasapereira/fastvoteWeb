@@ -266,15 +266,15 @@ class VotacaoList extends Component {
   };
 
   isMenorQueAgora = (event, time) => {
-    if (this.state.minDateFinalizacao.getTime() >= time.getTime()) {
+    if (this.state.minDate.getTime() >= time.getTime()) {
       this.msg.error('Data de finalização deve ser maior que a hora atual.');
 
       this.setState({
-        dateFinalizacao: this.state.minDateFinalizacao,
+        dateAcao: this.state.minDate,
       });
     } else {
       this.setState({
-        dateFinalizacao: time,
+        dateAcao: time,
       });
     }
   };

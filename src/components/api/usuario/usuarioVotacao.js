@@ -14,6 +14,8 @@ import VotacaoResumo from './votacao_resumo';
 import { QueryVoto, mutationVota } from './usuarioVotacaoGraphql';
 import confirm from '../../generic/confirm';
 import MyLoader from '../../generic/myLoader';
+
+import Countdown from '../../generic/countDown';
 import QtdVotos from './qtdVotos';
 
 class UsuarioVotacao extends Component {
@@ -170,6 +172,25 @@ class UsuarioVotacao extends Component {
       });
   };
 
+  handleFinish = () => {
+    console.log('Skynet has become self-aware!');
+  };
+  renderCountDown = votacao => {
+    const dateAgora = new Date();
+    const flgStatus = this.getStatusVotacao(votacao);
+    if (votacao.datFimVotacaoDate && votacao.datFimVotacaoDate > dateAgora && flgStatus === 1) {
+      return (
+        <Countdown
+          targetDate={votacao.datFimVotacaoDate}
+          startDelay={2000}
+          interval={1000}
+          timeSeparator={':'}
+          onFinished={this.handleFinish}
+        />
+      );
+    }
+  };
+
   renderVotacao() {
     const { votacao } = this.props;
     console.log(votacao);
@@ -182,7 +203,12 @@ class UsuarioVotacao extends Component {
 
     if (flgStatus === 1) {
       classStatus = 'statusVotacaoAberta';
-      labelTxtStatus = 'Aberta';
+
+      if (votacao.datFimVotacao) {
+        labelTxtStatus = `Data/Hora do fim da votação: ${votacao.datFimVotacao}Aberta`;
+      } else {
+        labelTxtStatus = `Aberta`;
+      }
     } else if (flgStatus === 2) {
       flgFinalizada = true;
       classStatus = 'statusVotacaoFechada';
@@ -225,6 +251,7 @@ class UsuarioVotacao extends Component {
       <Paper className="paperVotacao" zDepth={2} rounded>
         <div className="labelStatus">
           <QtdVotos codVotacao={votacao.codVotacao} />
+          {this.renderCountDown(votacao)}
           <span className={classStatus}>{labelTxtStatus}</span>
         </div>
         <div className="txtPerguntaVotacoes">{votacao.dscPergunta}</div>

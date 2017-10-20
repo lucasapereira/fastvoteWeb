@@ -25,6 +25,7 @@ const queryOptions = {
         dscResposta: props.dscResposta,
       },
       fetchPolicy: 'network-only',
+      pollInterval: 5000,
     };
   },
 };

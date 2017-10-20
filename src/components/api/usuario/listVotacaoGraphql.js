@@ -74,6 +74,7 @@ const queryOptions = {
           flgMostraResultadoEmTempoReal: linhas.flgMostraResultadoEmTempoReal,
           textoMostraResultadoEmTempoReal: linhas.flgMostraResultadoEmTempoReal ? 'Sim' : 'Não',
           totalCount: linhas.totalCount,
+          datFimVotacaoDate: linhas.datFimVotacao ? new Date(linhas.datFimVotacao) : '',
         }));
       }
     }

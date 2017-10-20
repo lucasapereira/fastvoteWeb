@@ -2,7 +2,6 @@ import React from 'react';
 
 import { Field, reduxForm } from 'redux-form';
 
-import Subheader from 'material-ui/Subheader';
 import Paper from 'material-ui/Paper';
 import { RadioButton } from 'material-ui/RadioButton';
 import RaisedButton from 'material-ui/RaisedButton';
