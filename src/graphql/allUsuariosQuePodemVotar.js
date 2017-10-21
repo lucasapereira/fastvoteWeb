@@ -1,10 +1,15 @@
 import { gql, graphql } from 'react-apollo';
-
+import { getStorage } from '../components/generic/storage';
 const query = gql`
-  query Feed($codpessoajuridica: Int, $coddadosadicionaisarray: [Int]) {
+  query Feed(
+    $codpessoajuridica: Int
+    $coddadosadicionaisarray: [Int]
+    $codusuariorepresentacao: Int
+  ) {
     allUsuariosQuePodemVotar(
       codpessoajuridica: $codpessoajuridica
       coddadosadicionaisarray: $coddadosadicionaisarray
+      codusuariorepresentacao: $codusuariorepresentacao
     ) {
       edges {
         node {
@@ -27,8 +32,9 @@ const queryOptions = {
     return {
       variables: {
         type: (props.params && props.params.type && props.params.type.toUpperCase()) || 'TOP',
-        codpessoajuridica: props.codPessoaJuridica,
+        codpessoajuridica: getStorage('cod_pessoa_juridica'),
         coddadosadicionaisarray: props.activeCheckboxes,
+        codusuariorepresentacao: getStorage('cod_usuario_representacao'),
       },
       fetchPolicy: 'network-only',
     };
@@ -46,19 +52,18 @@ const queryOptions = {
           id: linhas.node.codUsuarioRepresentacao,
           key: linhas.node.codUsuarioRepresentacao,
           codUsuarioRepresentacao: linhas.node.codUsuarioRepresentacao,
-          nomCompletoPessoa: linhas.node.nomCompletoPessoa,
-          vlrPeso: linhas.node.vlrPeso,
-          dscEmail: linhas.node.vlrPeso,
-          numTelefone: linhas.node.numTelefone,
-          sglSexo: linhas.node.sglSexo,
-          datNascimentoPessoa: linhas.node.datNascimentoPessoa,
+          nomcompletopessoa: linhas.node.nomCompletoPessoa,
+          vlrpeso: linhas.node.vlrPeso,
+          dscemail: linhas.node.dscEmail,
+          numtelefone: linhas.node.numTelefone,
+          sglsexo: linhas.node.sglSexo,
+          datnascimentopessoa: linhas.node.datNascimentoPessoa,
           dadosAdicionais: linhas.node.dadosAdicionais,
         }));
       }
     }
 
     return {
-      allUsuariosQuePodemVotar,
       loading,
       refetch,
       error,
