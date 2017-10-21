@@ -179,6 +179,7 @@ class UsuarioVotacao extends Component {
     const dateAgora = new Date();
     const flgStatus = this.getStatusVotacao(votacao);
     if (votacao.datFimVotacaoDate && votacao.datFimVotacaoDate > dateAgora && flgStatus === 1) {
+      console.log('aqui', votacao);
       return (
         <Countdown
           targetDate={votacao.datFimVotacaoDate}
