@@ -53,30 +53,14 @@ class ListaUsuario extends Component {
   };
 
   renderButtonsOneSelection = (row, pageSelected) => {
-    const handleMostraResultadoEmTempoReal = () => {
-      this.props
-        .mostraResultadoEmTempoReal({
-          variables: {
-            codVotacao: row.codVotacao,
-            flgMostraResultadoEmTempoReal: !row.flgMostraResultadoEmTempoReal,
-          },
-        })
-        .then(() => {
-          this.props.loadMoreEntries(pageSelected * this.state.items_grid, this.state.items_grid);
-        })
-        .catch(() => {
-          this.msg.error('Erro ao realizar a operação');
-        });
-    };
-
-    const botaoResultado = codVotacao => {
-      const link = `/frontend/votacao/resultado/${codVotacao}`;
+    const botaoAtualiza = codUsuarioRepresentacao => {
+      const link = `/frontend/gestaoUsuario/updateUsuario/${codUsuarioRepresentacao}`;
 
       return (
         <Link to={link}>
           <FlatButton
-            icon={<Glyphicon glyph="stats" />}
-            label="Resultado"
+            icon={<Glyphicon glyph="pencil" />}
+            label="Atualiza"
             fullWidth
             // backgroundColor="#a4c639"
             // hoverColor="#8AA62F"
@@ -85,97 +69,11 @@ class ListaUsuario extends Component {
       );
     };
 
-    const botaoInicia = (
-      <span>
-        <FlatButton
-          onClick={() => showModal(true)}
-          icon={<Glyphicon glyph="time" style={{ color: 'green' }} />}
-          label="Inicia"
-          fullWidth
-          // backgroundColor="#a4c639"
-          // hoverColor="#8AA62F"
-        />
-      </span>
-    );
-
-    const showModal = isInicio => {
-      const newDateObj = new Date();
-      const minDate = new Date(newDateObj.getTime() + 1 * 60000);
-      const dateAcao = new Date(newDateObj.getTime() + 1 * 60000);
-      this.setState({
-        showModalFinaliza: !isInicio,
-        showModalInicializa: isInicio,
-        minDate,
-        dateAcao,
-        selectedRow: row,
-        selectedPage: pageSelected,
-      });
-    };
-
-    const botaoFinaliza = (
-      <span>
-        <FlatButton
-          onClick={() => showModal(false)}
-          icon={<Glyphicon glyph="time" style={{ color: 'red' }} />}
-          label="Finaliza"
-          fullWidth
-          // backgroundColor="#a4c639"
-          // hoverColor="#8AA62F"
-        />
-      </span>
-    );
-
-    const botaoMostraResultadoEmTempoReal = flgMostraResultadoEmTempoReal => {
-      let label = 'Mostra Resultados';
-      let icon = 'eye-open';
-
-      if (flgMostraResultadoEmTempoReal) {
-        label = 'Esconde Resultados';
-        icon = 'eye-close';
-      }
-
-      return (
-        <span>
-          <FlatButton
-            onClick={handleMostraResultadoEmTempoReal}
-            icon={<Glyphicon glyph={icon} />}
-            label={label}
-            fullWidth
-            // backgroundColor="#a4c639"
-            // hoverColor="#8AA62F"
-          />
-        </span>
-      );
-    };
-
-    let mostraBotaoResultado = false;
-    let mostraBotaoInicializa = false;
-    let mostraBotaoFinaliza = false;
-
-    // if (row.flgMostraResultadoEmTempoReal || row.datFimVotacao) {
-    mostraBotaoResultado = true;
-    // }
-
-    if (!row.datInicioVotacao) {
-      mostraBotaoInicializa = true;
-    }
-
-    if (row.datInicioVotacao && !row.datFimVotacao) {
-      mostraBotaoFinaliza = true;
-    }
-
     return (
       <div className="divGridButtons2">
         <Row>
           <Col xs={12} sm={4}>
-            {mostraBotaoResultado ? botaoResultado(row.codVotacao) : null}
-          </Col>
-          <Col xs={12} sm={4}>
-            {mostraBotaoInicializa ? botaoInicia : null}
-            {mostraBotaoFinaliza ? botaoFinaliza : null}
-          </Col>
-          <Col xs={12} sm={4}>
-            {botaoMostraResultadoEmTempoReal(row.flgMostraResultadoEmTempoReal)}
+            {botaoAtualiza(row.codUsuarioRepresentacao)}
           </Col>
         </Row>
       </div>

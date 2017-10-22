@@ -1,13 +1,17 @@
 import React, { Component } from 'react';
 import { compose } from 'react-apollo';
+import AlertContainer from 'react-alert';
 import MaterialUiForm from './formNovoUsuario';
 import { mutationCria } from '../../../graphql/criaUsuarioVotacao';
 import { getStorage } from '../../generic/storage';
+import { screenToGraphql } from '../../generic/List';
 
 class NovoUsuarioScreen extends Component {
   callMutationUsuario = values => {
     values.codpessoajuridica = getStorage('cod_pessoa_juridica');
-    console.log(values);
+    values.coddadosadicionaisarray = screenToGraphql(values, 'coddadosadicionaisarray');
+
+    console.log(this.props);
 
     this.props
       .criaUsuarioVotacao({
@@ -24,14 +28,21 @@ class NovoUsuarioScreen extends Component {
         },
       })
       .then(() => {
-        console.log('deu bom');
+        this.props.history.push('/frontend/gestaoUsuario/listUsuario');
       })
       .catch(e => {
-        console.log(e);
+        this.msg.error('Erro ao realizar a operação');
+        console.error(e);
       });
   };
   render() {
-    return <MaterialUiForm callMutationUsuario={this.callMutationUsuario} />;
+    return (
+      <div>
+        <MaterialUiForm callMutationUsuario={this.callMutationUsuario} />
+
+        <AlertContainer ref={a => (this.msg = a)} />
+      </div>
+    );
   }
 }
 

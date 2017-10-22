@@ -120,7 +120,10 @@ const rotas = token => (
 
     <Route path="/frontend/gestaoUsuario/listaUsuario" component={RequireAuth(GestaoUsuario)} />
     <Route path="/frontend/gestaoUsuario/novoUsuario" component={RequireAuth(NovoUsuario)} />
-    <Route path="/frontend/gestaoUsuario/updateUsuario" component={RequireAuth(UpdateUsuario)} />
+    <Route
+      path="/frontend/gestaoUsuario/updateUsuario/:codUsuarioRepresentacao"
+      component={RequireAuth(UpdateUsuario)}
+    />
 
     <Route
       path="/frontend/votacao/resultado/:codVotacao"

@@ -3,6 +3,7 @@ import { compose } from 'react-apollo';
 import MaterialUiForm from './formNovoUsuario';
 import MyLoader from '../../generic/myLoader';
 import { QueryResultadoList } from '../../../graphql/allUsuariosQuePodemVotar';
+import { checkBoxToScreen } from '../../generic/List';
 
 class UpdateUsuarioScreen extends Component {
   render() {
@@ -13,9 +14,10 @@ class UpdateUsuarioScreen extends Component {
     if (this.props.error) {
       return <div>Erro: {this.props.error.message}</div>;
     }
-    console.log(this.props);
-    console.log(this.props.rows[0]);
-    return <MaterialUiForm initialValues={this.props.rows[0]} />;
+
+    const initialValues = checkBoxToScreen(this.props.rows[0], this.props.rows[0].dadosAdicionais);
+
+    return <MaterialUiForm initialValues={initialValues} />;
   }
 }
 
