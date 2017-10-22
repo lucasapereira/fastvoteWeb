@@ -19,6 +19,7 @@ export const ListCheckbox = array => {
 export const checkBoxToScreen = (values, checkBoxValues) => {
   checkBoxValues.map(item => {
     const itemSplitted = item.split(';');
+
     values[`item_${itemSplitted[0]}`] = true;
   });
 
@@ -31,29 +32,11 @@ export const screenToGraphql = values => {
   keyValues.map(key => {
     if (key.indexOf('item') === 0) {
       const keySplitted = key.split('_');
-      arrReturn.push(parseInt(keySplitted[1], 10));
+      if (values[`${key}`] === true) {
+        arrReturn.push(parseInt(keySplitted[1], 10));
+      }
     }
   });
 
   return arrReturn;
 };
-
-// {nomcompletopessoa: "teste1", numcpfpessoa: "11111111111", dscemail: "lucas.araujo.pereira@gmail.com", numtelefone: "313123", item_1: true, …}
-// codpessoajuridica
-// :
-// "1"
-// dscemail
-// :
-// "lucas.araujo.pereira@gmail.com"
-// item_1
-// :
-// true
-// nomcompletopessoa
-// :
-// "teste1"
-// numcpfpessoa
-// :
-// "11111111111"
-// numtelefone
-// :
-// "313123"

@@ -21,6 +21,7 @@ const query = gql`
           sglSexo
           datNascimentoPessoa
           dadosAdicionais
+          numCpfPessoa
         }
       }
     }
@@ -63,6 +64,7 @@ const queryOptions = {
           sglsexo: linhas.node.sglSexo,
           datnascimentopessoa: new Date(linhas.node.datNascimentoPessoa),
           dadosAdicionais: linhas.node.dadosAdicionais,
+          numcpfpessoa: linhas.node.numCpfPessoa,
         }));
       }
     }

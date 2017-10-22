@@ -11,11 +11,10 @@ class NovoUsuarioScreen extends Component {
     values.codpessoajuridica = getStorage('cod_pessoa_juridica');
     values.coddadosadicionaisarray = screenToGraphql(values, 'coddadosadicionaisarray');
 
-    console.log(this.props);
-
     this.props
       .criaUsuarioVotacao({
         variables: {
+          numcpfpessoa: values.numcpfpessoa,
           nomcompletopessoa: values.nomcompletopessoa,
           dscemail: values.dscemail,
           codpessoajuridica: values.codpessoajuridica,
@@ -28,7 +27,7 @@ class NovoUsuarioScreen extends Component {
         },
       })
       .then(() => {
-        this.props.history.push('/frontend/gestaoUsuario/listUsuario');
+        this.props.history.push('/frontend/gestaoUsuario/listaUsuario');
       })
       .catch(e => {
         this.msg.error('Erro ao realizar a operação');
