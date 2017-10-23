@@ -2,17 +2,20 @@ import React, { Component } from 'react';
 import { compose } from 'react-apollo';
 import AlertContainer from 'react-alert';
 import MaterialUiForm from './formNovoUsuario';
-import { mutationCria } from '../../../graphql/criaUsuarioVotacao';
-import { getStorage } from '../../generic/storage';
-import { screenToGraphql } from '../../generic/List';
+import MyLoader from '../../generic/myLoader';
+import { mutationAtualiza } from '../../../graphql/atualizaUsuarioVotacao';
 
-class NovoUsuarioScreen extends Component {
+import { QueryResultadoList } from '../../../graphql/allUsuariosQuePodemVotar';
+import { checkBoxToScreen, screenToGraphql } from '../../generic/List';
+import { getStorage } from '../../generic/storage';
+
+class UpdateUsuarioScreen extends Component {
   callMutationUsuario = values => {
     values.codpessoajuridica = getStorage('cod_pessoa_juridica');
     values.coddadosadicionaisarray = screenToGraphql(values, 'coddadosadicionaisarray');
 
     this.props
-      .criaUsuarioVotacao({
+      .atualizaUsuarioVotacao({
         variables: {
           numcpfpessoa: values.numcpfpessoa,
           nomcompletopessoa: values.nomcompletopessoa,
@@ -35,9 +38,22 @@ class NovoUsuarioScreen extends Component {
       });
   };
   render() {
+    if (this.props.loading) {
+      return <MyLoader />;
+    }
+
+    if (this.props.error) {
+      return <div>Erro: {this.props.error.message}</div>;
+    }
+
+    const initialValues = checkBoxToScreen(this.props.rows[0], this.props.rows[0].dadosAdicionais);
+
     return (
       <div>
-        <MaterialUiForm callMutationUsuario={this.callMutationUsuario} />
+        <MaterialUiForm
+          initialValues={initialValues}
+          callMutationUsuario={this.callMutationUsuario}
+        />
 
         <AlertContainer ref={a => (this.msg = a)} />
       </div>
@@ -45,4 +61,4 @@ class NovoUsuarioScreen extends Component {
   }
 }
 
-export default compose(mutationCria)(NovoUsuarioScreen);
+export default compose(QueryResultadoList, mutationAtualiza)(UpdateUsuarioScreen);
