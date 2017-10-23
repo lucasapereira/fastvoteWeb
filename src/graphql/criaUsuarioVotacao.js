@@ -3,7 +3,7 @@ import { gql, graphql } from 'react-apollo';
 const mutation = gql`
   mutation criaUsuarioVotacao(
     $nomcompletopessoa: String
-    $numcpfpesspa: String
+    $numcpfpessoa: String
     $dscemail: String
     $codpessoajuridica: Int
     $numtelefone: String
@@ -16,7 +16,7 @@ const mutation = gql`
     criaUsuarioVotacao(
       input: {
         nomcompletopessoa: $nomcompletopessoa
-        numcpfpessoa: $numcpfpesspa
+        numcpfpessoa: $numcpfpessoa
         dscemail: $dscemail
         codpessoajuridica: $codpessoajuridica
         numtelefone: $numtelefone
@@ -39,7 +39,7 @@ const mutationOptions = {
       name: 'criaUsuarioVotacao',
       variables: {
         nomcompletopessoa: props.nomcompletopessoa,
-        numcpfpesspa: props.numcpfpesspa,
+        numcpfpessoa: props.numcpfpessoa,
         dscemail: props.dscemail,
         codpessoajuridica: props.codpessoajuridica,
         numtelefone: props.numtelefone,
