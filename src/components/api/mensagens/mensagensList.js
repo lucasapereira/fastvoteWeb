@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux';
 
 import { Row, Col, Glyphicon } from 'react-bootstrap';
 
-import { QueryResultadoList } from './mensagensGraph';
+import { ListMensagemGraphql } from '../../../graphql/allTbMensagems';
 
 import * as actions from './mensagensActions';
 
@@ -107,7 +107,7 @@ const mapStateToProps = state => ({ listMensagens: state.mensagens.listMensagens
 
 var conn = connect(mapStateToProps, actions)(MensagensList);
 // export default connect(mapStateToProps, mapDispatchToProps)(MensagensList);
-export default compose(QueryResultadoList)(conn);
+export default compose(ListMensagemGraphql)(conn);
 
 /*
 import { compose } from 'react-apollo';

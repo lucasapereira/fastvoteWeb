@@ -1,85 +1,46 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-
 import { Field, reduxForm, formValueSelector } from 'redux-form';
 
-import { RadioButton } from 'material-ui/RadioButton';
-import MenuItem from 'material-ui/MenuItem';
-import { AutoComplete as MUIAutoComplete } from 'material-ui';
-import {
-  AutoComplete,
-  Checkbox,
-  DatePicker,
-  TimePicker,
-  RadioButtonGroup,
-  SelectField,
-  Slider,
-  TextField,
-  Toggle,
-} from 'redux-form-material-ui';
+// import asyncValidate from './asyncValidate';
+import { required } from '../../generic/validations';
 
 import { Row, Col, Glyphicon } from 'react-bootstrap';
 import FlatButton from 'material-ui/FlatButton';
 
-// import { QueryResultadoList } from './mensagensGraph';
-import { addMensagem, search, clear } from './mensagensActions';
+import { renderTextField } from '../../generic/forms/myTextField';
+import { renderDatePicker } from '../../generic/forms/myDatePicker';
+import { renderTimePicker } from '../../generic/forms/myTimePicker';
+import { renderEditor } from '../../generic/forms/myEditor';
 
-// validation functions
-const required = value => (value == null ? 'Required' : undefined);
-const email = value =>
-  value && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value) ? 'Invalid email' : undefined;
-const tooManyPizzas = value => (value > 15 ? 'Are you mad?' : undefined);
+import CheckBoxDadosAdicionais from '../../generic/component/checkBoxDadosAdicionais';
+import UsuariosByDadosAdicionais from '../../../components/generic/component/usuariosByDadosAdicionais';
+// '../../ gestaoUsuario/UsuariosByDadosAdicionais'
+
+import { getStorage } from '../../generic/storage';
+
+// import { QueryResultadoCreate } from './mensagensCreateGraph';
+// import { addMensagem, search, clear } from './mensagensActions';
 
 class MensagemForm extends Component {
-  /*
-  constructor(props) {
-    super(props);
-  }
-
-  componentWillMount() {
-    this.props.search();
-  }
-  */
-
-  componentDidMount() {
-    this.refs.dsc_titulo // the Field
-      .getRenderedComponent() // on Field, returns ReduxFormMaterialUITextField
-      .getRenderedComponent() // on ReduxFormMaterialUITextField, returns TextField
-      .focus(); // on TextField
-  }
-
-  /*
-
-  addMensagem(values, e) {
-    //  blabla.preventDefault();
-    //  e.preventDefault();
-    // chamar this.props.grava
-    console.log('submit1: Values - mensagem form', values);
-    console.log('submit2: E - mensagem form', e);
-    / *
-     if (!this.state.isValid) {
-      this.props.authError('Crie uma nova senha mais forte.');
-    } else if (this.state.password !== values.senhaNova2) {
-      this.props.authError('Senhas diferentes.');
-    } else {
-      this.props.trocarSenha(values.senhaAntiga, values.senhaNova2);
-    }
-    
-    =====
-    values.senha = values.senha.trim();
-
-    if (values.empresas) {
-      this.props.signinUser(values, () => {});
-    } else if (this.props.empresasAuth.length > 0) {
-      values.empresas = this.props.empresasAuth[0].cod_usuario_representacao;
-      this.props.signinUser(values, () => {});
-    } * /
-  }
-  */
-
   render() {
-    const { handleSubmit, pristine, numPizzas, reset, submitting } = this.props;
+    console.log(
+      'NO FRM DE MSG VERIFICAR VARIAVEIS  dadosAdicionaise bodyMensagem: ',
+      this.props.dadosAdicionais,
+      this.props.bodyMensagem
+    );
+
+    const {
+      handleSubmit,
+      pristine,
+      reset,
+      submitting,
+
+      dadosAdicionais,
+      // arrayUsuarios,
+      bodyMensagem,
+    } = this.props;
+
     return (
       <form onSubmit={handleSubmit(this.props.addMensagem)}>
         <Row>
@@ -90,15 +51,11 @@ class MensagemForm extends Component {
         <Row>
           <Col xs={12} md={6}>
             <Field
-              name="dsc_titulo"
-              component={TextField}
-              floatingLabelText="Informe o Título"
-              validate={required}
-              ref="dsc_titulo"
-              withRef
+              name="title"
+              component={renderTextField}
+              label="Informe o Título"
+              validate={[required]}
               fullWidth
-              // value={this.props.dsc_titulo}
-              // onChange={this.props.changeTitulo}
             />
             <Glyphicon glyph="search" style={{ color: 'blue' }} onClick={this.props.search} />
             <Glyphicon glyph="refresh" style={{ color: 'black' }} onClick={this.props.clear} />
@@ -106,27 +63,21 @@ class MensagemForm extends Component {
           <Col xs={12} md={3}>
             <Field
               name="dt_envio"
-              component={DatePicker}
-              format={null}
-              floatingLabelText="Data de envio"
-              validate={required}
-              ref="dt_envio"
-              autoOk
+              component={renderDatePicker}
+              label="Data de envio"
+              validate={[required]}
               fullWidth
+              autoOk
             />
           </Col>
           <Col xs={12} md={3}>
             <Field
               name="hr_envio"
-              component={TimePicker}
-              format={null}
-              defaultValue={null} // TimePicker requires an object,
-              // and redux-form defaults to ''
-              floatingLabelText="Hora de envio"
-              validate={required}
-              ref="hr_envio"
-              autoOk
+              component={renderTimePicker}
+              label="Hora de envio"
+              validate={[required]}
               fullWidth
+              autoOk
             />
           </Col>
         </Row>
@@ -134,16 +85,11 @@ class MensagemForm extends Component {
         <Row>
           <Col xs={12}>
             <Field
-              name="dsc_subtitulo"
-              component={TextField}
-              floatingLabelText="Informe o Subtítulo"
-              validate={required}
-              //validate={[required, email]}
-              ref="dsc_subtitulo"
-              withRef
+              name="subtitle"
+              component={renderTextField}
+              label="Informe o Subtítulo"
+              validate={[required]}
               fullWidth
-              // value={this.props.dsc_subtitulo}
-              // onChange={this.props.changeSubtitulo}
             />
           </Col>
         </Row>
@@ -151,38 +97,43 @@ class MensagemForm extends Component {
         <Row>
           <Col xs={12}>
             <div className="pageSubTitleCadVotacao">Mensagem</div>
-          </Col>
-        </Row>
 
-        <Row>
-          <Col xs={12}>
-            <div>How many pizzas do you want?</div>
-            <div>{numPizzas}</div>
-            <div>
-              <Field
-                name="pizzas"
-                component={Slider}
-                defaultValue={0}
-                format={null}
-                min={0}
-                max={20}
-                step={1}
-                warn={tooManyPizzas}
-              />
-            </div>
+            <Field
+              name="body"
+              component={renderEditor}
+              label="Informe o Conteúdo da Mensagem"
+              validate={[required]}
+              fullWidth
+            />
           </Col>
         </Row>
 
         <Row>
           <Col xs={12}>
             <div className="pageSubTitleCadVotacao">Destinatários</div>
+
+            <CheckBoxDadosAdicionais
+              name="dadosAdicionais"
+              codPessoaJuridica={getStorage('cod_pessoa_juridica')}
+            />
+
+            <UsuariosByDadosAdicionais
+              name="arrUsuarios"
+              codPessoaJuridica={getStorage('cod_pessoa_juridica')}
+              showCols={[0]}
+              //activeCheckboxes={this.state.activeCheckboxes}
+              //renderButtonVariosSelection={this.renderButtonVariosSelection}
+              //setUsuarioPodeVotar={this.setUsuarioPodeVotar}
+              //renderButtonVariosSelectionDisabled={this.renderButtonVariosSelectionDisabled}
+            />
           </Col>
         </Row>
 
         <Row>
-          <Col xs={12}>
+          <Col xs={12} md={6}>
             <FlatButton
-              onClick={this.props.handleAdd}
+              type="submit"
+              disabled={submitting}
               icon={<Glyphicon glyph="plus" style={{ color: 'white' }} />}
               label="Agendar Mensagem"
               labelStyle={{ color: 'white' }}
@@ -191,20 +142,18 @@ class MensagemForm extends Component {
               hoverColor="#8AA62F"
             />
           </Col>
-        </Row>
 
-        <Row>
           <Col xs={12} md={6}>
-            <button type="submit" disabled={submitting}>
-              Submit
-            </button>
-          </Col>
-        </Row>
-        <Row>
-          <Col xs={12} md={6}>
-            <button type="button" disabled={pristine || submitting} onClick={reset}>
-              Clear
-            </button>
+            <FlatButton
+              disabled={submitting}
+              onClick={reset}
+              icon={<Glyphicon glyph="repeat" style={{ color: 'gray' }} />}
+              label="Clear"
+              labelStyle={{ color: 'gray' }}
+              fullWidth
+              backgroundColor="#E6E6E6"
+              hoverColor="#BDBDBD"
+            />
           </Col>
         </Row>
       </form>
@@ -212,26 +161,48 @@ class MensagemForm extends Component {
   }
 }
 
-const selector = formValueSelector('MensagemForm');
-
-const mapStateToProps = state => ({ numPizzas: selector(state, 'pizzas') });
-const mapDispatchToProps = dispatch => bindActionCreators({ addMensagem, search, clear }, dispatch);
-MensagemForm = connect(mapStateToProps, mapDispatchToProps)(MensagemForm);
-
+// Decorate with redux-form
 MensagemForm = reduxForm({
-  form: 'MensagemForm',
-  initialValues: {
-    // dsc_titulo: 'bla bla bla',
-    // delivery: 'delivery',
-    // name: 'Jane Doe',
-    // cheese: 'Cheddar',
-    // pizzas: 5,
-  },
+  form: 'MensagemForm', // a unique identifier for this form
+})(MensagemForm);
+
+// https://redux-form.com/6.0.0-rc.1/docs/api/fieldarray.md/
+
+// Decorate with connect to read form values
+const selector = formValueSelector('MensagemForm'); // <-- same as form name
+MensagemForm = connect(state => {
+  // can select values individually
+  const dadosAdicionais = selector(state, 'dados.adicionais.1');
+  // const arrayUsuarios = selector(state, 'item_1');
+  const bodyMensagem = selector(state, 'body');
+  // or together as a group
+  // const { firstName, lastName } = selector(state, 'firstName', 'lastName')
+
+  return {
+    dadosAdicionais,
+    // arrayUsuarios,
+    bodyMensagem,
+  };
 })(MensagemForm);
 
 export default MensagemForm;
 
 /*
+// const selector = formValueSelector('MensagemForm');
+
+// const mapStateToProps = state => ({ numPizzas: selector(state, 'pizzas') });
+const mapDispatchToProps = dispatch => bindActionCreators({ addMensagem, search, clear }, dispatch);
+MensagemForm = connect(mapDispatchToProps)(MensagemForm);
+
+MensagemForm = reduxForm({
+  form: 'MensagemForm', // a unique identifier for this form
+})(MensagemForm);
+
+export default MensagemForm;
+
+import { bindActionCreators } from 'redux';
+
+
 const mapStateToProps = state => ({ listMensagens: state.mensagens.listMensagens });
 const mapDispatchToProps = dispatch =>
   bindActionCreators({ markAsSend, markAsUnsend, remove }, dispatch);

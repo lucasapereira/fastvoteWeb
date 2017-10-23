@@ -30,7 +30,7 @@ const VotacaoNew = Loadable({
   loader: () => import('./components/api/posts/votacao_new'),
   loading: MyLoadingComponent,
 });
-const DisparaMensagens = Loadable({
+const Mensagens = Loadable({
   loader: () => import('./components/api/mensagens/mensagens'),
   loading: MyLoadingComponent,
 });
@@ -111,7 +111,7 @@ const rotas = token => (
     />
     <Route path="/frontend/usuario/listvotacao" component={RequireAuth(ListVotacaoScreen)} />
     <Route path="/frontend/votacao/nova" component={RequireAuth(VotacaoNew)} />
-    <Route path="/frontend/votacao/mensagens" component={RequireAuth(DisparaMensagens)} />
+    <Route path="/frontend/votacao/mensagens" component={RequireAuth(Mensagens)} />
 
     <Route path="/frontend/gestaoUsuario/listaUsuario" component={RequireAuth(GestaoUsuario)} />
     <Route path="/frontend/gestaoUsuario/novoUsuario" component={RequireAuth(NovoUsuario)} />

@@ -28,7 +28,7 @@ export default (state = INITIAL_STATE, action) => {
         ...state,
         dsc_titulo: '',
       };
-    // so para teste
+    // INI so para teste
     case 'MENSAGEM_MARK_AS_SEND':
       return {
         ...state,

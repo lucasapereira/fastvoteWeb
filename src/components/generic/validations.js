@@ -26,6 +26,7 @@ export const cpf = strCPF => {
   if (Resto !== parseInt(strCPF.substring(10, 11), 10)) return 'Cpf inválido';
   return undefined;
 };
+
 export const telefone = telefone => {
   return telefone && !/^[0-6][0-9]{7}[0-9]\b/.test(telefone) ? 'Telefone inválido' : undefined;
 };
