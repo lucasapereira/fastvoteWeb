@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Field, reduxForm, formValueSelector } from 'redux-form';
 
-// import asyncValidate from './asyncValidate';
-import { required } from '../../generic/validations';
-
 import { Row, Col, Glyphicon } from 'react-bootstrap';
 import FlatButton from 'material-ui/FlatButton';
+
+// import asyncValidate from './asyncValidate';
+import { required } from '../../generic/validations';
 
 import { renderTextField } from '../../generic/forms/myTextField';
 import { renderDatePicker } from '../../generic/forms/myDatePicker';
@@ -24,22 +24,7 @@ import { getStorage } from '../../generic/storage';
 
 class MensagemForm extends Component {
   render() {
-    console.log(
-      'NO FRM DE MSG VERIFICAR VARIAVEIS  dadosAdicionaise bodyMensagem: ',
-      this.props.dadosAdicionais,
-      this.props.bodyMensagem
-    );
-
-    const {
-      handleSubmit,
-      pristine,
-      reset,
-      submitting,
-
-      dadosAdicionais,
-      // arrayUsuarios,
-      bodyMensagem,
-    } = this.props;
+    const { handleSubmit, pristine, reset, submitting, dadosAdicionais } = this.props;
 
     return (
       <form onSubmit={handleSubmit(this.props.addMensagem)}>
@@ -121,7 +106,7 @@ class MensagemForm extends Component {
               name="arrUsuarios"
               codPessoaJuridica={getStorage('cod_pessoa_juridica')}
               showCols={[0]}
-              //activeCheckboxes={this.state.activeCheckboxes}
+              dadosAdicionais={dadosAdicionais}
               //renderButtonVariosSelection={this.renderButtonVariosSelection}
               //setUsuarioPodeVotar={this.setUsuarioPodeVotar}
               //renderButtonVariosSelectionDisabled={this.renderButtonVariosSelectionDisabled}
@@ -166,22 +151,13 @@ MensagemForm = reduxForm({
   form: 'MensagemForm', // a unique identifier for this form
 })(MensagemForm);
 
-// https://redux-form.com/6.0.0-rc.1/docs/api/fieldarray.md/
-
 // Decorate with connect to read form values
 const selector = formValueSelector('MensagemForm'); // <-- same as form name
 MensagemForm = connect(state => {
   // can select values individually
-  const dadosAdicionais = selector(state, 'dados.adicionais.1');
-  // const arrayUsuarios = selector(state, 'item_1');
-  const bodyMensagem = selector(state, 'body');
-  // or together as a group
-  // const { firstName, lastName } = selector(state, 'firstName', 'lastName')
-
+  const dadosAdicionais = selector(state, 'dadosAdicionais');
   return {
     dadosAdicionais,
-    // arrayUsuarios,
-    bodyMensagem,
   };
 })(MensagemForm);
 

@@ -31,7 +31,8 @@ const query = gql`
 const queryOptions = {
   options(props) {
     let codUsuarioRepresentacao = null;
-    if (props.match.params.codUsuarioRepresentacao) {
+
+    if (props.match && props.match.params.codUsuarioRepresentacao) {
       codUsuarioRepresentacao = props.match.params.codUsuarioRepresentacao;
     }
     return {

@@ -69,6 +69,33 @@ class UsuariosByDadosAdicionais extends Component {
       return <div>Erro!!!</div>;
     }
 
+    let arrayCheck = [];
+
+    if (this.props.dadosAdicionais) {
+      console.log(
+        'DADOS ADD DENTRO:',
+        this.props.dadosAdicionais.length,
+        this.props.dadosAdicionais
+      );
+
+      arrayCheck = this.props.dadosAdicionais.map(item => console.log('ITEM DENTRO:', item));
+    }
+
+    /*
+    let arrColsReturn = [];
+    
+        const schemaCols = value.map(index => {
+          if (this.arrayCols[index]) {
+            arrColsReturn.push(this.arrayCols[index]);
+          }
+          return true;
+        });
+    
+        return arrColsReturn;
+    */
+
+    // console.log('EM UsuariosByDadosAdicionais - DadosAdicionais: ', this.props.dadosAdicionais);
+
     return (
       <Grid
         colunas={this.colunas}
