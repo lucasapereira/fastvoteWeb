@@ -30,8 +30,8 @@
     "react-bootstrap": "^0.31.3",
     "react-chartjs-2": "^2.6.4",
     "react-confirm": "^0.1.16",
-    "react-data-grid": "^2.0.63",
-    "react-data-grid-addons": "^2.0.63",
+    "react-data-grid": "^2.0.64",
+    "react-data-grid-addons": "^2.0.64",
     "react-dom": "^15.6.2",
     "react-dropzone": "4.2.1",
     "react-error-overlay": "^2.0.2",
@@ -59,16 +59,12 @@
     "react-scripts": "^1.0.14"
   },
   "scripts": {
-    "production":
-      "react-scripts build ;  perl -pe 's/;self.addEventListener/`echo \";\" ; cat webpush.js ; echo \"self.addEventListener\"` /ge' -i build/service-worker.js ;   scp -r -i ~/.ssh/my-ssh-key build/* lucas_araujo_pereira@ipa.fastvote.com.br://var/www/html/frontend/ ",
-    "ship-to-production":
-      "scp -r -i ~/.ssh/my-ssh-key build/* lucas_araujo_pereira@ipa.fastvote.com.br://var/www/html/frontend/",
+    "production": "react-scripts build ;  perl -pe 's/;self.addEventListener/`echo \";\" ; cat webpush.js ; echo \"self.addEventListener\"` /ge' -i build/service-worker.js ;   scp -r -i ~/.ssh/my-ssh-key build/* lucas_araujo_pereira@ipa.fastvote.com.br://var/www/html/frontend/ ",
+    "ship-to-production": "scp -r -i ~/.ssh/my-ssh-key build/* lucas_araujo_pereira@ipa.fastvote.com.br://var/www/html/frontend/",
     "analyze": "source-map-explorer build/static/js/main.*",
     "start": "react-scripts start",
-    "sw":
-      "perl -pe 's/;self.addEventListener/`echo \";\" ; cat webpush.js ; echo \"self.addEventListener\"` /ge' -i build/service-worker.js",
-    "build":
-      "react-scripts build ; perl -pe 's/;self.addEventListener/`echo \";\" ; cat webpush.js ; echo \"self.addEventListener\"` /ge' -i build/service-worker.js",
+    "sw": "perl -pe 's/;self.addEventListener/`echo \";\" ; cat webpush.js ; echo \"self.addEventListener\"` /ge' -i build/service-worker.js",
+    "build": "react-scripts build ; perl -pe 's/;self.addEventListener/`echo \";\" ; cat webpush.js ; echo \"self.addEventListener\"` /ge' -i build/service-worker.js",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "flow start": "flow start",
