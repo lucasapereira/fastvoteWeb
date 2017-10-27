@@ -33,11 +33,6 @@ const queryOptions = {
   options(props) {
     let codUsuarioRepresentacao = null;
 
-<<<<<<< HEAD
-    console.log('Props on allUsuariosQuePodemVotar Graphql', props);
-
-=======
->>>>>>> eac1122d24abb44438174ce899d053dc690b710e
     if (props.match && props.match.params.codUsuarioRepresentacao) {
       codUsuarioRepresentacao = props.match.params.codUsuarioRepresentacao;
     }

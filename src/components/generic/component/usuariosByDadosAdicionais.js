@@ -65,23 +65,6 @@ class UsuariosByDadosAdicionais extends Component {
       return <div>Erro!!!</div>;
     }
 
-<<<<<<< HEAD
-    console.log('ROWS: ', this.props.rows);
-    console.log('PROPS: ', this.props);
-    console.log('activeCheckboxes', this.props.activeCheckboxes);
-
-    /*
-    onRowsSelected(rows) {
-      this.setState({selectedIndexes: this.state.selectedIndexes.concat(rows.map(r => r.rowIdx))});
-    },
-    
-    onRowsDeselected(rows) {
-      let rowIndexes = rows.map(r => r.rowIdx);
-      this.setState({selectedIndexes: this.state.selectedIndexes.filter(i => rowIndexes.indexOf(i) === -1 )});
-    },
-    */
-
-=======
     let arrayCheck = [];
 
     if (this.props.dadosAdicionais) {
@@ -109,7 +92,6 @@ class UsuariosByDadosAdicionais extends Component {
 
     // console.log('EM UsuariosByDadosAdicionais - DadosAdicionais: ', this.props.dadosAdicionais);
 
->>>>>>> eac1122d24abb44438174ce899d053dc690b710e
     return (
       <Grid
         colunas={this.arrayCols}
