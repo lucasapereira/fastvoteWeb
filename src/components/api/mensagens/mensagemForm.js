@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Field, reduxForm, formValueSelector } from 'redux-form';
 
-// import asyncValidate from './asyncValidate';
-import { required } from '../../generic/validations';
-
 import { Row, Col, Glyphicon } from 'react-bootstrap';
 import FlatButton from 'material-ui/FlatButton';
+
+// import asyncValidate from './asyncValidate';
+import { required } from '../../generic/validations';
 
 import { renderTextField } from '../../generic/forms/myTextField';
 import { renderDatePicker } from '../../generic/forms/myDatePicker';
@@ -23,23 +23,35 @@ import { getStorage } from '../../generic/storage';
 // import { addMensagem, search, clear } from './mensagensActions';
 
 class MensagemForm extends Component {
-  render() {
-    console.log(
-      'NO FRM DE MSG VERIFICAR VARIAVEIS  dadosAdicionaise bodyMensagem: ',
-      this.props.dadosAdicionais,
-      this.props.bodyMensagem
-    );
+  /*
+  setUsuarioArrUsuario = array => {
+    this.setState({
+      this.props.usuarios: array ,
+    });
+  };
+  */
 
+  render() {
     const {
       handleSubmit,
       pristine,
       reset,
       submitting,
-
-      dadosAdicionais,
-      // arrayUsuarios,
-      bodyMensagem,
+      checkDadosAdicionais,
+      usuarios,
     } = this.props;
+
+    let arrayCheck = [];
+
+    if (checkDadosAdicionais) {
+      checkDadosAdicionais.map((value, key) => {
+        if (!value) {
+          arrayCheck.filter(x => x !== key);
+        } else {
+          arrayCheck = [...arrayCheck, key];
+        }
+      });
+    }
 
     return (
       <form onSubmit={handleSubmit(this.props.addMensagem)}>
@@ -113,15 +125,22 @@ class MensagemForm extends Component {
             <div className="pageSubTitleCadVotacao">Destinatários</div>
 
             <CheckBoxDadosAdicionais
-              name="dadosAdicionais"
+              name="checkDadosAdicionais"
               codPessoaJuridica={getStorage('cod_pessoa_juridica')}
+            />
+
+            <Field
+              name="usuarios"
+              component={renderEditor}
+              label="aaa"
+              validate={[required]}
+              fullWidth
             />
 
             <UsuariosByDadosAdicionais
               name="arrUsuarios"
               codPessoaJuridica={getStorage('cod_pessoa_juridica')}
-              showCols={[0]}
-              //activeCheckboxes={this.state.activeCheckboxes}
+              activeCheckboxes={arrayCheck}
               //renderButtonVariosSelection={this.renderButtonVariosSelection}
               //setUsuarioPodeVotar={this.setUsuarioPodeVotar}
               //renderButtonVariosSelectionDisabled={this.renderButtonVariosSelectionDisabled}
@@ -166,22 +185,16 @@ MensagemForm = reduxForm({
   form: 'MensagemForm', // a unique identifier for this form
 })(MensagemForm);
 
-// https://redux-form.com/6.0.0-rc.1/docs/api/fieldarray.md/
-
 // Decorate with connect to read form values
 const selector = formValueSelector('MensagemForm'); // <-- same as form name
 MensagemForm = connect(state => {
   // can select values individually
-  const dadosAdicionais = selector(state, 'dados.adicionais.1');
-  // const arrayUsuarios = selector(state, 'item_1');
-  const bodyMensagem = selector(state, 'body');
-  // or together as a group
-  // const { firstName, lastName } = selector(state, 'firstName', 'lastName')
+  const checkDadosAdicionais = selector(state, 'checkDadosAdicionais');
+  const usuarios = selector(state, 'usuarios');
 
   return {
-    dadosAdicionais,
-    // arrayUsuarios,
-    bodyMensagem,
+    checkDadosAdicionais,
+    usuarios,
   };
 })(MensagemForm);
 

@@ -31,7 +31,10 @@ const query = gql`
 const queryOptions = {
   options(props) {
     let codUsuarioRepresentacao = null;
-    if (props.match.params.codUsuarioRepresentacao) {
+
+    console.log('Props on allUsuariosQuePodemVotar Graphql', props);
+
+    if (props.match && props.match.params.codUsuarioRepresentacao) {
       codUsuarioRepresentacao = props.match.params.codUsuarioRepresentacao;
     }
     return {
