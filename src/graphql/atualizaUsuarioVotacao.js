@@ -1,5 +1,5 @@
-import { gql, graphql } from 'react-apollo';
-
+import { graphql } from 'react-apollo';
+import gql from 'graphql-tag';
 const mutation = gql`
   mutation atualizaUsuarioVotacao(
     $codusuariorepresentacao: Int

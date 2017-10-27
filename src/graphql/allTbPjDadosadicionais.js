@@ -1,5 +1,5 @@
-import { gql, graphql } from 'react-apollo';
-
+import { graphql } from 'react-apollo';
+import gql from 'graphql-tag';
 const query = gql`
   query Feed($codpessoajuridica: Int) {
     allTbPjDadosadicionais(condition: { codPessoaJuridica: $codpessoajuridica }) {

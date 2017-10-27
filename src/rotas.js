@@ -2,15 +2,24 @@ import React from 'react';
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { createStore, applyMiddleware, compose } from 'redux';
+import { Provider } from 'react-redux';
 import reduxThunk from 'redux-thunk';
 import Loadable from 'react-loadable';
 
-import { ApolloProvider, ApolloClient, createNetworkInterface } from 'react-apollo';
+import { ApolloClient } from 'apollo-client';
+import { createHttpLink } from 'apollo-link-http';
+import { InMemoryCache } from 'apollo-cache-inmemory';
+
+import { onError } from 'apollo-link-error';
+import { setContext } from 'apollo-link-context';
+
+import { ApolloProvider } from 'react-apollo';
+
 import { AUTH_USER, UNAUTH_USER } from './actions/auth';
 
 import { getStorage } from './components/generic/storage';
 
-import { client, reducers } from './reducers';
+import { reducers } from './reducers';
 
 import Header from './components/generic/header';
 
@@ -70,7 +79,6 @@ const store = createStore(
   reducers,
   {}, // initial state
   compose(
-    applyMiddleware(client.middleware()),
     applyMiddleware(reduxThunk),
     // If you are using the devToolsExtension, you can add it here also
     /* eslint-disable */
@@ -162,50 +170,86 @@ export const routeTo = () => {
     });
   }
 
-  const networkInterface = createNetworkInterface({
+  // const networkInterface = createNetworkInterface({
+  //   uri: `${process.env.REACT_APP_BASE_URL_BACKEND}:${process.env
+  //     .REACT_APP_BASE_URL_BACKEND_PORT}/graphql`,
+  // });
+
+  // networkInterface.use([
+  //   {
+  //     applyMiddleware(req, next) {
+  //       if (!req.options.headers) {
+  //         req.options.headers = {}; // Create the header object if needed.
+  //       }
+  //       req.options.headers['x-access-token'] = getStorage('token');
+  //       next();
+  //     },
+  //   },
+  // ]);
+
+  // networkInterface.useAfter([
+  //   {
+  //     applyAfterware({ response }, next) {
+  //       if (response.status === 401) {
+  //         store.dispatch({
+  //           type: UNAUTH_USER,
+  //         });
+  //       }
+
+  //       if (response.status === 403) {
+  //         console.log('deu erro 403 de forbidden, melhorar aqui pra ir pra tela de forbidden');
+  //         store.dispatch({
+  //           type: UNAUTH_USER,
+  //         });
+  //       }
+  //       next();
+  //     },
+  //   },
+  // ]);
+
+  // const client = new ApolloClient({
+  //   networkInterface,
+  // });
+
+  const httpLink = createHttpLink({
     uri: `${process.env.REACT_APP_BASE_URL_BACKEND}:${process.env
       .REACT_APP_BASE_URL_BACKEND_PORT}/graphql`,
   });
 
-  networkInterface.use([
-    {
-      applyMiddleware(req, next) {
-        if (!req.options.headers) {
-          req.options.headers = {}; // Create the header object if needed.
-        }
-        req.options.headers['x-access-token'] = getStorage('token');
-        next();
-      },
+  const middlewareLink = setContext(() => ({
+    headers: {
+      authorization: getStorage('token') || null,
+      'x-access-token': getStorage('token') || null,
     },
-  ]);
+  }));
+  // use with apollo-client
+  const mlink = middlewareLink.concat(httpLink);
 
-  networkInterface.useAfter([
-    {
-      applyAfterware({ response }, next) {
-        if (response.status === 401) {
-          store.dispatch({
-            type: UNAUTH_USER,
-          });
-        }
+  const errorLink = onError(({ networkError, graphQLErrors }) => {
+    if (networkError.statusCode === 401) {
+      store.dispatch({
+        type: UNAUTH_USER,
+      });
+    }
 
-        if (response.status === 403) {
-          console.log('deu erro 403 de forbidden, melhorar aqui pra ir pra tela de forbidden');
-          store.dispatch({
-            type: UNAUTH_USER,
-          });
-        }
-        next();
-      },
-    },
-  ]);
+    if (networkError.statusCode === 403) {
+      console.log('deu erro 403 de forbidden, melhorar aqui pra ir pra tela de forbidden');
+      store.dispatch({
+        type: UNAUTH_USER,
+      });
+    }
+  });
+
+  const link = errorLink.concat(mlink);
 
   const client = new ApolloClient({
-    networkInterface,
+    link,
+    cache: new InMemoryCache(),
   });
 
   return (
-    <ApolloProvider client={client} store={store}>
-      {telaPrincipal(token)}
-    </ApolloProvider>
+    <Provider store={store}>
+      <ApolloProvider client={client}>{telaPrincipal(token)}</ApolloProvider>
+    </Provider>
   );
 };

@@ -1,5 +1,5 @@
-import { gql, graphql } from 'react-apollo';
-
+import { graphql } from 'react-apollo';
+import gql from 'graphql-tag';
 const dadosAdicionais = gql`
   query Feed($codVotacao: Int) {
     allTbDadosAdicionais(orderBy: PRIMARY_KEY_ASC) {
