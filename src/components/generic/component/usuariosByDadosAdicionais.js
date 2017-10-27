@@ -15,52 +15,48 @@ class UsuariosByDadosAdicionais extends Component {
 
   arrayCols = [
     {
-      key: 'nomCompletoPessoa',
+      key: 'nomcompletopessoa',
       name: 'Nome Usuário',
       filterable: true,
       sortable: true,
     },
     {
-      key: 'vlrPeso',
-      name: 'Peso',
+      key: 'dadosadicionaisstr',
+      name: 'Dados Adicionais',
       filterable: true,
       sortable: true,
-      editable: true,
     },
   ];
 
-  setCols = value => {
-    //const selectedRows = this.state.selectedIndexes.map(index => filteredRows[index]);
+  setRows = arrayDataRows => {
+    let arrayReturn = [];
+    let strDadosAdicionais = '';
 
-    let arrColsReturn = [];
+    if (arrayDataRows) {
+      arrayReturn = arrayDataRows.map(index => {
+        strDadosAdicionais = index.dadosAdicionais.map(item => {
+          return item.split(';')[1] + ', ';
+        });
 
-    const schemaCols = value.map(index => {
-      if (this.arrayCols[index]) {
-        arrColsReturn.push(this.arrayCols[index]);
-      }
-      return true;
-    });
-
-    return arrColsReturn;
-  };
-
-  maskRowsUpdated = updated => {
-    let newPeso = updated.vlrPeso;
-
-    if (isNaN(newPeso)) {
-      newPeso = 1;
+        return {
+          id: index.id,
+          nomcompletopessoa: index.nomcompletopessoa,
+          // vlrpeso: index.vlrpeso,
+          dadosadicionaisstr: strDadosAdicionais,
+        };
+      });
     }
 
-    return { vlrPeso: parseFloat(newPeso) };
+    return arrayReturn;
   };
+
+  // https://github.com/adazzle/react-data-grid/issues/744
+  // http://adazzle.github.io/react-data-grid/examples.html#/row-select
+  // https://jsfiddle.net/f6mbnb8z/5/
+
+  // http://react-redux-grid.herokuapp.com/
 
   render() {
-    if (this.props.showCols) {
-      this.colunas = this.setCols(this.props.showCols);
-    } else {
-      this.colunas = this.arrayCols;
-    }
-
     if (this.props.loading) {
       return <MyLoader />;
     }
@@ -69,6 +65,23 @@ class UsuariosByDadosAdicionais extends Component {
       return <div>Erro!!!</div>;
     }
 
+<<<<<<< HEAD
+    console.log('ROWS: ', this.props.rows);
+    console.log('PROPS: ', this.props);
+    console.log('activeCheckboxes', this.props.activeCheckboxes);
+
+    /*
+    onRowsSelected(rows) {
+      this.setState({selectedIndexes: this.state.selectedIndexes.concat(rows.map(r => r.rowIdx))});
+    },
+    
+    onRowsDeselected(rows) {
+      let rowIndexes = rows.map(r => r.rowIdx);
+      this.setState({selectedIndexes: this.state.selectedIndexes.filter(i => rowIndexes.indexOf(i) === -1 )});
+    },
+    */
+
+=======
     let arrayCheck = [];
 
     if (this.props.dadosAdicionais) {
@@ -96,15 +109,15 @@ class UsuariosByDadosAdicionais extends Component {
 
     // console.log('EM UsuariosByDadosAdicionais - DadosAdicionais: ', this.props.dadosAdicionais);
 
+>>>>>>> eac1122d24abb44438174ce899d053dc690b710e
     return (
       <Grid
-        colunas={this.colunas}
-        rows={this.props.rows}
+        colunas={this.arrayCols}
+        rows={this.setRows(this.props.rows)}
         items_grid={this.state.items_grid}
-        renderButtonVariosSelection={this.props.renderButtonVariosSelection}
         loading={this.props.loading}
-        maskRowsUpdated={this.maskRowsUpdated}
-        renderButtonVariosSelectionDisabled={this.props.renderButtonVariosSelectionDisabled}
+        // renderButtonVariosSelection={this.props.renderButtonVariosSelection}
+        // renderButtonVariosSelectionDisabled={this.props.renderButtonVariosSelectionDisabled}
       />
     );
   }

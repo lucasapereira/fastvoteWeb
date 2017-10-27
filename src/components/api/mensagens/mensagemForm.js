@@ -23,8 +23,40 @@ import { getStorage } from '../../generic/storage';
 // import { addMensagem, search, clear } from './mensagensActions';
 
 class MensagemForm extends Component {
+<<<<<<< HEAD
+  /*
+  setUsuarioArrUsuario = array => {
+    this.setState({
+      this.props.usuarios: array ,
+    });
+  };
+  */
+
+  render() {
+    const {
+      handleSubmit,
+      pristine,
+      reset,
+      submitting,
+      checkDadosAdicionais,
+      usuarios,
+    } = this.props;
+=======
   render() {
     const { handleSubmit, pristine, reset, submitting, dadosAdicionais } = this.props;
+>>>>>>> eac1122d24abb44438174ce899d053dc690b710e
+
+    let arrayCheck = [];
+
+    if (checkDadosAdicionais) {
+      checkDadosAdicionais.map((value, key) => {
+        if (!value) {
+          arrayCheck.filter(x => x !== key);
+        } else {
+          arrayCheck = [...arrayCheck, key];
+        }
+      });
+    }
 
     return (
       <form onSubmit={handleSubmit(this.props.addMensagem)}>
@@ -98,15 +130,27 @@ class MensagemForm extends Component {
             <div className="pageSubTitleCadVotacao">Destinatários</div>
 
             <CheckBoxDadosAdicionais
-              name="dadosAdicionais"
+              name="checkDadosAdicionais"
               codPessoaJuridica={getStorage('cod_pessoa_juridica')}
+            />
+
+            <Field
+              name="usuarios"
+              component={renderEditor}
+              label="aaa"
+              validate={[required]}
+              fullWidth
             />
 
             <UsuariosByDadosAdicionais
               name="arrUsuarios"
               codPessoaJuridica={getStorage('cod_pessoa_juridica')}
+<<<<<<< HEAD
+              activeCheckboxes={arrayCheck}
+=======
               showCols={[0]}
               dadosAdicionais={dadosAdicionais}
+>>>>>>> eac1122d24abb44438174ce899d053dc690b710e
               //renderButtonVariosSelection={this.renderButtonVariosSelection}
               //setUsuarioPodeVotar={this.setUsuarioPodeVotar}
               //renderButtonVariosSelectionDisabled={this.renderButtonVariosSelectionDisabled}
@@ -155,9 +199,18 @@ MensagemForm = reduxForm({
 const selector = formValueSelector('MensagemForm'); // <-- same as form name
 MensagemForm = connect(state => {
   // can select values individually
+<<<<<<< HEAD
+  const checkDadosAdicionais = selector(state, 'checkDadosAdicionais');
+  const usuarios = selector(state, 'usuarios');
+
+  return {
+    checkDadosAdicionais,
+    usuarios,
+=======
   const dadosAdicionais = selector(state, 'dadosAdicionais');
   return {
     dadosAdicionais,
+>>>>>>> eac1122d24abb44438174ce899d053dc690b710e
   };
 })(MensagemForm);
 
