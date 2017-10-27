@@ -14,8 +14,7 @@ import { renderTimePicker } from '../../generic/forms/myTimePicker';
 import { renderEditor } from '../../generic/forms/myEditor';
 
 import CheckBoxDadosAdicionais from '../../generic/component/checkBoxDadosAdicionais';
-import UsuariosByDadosAdicionais from '../../../components/generic/component/usuariosByDadosAdicionais';
-// '../../ gestaoUsuario/UsuariosByDadosAdicionais'
+import UsuariosByDadosAdicionais from '../../generic/component/usuariosByDadosAdicionais';
 
 import { getStorage } from '../../generic/storage';
 
@@ -135,9 +134,6 @@ class MensagemForm extends Component {
               name="arrayUsuarios"
               codPessoaJuridica={getStorage('cod_pessoa_juridica')}
               activeCheckboxes={arrayCheck}
-              //renderButtonVariosSelection={this.renderButtonVariosSelection}
-              //setUsuarioPodeVotar={this.setUsuarioPodeVotar}
-              //renderButtonVariosSelectionDisabled={this.renderButtonVariosSelectionDisabled}
             />
           </Col>
         </Row>

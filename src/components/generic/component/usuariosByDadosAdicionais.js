@@ -4,8 +4,8 @@ import ReactDataGrid from 'react-data-grid';
 import { compose } from 'react-apollo';
 import { Field } from 'redux-form';
 
-// import Grid from '../../generic/grid';
 import MyLoader from '../../generic/myLoader';
+import SimpleGrid from '../../generic/simpleGrid';
 
 import { QueryResultadoList } from '../../../graphql/allUsuariosQuePodemVotar';
 
@@ -15,50 +15,29 @@ import { QueryResultadoList } from '../../../graphql/allUsuariosQuePodemVotar';
 class UsuariosByDadosAdicionais extends Component {
   constructor(props) {
     super(props);
-
-    /*this._columns = [
-      {
-        key: 'nomcompletopessoa',
-        name: 'Nome Usuário',
-        filterable: true,
-        sortable: true,
-      },
-      {
-        key: 'dadosadicionaisstr',
-        name: 'Dados Adicionais',
-        filterable: true,
-        sortable: true,
-      },
-    ];*/
-
-    this._columns = [
-      {
-        key: 'id',
-        name: 'ID',
-      },
-      {
-        key: 'title',
-        name: 'Title',
-      },
-      {
-        key: 'count',
-        name: 'Count',
-      },
-    ];
-
-    let rows = [];
-
-    for (let i = 1; i < 1000; i++) {
-      rows.push({
-        id: i,
-        title: 'Title ' + i,
-        count: i * 1000,
-      });
-    }
-
-    console.log('PROOOOOPS', this.props);
-    this.state = { rows, selectedIndexes: [] };
+    this.state = { selectedIndexes: [] };
   }
+
+  setSelectedIndexes = selectedIndexes => {
+    this.setState({
+      selectedIndexes,
+    });
+  };
+
+  arrayCols = [
+    {
+      key: 'nomcompletopessoa',
+      name: 'Nome Usuário',
+      filterable: true,
+      sortable: true,
+    },
+    {
+      key: 'dadosadicionaisstr',
+      name: 'Dados Adicionais',
+      filterable: true,
+      sortable: true,
+    },
+  ];
 
   setRows = arrayDataRows => {
     let arrayReturn = [];
@@ -82,59 +61,14 @@ class UsuariosByDadosAdicionais extends Component {
     return arrayReturn;
   };
 
-  rowGetter = i => {
-    return this.state.rows[i];
-  };
+  render() {
+    let arrayIdsCheck = [];
 
-  /*
-  if (checkDadosAdicionais) {
-      checkDadosAdicionais.map((value, key) => {
-        if (!value) {
-          arrayCheck.filter(x => x !== key);
-        } else {
-          arrayCheck = [...arrayCheck, key];
-        }
+    if (this.state.selectedIndexes.length) {
+      this.state.selectedIndexes.map(index => {
+        arrayIdsCheck.push(this.props.rows[index].id);
       });
     }
-  */
-
-  onRowsSelected = rows => {
-    console.log('selected ITEM', rows[0].row.id);
-
-    // let selectedItem = this.state.selectedIndexes.concat(rows[0].row.id);
-    /*let selectedItem = this.state.selectedIndexes.concat(
-      rows.map(r => {
-        console.log('AAA SIM', r.row.id);
-        return r.row.id; //r.rowIdx;
-      })
-    );*/
-    let selectedItem = [];
-
-    this.state.selectedIndexes.map((value, key) => {
-      console.log('MAP ARRAY SELECTED', value, key);
-      /*
-      if (!value) {
-        arrayCheck.filter(x => x !== key);
-      } else {
-        arrayCheck = [...arrayCheck, key];
-      }
-      */
-    });
-
-    console.log('selected ARRAY', selectedItem);
-
-    this.setState({ selectedIndexes: selectedItem });
-  };
-
-  onRowsDeselected = rows => {
-    let rowIndexes = rows.map(r => r.rowIdx);
-    this.setState({
-      selectedIndexes: this.state.selectedIndexes.filter(i => rowIndexes.indexOf(i) === -1),
-    });
-  };
-
-  render() {
-    const rowText = this.state.selectedIndexes.length === 1 ? 'row' : 'rows';
 
     if (this.props.loading) {
       return <MyLoader />;
@@ -144,28 +78,33 @@ class UsuariosByDadosAdicionais extends Component {
       return <div>Erro!!!</div>;
     }
 
-    const renderField = ({ input, label, type, itens }) => (
+    const renderField = ({ input, type, itens }) => (
       <div>
-        <label>{label}</label>
-        <div>
-          <input {...input} type={type} value={itens} />
-        </div>
+        <input {...input} type={type} value={itens} />
       </div>
     );
 
     return (
       <div>
-        <Field
-          name={this.props.name}
-          type="text"
-          itens={this.state.selectedIndexes.length}
-          component={renderField}
-          label="label text input"
+        <Field name={this.props.name} type="text" itens={arrayIdsCheck} component={renderField} />
+        <SimpleGrid
+          rowKey="id"
+          columns={this.arrayCols}
+          selectedIndexes={this.state.selectedIndexes}
+          setSelectedIndexes={this.setSelectedIndexes}
+          rows={this.setRows(this.props.rows)}
         />
-        <span>
+      </div>
+    );
+  }
+}
+
+/*
+<span>
           {this.state.selectedIndexes.length} {rowText} selected
         </span>
-        <ReactDataGrid
+        
+<ReactDataGrid
           rowKey="id"
           columns={this._columns}
           rowGetter={this.rowGetter}
@@ -181,9 +120,5 @@ class UsuariosByDadosAdicionais extends Component {
             },
           }}
         />
-      </div>
-    );
-  }
-}
-
+         */
 export default compose(QueryResultadoList)(UsuariosByDadosAdicionais);
