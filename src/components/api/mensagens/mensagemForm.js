@@ -23,7 +23,6 @@ import { getStorage } from '../../generic/storage';
 // import { addMensagem, search, clear } from './mensagensActions';
 
 class MensagemForm extends Component {
-<<<<<<< HEAD
   /*
   setUsuarioArrUsuario = array => {
     this.setState({
@@ -39,12 +38,10 @@ class MensagemForm extends Component {
       reset,
       submitting,
       checkDadosAdicionais,
-      usuarios,
+      arrayUsuarios,
     } = this.props;
-=======
-  render() {
-    const { handleSubmit, pristine, reset, submitting, dadosAdicionais } = this.props;
->>>>>>> eac1122d24abb44438174ce899d053dc690b710e
+
+    console.log('CHECKS E USERS', checkDadosAdicionais, arrayUsuarios);
 
     let arrayCheck = [];
 
@@ -134,23 +131,10 @@ class MensagemForm extends Component {
               codPessoaJuridica={getStorage('cod_pessoa_juridica')}
             />
 
-            <Field
-              name="usuarios"
-              component={renderEditor}
-              label="aaa"
-              validate={[required]}
-              fullWidth
-            />
-
             <UsuariosByDadosAdicionais
-              name="arrUsuarios"
+              name="arrayUsuarios"
               codPessoaJuridica={getStorage('cod_pessoa_juridica')}
-<<<<<<< HEAD
               activeCheckboxes={arrayCheck}
-=======
-              showCols={[0]}
-              dadosAdicionais={dadosAdicionais}
->>>>>>> eac1122d24abb44438174ce899d053dc690b710e
               //renderButtonVariosSelection={this.renderButtonVariosSelection}
               //setUsuarioPodeVotar={this.setUsuarioPodeVotar}
               //renderButtonVariosSelectionDisabled={this.renderButtonVariosSelectionDisabled}
@@ -199,18 +183,12 @@ MensagemForm = reduxForm({
 const selector = formValueSelector('MensagemForm'); // <-- same as form name
 MensagemForm = connect(state => {
   // can select values individually
-<<<<<<< HEAD
   const checkDadosAdicionais = selector(state, 'checkDadosAdicionais');
-  const usuarios = selector(state, 'usuarios');
+  const arrayUsuarios = selector(state, 'arrayUsuarios');
 
   return {
     checkDadosAdicionais,
-    usuarios,
-=======
-  const dadosAdicionais = selector(state, 'dadosAdicionais');
-  return {
-    dadosAdicionais,
->>>>>>> eac1122d24abb44438174ce899d053dc690b710e
+    arrayUsuarios,
   };
 })(MensagemForm);
 
