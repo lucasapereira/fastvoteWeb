@@ -5,6 +5,7 @@ import { renderCheckbox } from './forms/myCheckbox';
 class ListArrayCheckbox extends Component {
   render() {
     const renderArrayCheckboxes = ({ arrayData }) => {
+      console.log('arrayData dentro do ListArrayCheckbox', arrayData);
       return (
         <div>
           {arrayData.map(index => (
