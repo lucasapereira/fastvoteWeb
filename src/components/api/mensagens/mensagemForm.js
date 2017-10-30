@@ -19,7 +19,6 @@ import UsuariosByDadosAdicionais from '../../generic/component/usuariosByDadosAd
 import { getStorage } from '../../generic/storage';
 
 // import { QueryResultadoCreate } from './mensagensCreateGraph';
-// import { addMensagem, search, clear } from './mensagensActions';
 
 class MensagemForm extends Component {
   /*
@@ -38,9 +37,8 @@ class MensagemForm extends Component {
       submitting,
       checkDadosAdicionais,
       arrayUsuarios,
+      body,
     } = this.props;
-
-    console.log('CHECKS E USERS', checkDadosAdicionais, arrayUsuarios);
 
     let arrayCheck = [];
 
@@ -53,6 +51,8 @@ class MensagemForm extends Component {
         }
       });
     }
+
+    console.log('CHECKS USERS BODY', checkDadosAdicionais, arrayUsuarios, body, this.props);
 
     return (
       <form onSubmit={handleSubmit(this.props.addMensagem)}>
@@ -70,8 +70,6 @@ class MensagemForm extends Component {
               validate={[required]}
               fullWidth
             />
-            <Glyphicon glyph="search" style={{ color: 'blue' }} onClick={this.props.search} />
-            <Glyphicon glyph="refresh" style={{ color: 'black' }} onClick={this.props.clear} />
           </Col>
           <Col xs={12} md={3}>
             <Field
@@ -178,126 +176,17 @@ MensagemForm = reduxForm({
 // Decorate with connect to read form values
 const selector = formValueSelector('MensagemForm'); // <-- same as form name
 MensagemForm = connect(state => {
+  console.log('STATES NO CONNECT MensagemForm: ', state);
   // can select values individually
   const checkDadosAdicionais = selector(state, 'checkDadosAdicionais');
   const arrayUsuarios = selector(state, 'arrayUsuarios');
+  const body = selector(state, 'body');
 
   return {
     checkDadosAdicionais,
     arrayUsuarios,
+    body,
   };
 })(MensagemForm);
 
 export default MensagemForm;
-
-/*
-// const selector = formValueSelector('MensagemForm');
-
-// const mapStateToProps = state => ({ numPizzas: selector(state, 'pizzas') });
-const mapDispatchToProps = dispatch => bindActionCreators({ addMensagem, search, clear }, dispatch);
-MensagemForm = connect(mapDispatchToProps)(MensagemForm);
-
-MensagemForm = reduxForm({
-  form: 'MensagemForm', // a unique identifier for this form
-})(MensagemForm);
-
-export default MensagemForm;
-
-import { bindActionCreators } from 'redux';
-
-
-const mapStateToProps = state => ({ listMensagens: state.mensagens.listMensagens });
-const mapDispatchToProps = dispatch =>
-  bindActionCreators({ markAsSend, markAsUnsend, remove }, dispatch);
-var conn = connect(mapStateToProps, mapDispatchToProps)(MensagensList);
-// export default connect(mapStateToProps, mapDispatchToProps)(MensagensList);
-export default compose(QueryResultadoList)(conn);
-*/
-// const mapDispatchToProps = dispatch =>
-//    bindActionCreators({ handleSubmit, pristine, reset, submitting }, dispatch);
-// const mapDispatchToProps = dispatch => bindActionCreators({ addMensagem, search, clear }, dispatch);
-// MensagemForm = connect(mapStateToProps, mapDispatchToProps)(MensagemForm);
-
-/*
-<div>
-  <Field name="delivery" component={RadioButtonGroup}>
-    <RadioButton value="pickup" label="Pickup" />
-    <RadioButton value="delivery" label="Delivery" />
-  </Field>
-</div>
-<div>How many pizzas do you want?</div>
-<div>{numPizzas}</div>
-<div>
-  <Field
-    name="pizzas"
-    component={Slider}
-    defaultValue={0}
-    format={null}
-    min={0}
-    max={20}
-    step={1}
-    warn={tooManyPizzas}
-  />
-</div>
-<div>
-  <Field
-    name="driver"
-    component={SelectField}
-    hintText="Driver"
-    floatingLabelText="Driver"
-    validate={required}>
-      <MenuItem value="alice@redux-pizza.com" primaryText="Alice" />
-      <MenuItem value="bob@redux-pizza.com" primaryText="Bob" />
-      <MenuItem value="carl@redux-pizza.com" primaryText="Carl" />
-  </Field>
-</div>
-<div>
-  <Field name="thinCrust" component={Toggle} label="Thin Crust" labelPosition="right" />
-</div>
-<div>
-  <Field name="pepperoni" component={Checkbox} label="Pepperoni" />
-</div>
-<div>
-  <Field name="mushrooms" component={Checkbox} label="Mushrooms" />
-</div>
-<div>
-  <Field name="peppers" component={Checkbox} label="Peppers" />
-</div>
-<div>
-  <Field
-    name="notes"
-    component={TextField}
-    hintText="Notes"
-    floatingLabelText="Notes"
-    multiLine
-    rows={2}
-  />
-</div>
-<div>
-  <Field
-    name="cheese"
-    component={AutoComplete}
-    floatingLabelText="Cheese"
-    openOnFocus
-    filter={MUIAutoComplete.fuzzyFilter}
-    dataSource={['Cheddar', 'Mozzarella', 'Parmesan', 'Provolone']}
-  />
-</div>
-<div>
-  <Field
-    name="referral"
-    component={AutoComplete}
-    floatingLabelText="How did you find us?"
-    openOnFocus
-    filter={MUIAutoComplete.fuzzyFilter}
-    dataSourceConfig={{ text: 'name', value: 'id' }}
-    dataSource={[
-      { id: 0, name: 'Facebook' },
-      { id: 1, name: 'Yelp' },
-      { id: 2, name: 'TV Ad' },
-      { id: 3, name: 'Friend' },
-      { id: 4, name: 'Other' },
-    ]}
-  />
-</div>
-*/

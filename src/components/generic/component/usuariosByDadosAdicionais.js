@@ -1,16 +1,14 @@
 import React, { Component } from 'react';
-import ReactDataGrid from 'react-data-grid';
-
 import { compose } from 'react-apollo';
 import { Field } from 'redux-form';
+
+import { required } from '../../generic/validations';
+import { renderTextField } from '../../generic/forms/myTextField';
 
 import MyLoader from '../../generic/myLoader';
 import SimpleGrid from '../../generic/simpleGrid';
 
 import { QueryResultadoList } from '../../../graphql/allUsuariosQuePodemVotar';
-
-// const { Toolbar, Data: { Selectors } } = require('react-data-grid-addons');
-// const EmptyRowsView = () => <div>Não foi encontrado nenhum registro.</div>;
 
 class UsuariosByDadosAdicionais extends Component {
   constructor(props) {
@@ -70,6 +68,9 @@ class UsuariosByDadosAdicionais extends Component {
       });
     }
 
+    console.log('array id checks users', arrayIdsCheck);
+    console.log('array id checks users', this.state);
+
     if (this.props.loading) {
       return <MyLoader />;
     }
@@ -78,15 +79,42 @@ class UsuariosByDadosAdicionais extends Component {
       return <div>Erro!!!</div>;
     }
 
-    const renderField = ({ input, type, itens }) => (
-      <div>
-        <input {...input} type={type} value={itens} />
-      </div>
-    );
+    /*
+    const renderField = ({ input, type, itens }) => {
+      console.log('HIDDEN', input.value);
 
+      return (
+        <div>
+          <input {...input} type={type} value={itens} />
+        </div>
+      );
+    };
+    <Field name={this.props.name} type="text" itens={arrayIdsCheck} component={renderField} />
+    */
+
+    /*
+  <Field
+          name={this.props.name}
+          component={renderTextField}
+          label="arr users"
+          validate={[required]}
+          fullWidth
+
+          // material UI
+          //value={this.state.value}
+          //onChange={this.handleChange}
+        />
+         */
     return (
       <div>
-        <Field name={this.props.name} type="text" itens={arrayIdsCheck} component={renderField} />
+        <Field
+          name={this.props.name}
+          component="input"
+          type="text"
+          placeholder="Last Name"
+          value={arrayIdsCheck}
+        />
+
         <SimpleGrid
           rowKey="id"
           columns={this.arrayCols}
@@ -99,26 +127,4 @@ class UsuariosByDadosAdicionais extends Component {
   }
 }
 
-/*
-<span>
-          {this.state.selectedIndexes.length} {rowText} selected
-        </span>
-        
-<ReactDataGrid
-          rowKey="id"
-          columns={this._columns}
-          rowGetter={this.rowGetter}
-          rowsCount={this.state.rows.length}
-          minHeight={500}
-          rowSelection={{
-            showCheckbox: true,
-            enableShiftSelect: true,
-            onRowsSelected: this.onRowsSelected,
-            onRowsDeselected: this.onRowsDeselected,
-            selectBy: {
-              indexes: this.state.selectedIndexes,
-            },
-          }}
-        />
-         */
 export default compose(QueryResultadoList)(UsuariosByDadosAdicionais);

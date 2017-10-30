@@ -1,134 +1,24 @@
 import React, { Component } from 'react';
 import { compose } from 'react-apollo';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 
-import { Row, Col, Glyphicon } from 'react-bootstrap';
-
-import { ListMensagemGraphql } from '../../../graphql/allTbMensagems';
-
-import * as actions from './mensagensActions';
-
-class MensagensList extends Component {
-  render() {
-    const renderRows = () => {
-      // const list = props.list || []
-      // const listMensagens = state.mensagens.listMensagens || [];
-      const listMensagens = this.props.rows || [];
-
-      console.log('EEEIA Mensagem LIst', listMensagens);
-      //<td className={item.flg_enviado ? 'markAsDone' : ''}>{item.dsc_titulo}</td>
-      /*
-      0:
-        codMensagem:4
-        codPessoaJuridica:1
-        datEnvio:"2017-11-15T18:22:00"
-        flgEnviaapppush:false
-        flgEnviado:false
-        flgEnviaemail:false
-        flgEnviawebpush:true
-        flgErroEnvio:false
-        mensagem:"Stet aperiri epicurei ex duo, te tritani sapientem eos. Verear dignissim expetendis at est. Te ferri adipisci nam, dico reprehendunt in ius. Modo putant mnesarchum id mei, dicit consul signiferumque cu qui, ne tamquam ocurreret reformidans pri. His regione scaevola inciderint cu, mea eu augue postea torquatos, ne assum melius ius. Cu equidem perfecto abhorreant ius."
-        subtitulo:"subtitulo mensagem 4"
-        titulo:"Teste Msg 4"
-      */
-
-      return listMensagens.map(item => {
-        const styleIconCheck = color => (item.flgEnviado ? { color } : { color });
-        const styleIconUncheck = color => (!item.flgEnviado ? { color } : { color });
-
-        const check = (
-          <Glyphicon
-            glyph="ok"
-            style={styleIconCheck('green')}
-            // onClick={() => this.props.markAsSend(item)}
-          />
-        );
-        const unCheck = (
-          <Glyphicon
-            glyph="remove"
-            style={{ color: 'red' }}
-            // onClick={() => this.props.remove(item)}
-          />
-        );
-        return (
-          <tr key={item.codMensagem}>
-            <td>{item.codMensagem}</td>
-            <td>{item.codPessoaJuridica}</td>
-            <td>{item.titulo}</td>
-            <td>{item.datEnvio}</td>
-            <td>{item.subtitulo}</td>
-            <td>{item.flgEnviado ? check : unCheck}</td>
-            <td>
-              <Glyphicon
-                glyph="check"
-                style={styleIconCheck('green')}
-                onClick={() => this.props.markAsSend(item)}
-              />
-              <Glyphicon
-                glyph="unchecked"
-                style={styleIconUncheck('orange')}
-                onClick={() => this.props.markAsUnsend(item)}
-              />
-              <Glyphicon
-                glyph="remove"
-                style={{ color: 'red' }}
-                onClick={() => this.props.remove(item)}
-              />
-            </td>
-          </tr>
-        );
-      });
-    };
-
-    return (
-      <table className="table">
-        <thead>
-          <tr>
-            <th>Cod</th>
-            <th>PJ</th>
-            <th>Titulo</th>
-            <th>Data Envio</th>
-            <th>Subtitulo</th>
-            <th>Enviado</th>
-            <th>Ações</th>
-          </tr>
-        </thead>
-        <tbody>{renderRows()}</tbody>
-      </table>
-    );
-  }
-}
-
-const mapStateToProps = state => ({ listMensagens: state.mensagens.listMensagens });
-
-//const mapDispatchToProps = dispatch =>
-//bindActionCreators({ markAsSend, markAsUnsend, remove }, dispatch);
-
-var conn = connect(mapStateToProps, actions)(MensagensList);
-// export default connect(mapStateToProps, mapDispatchToProps)(MensagensList);
-export default compose(ListMensagemGraphql)(conn);
-
-/*
-import { compose } from 'react-apollo';
-QueryResultadoList
-*/
-
-// <MensagensList rows={rowsMessages} />
-// export default compose(QueryResultadoList)(Mensagens);
-
-// export default MensagensList;
-
-//export default compose(QueryResultadoList)(MensagensList);
-
-/*
-import React, { Component } from 'react';
-import { compose } from 'react-apollo';
+import { Glyphicon } from 'react-bootstrap';
 
 import Grid from '../../generic/grid';
 import MyLoader from '../../generic/myLoader';
 
-import { QueryResultadoList } from './mensagensGraph';
+import { ListMensagemGraphql } from '../../../graphql/allTbMensagems';
+
+class Formatter extends Component {
+  render() {
+    let icon = this.props.value ? (
+      <Glyphicon glyph="ok" style={{ color: 'green' }} />
+    ) : (
+      <Glyphicon glyph="remove" style={{ color: 'red' }} />
+    );
+
+    return <div style={{ textAlign: 'center' }}>{icon}</div>;
+  }
+}
 
 class MensagensList extends Component {
   constructor(props) {
@@ -137,6 +27,116 @@ class MensagensList extends Component {
       items_grid: 5000,
     };
   }
+
+  colunas = [
+    {
+      key: 'codMensagem',
+      name: 'COD',
+      filterable: true,
+      sortable: true,
+    },
+    {
+      key: 'codPessoaJuridica',
+      name: 'CODPJ',
+      filterable: true,
+      sortable: true,
+    },
+    {
+      key: 'titulo',
+      name: 'Título',
+      filterable: true,
+      sortable: true,
+    },
+    {
+      key: 'subtitulo',
+      name: 'Subtitulo',
+      filterable: true,
+      sortable: true,
+    },
+    {
+      key: 'mensagem',
+      name: 'Mensagem',
+      filterable: true,
+      sortable: true,
+    },
+
+    {
+      key: 'flgEnviaemail',
+      name: 'MAIL',
+      formatter: Formatter,
+    },
+    {
+      key: 'flgEnviawebpush',
+      name: 'WEB',
+      formatter: Formatter,
+    },
+    {
+      key: 'flgEnviaapppush',
+      name: 'APP',
+      formatter: Formatter,
+    },
+
+    {
+      key: 'flgEnviado',
+      name: 'Enviado',
+      formatter: Formatter,
+    },
+    {
+      key: 'flgErroEnvio',
+      name: 'Err Envio',
+      formatter: Formatter,
+    },
+  ];
+
+  /*
+  maskRowsUpdated = updated => {
+    let newPeso = updated.vlrPeso;
+
+    if (isNaN(newPeso)) {
+      newPeso = 1;
+    }
+
+    return { vlrPeso: parseFloat(newPeso) };
+  };
+
+  renderButtonVariosSelection = selectedRows => {
+    this.setUsuarioPodeVotar(selectedRows);
+
+    const botaoSalvar = () => (
+      <Row>
+        <Col xs={12} sm={8} />
+        <Col xs={12} sm={4}>
+          <FlatButton
+            onClick={this.handleAdd}
+            icon={<Glyphicon glyph="plus" style={{ color: 'white' }} />}
+            label="Adicionar Votação"
+            labelStyle={{ color: 'white' }}
+            fullWidth
+            backgroundColor="#a4c639"
+            hoverColor="#8AA62F"
+          />
+        </Col>
+      </Row>
+    );
+
+    return <span>{botaoSalvar(selectedRows.codVotacao)}</span>;
+  };
+
+  renderButtonVariosSelectionDisabled = () => (
+    <Row>
+      <Col xs={12} sm={8} />
+      <Col xs={12} sm={4}>
+        <FlatButton
+          icon={<Glyphicon glyph="plus" />}
+          label="Adicionar Votação"
+          fullWidth
+          disabled
+          backgroundColor="#E1E1E1"
+        />
+      </Col>
+    </Row>
+  );
+  */
 
   render() {
     if (this.props.loading) {
@@ -152,14 +152,13 @@ class MensagensList extends Component {
         colunas={this.colunas}
         rows={this.props.rows}
         items_grid={this.state.items_grid}
-        renderButtonVariosSelection={this.props.renderButtonVariosSelection}
+        // renderButtonVariosSelection={this.props.renderButtonVariosSelection}
         loading={this.props.loading}
-        maskRowsUpdated={this.maskRowsUpdated}
-        renderButtonVariosSelectionDisabled={this.props.renderButtonVariosSelectionDisabled}
+        // maskRowsUpdated={this.maskRowsUpdated}
+        // renderButtonVariosSelectionDisabled={this.props.renderButtonVariosSelectionDisabled}
       />
     );
   }
 }
 
-export default compose(QueryResultadoList)(MensagensList);
-*/
+export default compose(ListMensagemGraphql)(MensagensList);

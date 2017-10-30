@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { compose } from 'react-apollo';
 
+import FlatButton from 'material-ui/FlatButton';
+import { Row, Col, Glyphicon } from 'react-bootstrap';
+
 import MensagensList from './mensagensList';
 import MensagemForm from './mensagemForm';
 
@@ -10,11 +13,23 @@ import { ListMensagemGraphql } from '../../../graphql/allTbMensagems';
 import { getStorage } from '../../generic/storage';
 
 class Mensagens extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { showForm: false };
+  }
+
+  setShowForm = value => {
+    this.setState({
+      showForm: value,
+    });
+  };
+
   addMensagem = (values, e) => {
     console.log('VARIAVEIS PARA GRAVACAO em mensagem.js: ', values);
 
     values.codpessoajuridica = getStorage('cod_pessoa_juridica');
 
+    /*
     // Configurando data de envio
     values.dt_envio.setHours(values.hr_envio.getHours());
     values.dt_envio.setMinutes(values.hr_envio.getMinutes());
@@ -43,6 +58,7 @@ class Mensagens extends Component {
       .catch(e => {
         console.log(e);
       });
+      */
 
     /*
        if (!this.state.isValid) {
@@ -106,14 +122,68 @@ class Mensagens extends Component {
   };
 
   render() {
+    let showScreen = () => {
+      if (this.state.showForm) {
+        return (
+          <div>
+            <Row>
+              <Col xs={12}>
+                <div className="pageTitle">Envio de Mensagens</div>
+              </Col>
+            </Row>
+            <Row>
+              <Col xs={12} sm={3}>
+                <FlatButton
+                  onClick={() => this.setShowForm(false)}
+                  icon={<Glyphicon glyph="chevron-left" style={{ color: 'white' }} />}
+                  label="Voltar"
+                  labelStyle={{ color: 'white' }}
+                  fullWidth
+                  backgroundColor="#a4c639"
+                  hoverColor="#8AA62F"
+                />
+              </Col>
+            </Row>
+            <Row>
+              <Col xs={12}>
+                <MensagemForm addMensagem={this.addMensagem} />
+              </Col>
+            </Row>
+          </div>
+        );
+      }
+      return (
+        <div>
+          <Row>
+            <Col xs={12}>
+              <div className="pageTitle">Mensagens Cadastradas</div>
+            </Col>
+          </Row>
+          <Row>
+            <Col xs={12} sm={3}>
+              <FlatButton
+                onClick={() => this.setShowForm(true)}
+                icon={<Glyphicon glyph="plus" style={{ color: 'white' }} />}
+                label="Cadasttrar mensagem"
+                labelStyle={{ color: 'white' }}
+                fullWidth
+                backgroundColor="#a4c639"
+                hoverColor="#8AA62F"
+              />
+            </Col>
+          </Row>
+          <Row>
+            <Col xs={12}>
+              <MensagensList />
+            </Col>
+          </Row>
+        </div>
+      );
+    };
+
     return (
       <div className="container">
-        <div className="baseContentWhite">
-          <div className="pageTitle">Envio de Mensagens</div>
-          <MensagemForm addMensagem={this.addMensagem} />
-          <div className="pageTitle">Mensagens Cadastradas</div>
-          <MensagensList />
-        </div>
+        <div className="baseContentWhite">{showScreen()}</div>
       </div>
     );
   }
