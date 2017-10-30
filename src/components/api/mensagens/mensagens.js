@@ -164,7 +164,7 @@ class Mensagens extends Component {
               <FlatButton
                 onClick={() => this.setShowForm(true)}
                 icon={<Glyphicon glyph="plus" style={{ color: 'white' }} />}
-                label="Cadasttrar mensagem"
+                label="Cadastrar mensagem"
                 labelStyle={{ color: 'white' }}
                 fullWidth
                 backgroundColor="#a4c639"
