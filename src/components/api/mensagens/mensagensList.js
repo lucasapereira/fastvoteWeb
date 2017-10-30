@@ -8,7 +8,7 @@ import MyLoader from '../../generic/myLoader';
 
 import { ListMensagemGraphql } from '../../../graphql/allTbMensagems';
 
-class Formatter extends Component {
+class FormatterBooleanIcon extends Component {
   render() {
     let icon = this.props.value ? (
       <Glyphicon glyph="ok" style={{ color: 'green' }} />
@@ -34,57 +34,69 @@ class MensagensList extends Component {
       name: 'COD',
       filterable: true,
       sortable: true,
+      resizable: true,
     },
     {
       key: 'codPessoaJuridica',
       name: 'CODPJ',
       filterable: true,
       sortable: true,
+      resizable: true,
     },
     {
       key: 'titulo',
       name: 'Título',
       filterable: true,
       sortable: true,
+      resizable: true,
     },
     {
       key: 'subtitulo',
       name: 'Subtitulo',
       filterable: true,
       sortable: true,
+      resizable: true,
     },
     {
       key: 'mensagem',
       name: 'Mensagem',
       filterable: true,
       sortable: true,
+      resizable: true,
+    },
+    {
+      key: 'datEnvio',
+      name: 'Envio',
+      filterable: true,
+      sortable: true,
+      resizable: true,
     },
 
     {
       key: 'flgEnviaemail',
       name: 'MAIL',
-      formatter: Formatter,
+      formatter: FormatterBooleanIcon,
     },
     {
       key: 'flgEnviawebpush',
       name: 'WEB',
-      formatter: Formatter,
+      formatter: FormatterBooleanIcon,
     },
     {
       key: 'flgEnviaapppush',
       name: 'APP',
-      formatter: Formatter,
+      formatter: FormatterBooleanIcon,
     },
 
     {
       key: 'flgEnviado',
       name: 'Enviado',
-      formatter: Formatter,
+      formatter: FormatterBooleanIcon,
     },
     {
       key: 'flgErroEnvio',
       name: 'Err Envio',
-      formatter: Formatter,
+      formatter: FormatterBooleanIcon,
     },
   ];
 

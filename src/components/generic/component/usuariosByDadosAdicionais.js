@@ -2,9 +2,6 @@ import React, { Component } from 'react';
 import { compose } from 'react-apollo';
 import { Field } from 'redux-form';
 
-import { required } from '../../generic/validations';
-import { renderTextField } from '../../generic/forms/myTextField';
-
 import MyLoader from '../../generic/myLoader';
 import SimpleGrid from '../../generic/simpleGrid';
 
@@ -17,9 +14,18 @@ class UsuariosByDadosAdicionais extends Component {
   }
 
   setSelectedIndexes = selectedIndexes => {
+    let arrayIdsCheck = [];
+
+    if (selectedIndexes.length) {
+      selectedIndexes.map(index => {
+        arrayIdsCheck.push(this.props.rows[index].id);
+      });
+    }
     this.setState({
       selectedIndexes,
     });
+
+    this.props.setSelectedIndexes(arrayIdsCheck);
   };
 
   arrayCols = [
@@ -60,17 +66,6 @@ class UsuariosByDadosAdicionais extends Component {
   };
 
   render() {
-    let arrayIdsCheck = [];
-
-    if (this.state.selectedIndexes.length) {
-      this.state.selectedIndexes.map(index => {
-        arrayIdsCheck.push(this.props.rows[index].id);
-      });
-    }
-
-    console.log('array id checks users', arrayIdsCheck);
-    console.log('array id checks users', this.state);
-
     if (this.props.loading) {
       return <MyLoader />;
     }
@@ -79,40 +74,23 @@ class UsuariosByDadosAdicionais extends Component {
       return <div>Erro!!!</div>;
     }
 
-    /*
-    const renderField = ({ input, type, itens }) => {
-      console.log('HIDDEN', input.value);
-
-      return (
+    const renderField = ({ input, label, type, meta: { touched, error, warning } }) => (
+      <div>
+        <label>{label}</label>
         <div>
-          <input {...input} type={type} value={itens} />
+          <input {...input} placeholder={label} type={type} />
+          {touched && ((error && <span>{error}</span>) || (warning && <span>{warning}</span>))}
         </div>
-      );
-    };
-    <Field name={this.props.name} type="text" itens={arrayIdsCheck} component={renderField} />
-    */
+      </div>
+    );
 
-    /*
-  <Field
-          name={this.props.name}
-          component={renderTextField}
-          label="arr users"
-          validate={[required]}
-          fullWidth
-
-          // material UI
-          //value={this.state.value}
-          //onChange={this.handleChange}
-        />
-         */
     return (
       <div>
         <Field
           name={this.props.name}
-          component="input"
-          type="text"
-          placeholder="Last Name"
-          value={arrayIdsCheck}
+          type="hidden"
+          component={renderField}
+          validate={this.props.validate}
         />
 
         <SimpleGrid

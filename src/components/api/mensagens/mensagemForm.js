@@ -11,6 +11,7 @@ import { required } from '../../generic/validations';
 import { renderTextField } from '../../generic/forms/myTextField';
 import { renderDatePicker } from '../../generic/forms/myDatePicker';
 import { renderTimePicker } from '../../generic/forms/myTimePicker';
+import { renderCheckbox } from '../../generic/forms/myCheckbox';
 import { renderEditor } from '../../generic/forms/myEditor';
 
 import CheckBoxDadosAdicionais from '../../generic/component/checkBoxDadosAdicionais';
@@ -18,16 +19,25 @@ import UsuariosByDadosAdicionais from '../../generic/component/usuariosByDadosAd
 
 import { getStorage } from '../../generic/storage';
 
-// import { QueryResultadoCreate } from './mensagensCreateGraph';
-
 class MensagemForm extends Component {
-  /*
-  setUsuarioArrUsuario = array => {
+  constructor(props) {
+    super(props);
+    this.state = { arrUsers: [] };
+  }
+
+  setArrUsers = array => {
     this.setState({
-      this.props.usuarios: array ,
+      arrUsers: array,
     });
   };
-  */
+
+  setSelectedIndexes = selectedIndexes => {
+    this.props.change('arrayUsuarios', selectedIndexes);
+
+    this.setState({
+      selectedIndexes,
+    });
+  };
 
   render() {
     const {
@@ -37,7 +47,6 @@ class MensagemForm extends Component {
       submitting,
       checkDadosAdicionais,
       arrayUsuarios,
-      body,
     } = this.props;
 
     let arrayCheck = [];
@@ -51,8 +60,6 @@ class MensagemForm extends Component {
         }
       });
     }
-
-    console.log('CHECKS USERS BODY', checkDadosAdicionais, arrayUsuarios, body, this.props);
 
     return (
       <form onSubmit={handleSubmit(this.props.addMensagem)}>
@@ -115,7 +122,34 @@ class MensagemForm extends Component {
               label="Informe o Conteúdo da Mensagem"
               validate={[required]}
               fullWidth
+              multiLine
+              rows={2}
+              rowsMax={4}
             />
+          </Col>
+        </Row>
+
+        <Row>
+          <Col xs={12}>
+            <div className="pageSubTitleCadVotacao">Formas de Envio</div>
+          </Col>
+        </Row>
+
+        <Row>
+          <Col xs={12} md={4}>
+            <Field
+              name="apppush"
+              component={renderCheckbox}
+              label="Aplicativo"
+              // validate={[required]}
+              fullWidth
+            />
+          </Col>
+          <Col xs={12} md={4}>
+            <Field name="webpush" component={renderCheckbox} label="Web" />
+          </Col>
+          <Col xs={12} md={4}>
+            <Field name="email" component={renderCheckbox} label="E-Mail" />
           </Col>
         </Row>
 
@@ -132,6 +166,8 @@ class MensagemForm extends Component {
               name="arrayUsuarios"
               codPessoaJuridica={getStorage('cod_pessoa_juridica')}
               activeCheckboxes={arrayCheck}
+              setSelectedIndexes={this.setSelectedIndexes}
+              validate={[required]}
             />
           </Col>
         </Row>
@@ -176,16 +212,13 @@ MensagemForm = reduxForm({
 // Decorate with connect to read form values
 const selector = formValueSelector('MensagemForm'); // <-- same as form name
 MensagemForm = connect(state => {
-  console.log('STATES NO CONNECT MensagemForm: ', state);
   // can select values individually
   const checkDadosAdicionais = selector(state, 'checkDadosAdicionais');
   const arrayUsuarios = selector(state, 'arrayUsuarios');
-  const body = selector(state, 'body');
 
   return {
     checkDadosAdicionais,
     arrayUsuarios,
-    body,
   };
 })(MensagemForm);
 

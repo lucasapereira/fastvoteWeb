@@ -3,6 +3,7 @@ import { compose } from 'react-apollo';
 
 import FlatButton from 'material-ui/FlatButton';
 import { Row, Col, Glyphicon } from 'react-bootstrap';
+import AlertContainer from 'react-alert';
 
 import MensagensList from './mensagensList';
 import MensagemForm from './mensagemForm';
@@ -24,101 +25,60 @@ class Mensagens extends Component {
     });
   };
 
-  addMensagem = (values, e) => {
-    console.log('VARIAVEIS PARA GRAVACAO em mensagem.js: ', values);
+  converteDataUs = data => {
+    let addZero = num => {
+      return num < 10 ? '0' + num : num;
+    };
+    const dia = addZero(data.getDate());
+    const mes = addZero(data.getMonth());
+    const ano = data.getFullYear();
 
+    const hor = addZero(data.getHours());
+    const min = addZero(data.getMinutes());
+    //const sec = addZero(data.getSeconds());
+
+    const dataReturn = ano + '-' + mes + '-' + dia + ' ' + hor + ':' + min + ':00';
+
+    return dataReturn;
+  };
+
+  addMensagem = (values, e) => {
     values.codpessoajuridica = getStorage('cod_pessoa_juridica');
 
-    /*
     // Configurando data de envio
     values.dt_envio.setHours(values.hr_envio.getHours());
     values.dt_envio.setMinutes(values.hr_envio.getMinutes());
     values.dt_envio.setSeconds(values.hr_envio.getSeconds());
 
-    // new Date(linhas.datFimVotacao).toLocaleString()
-    values.dathormsg = values.dt_envio.toLocaleString();
+    //new Date(linhas.datFimVotacao).toLocaleString()
+    values.dathormsg = this.converteDataUs(values.dt_envio);
+
+    console.log('VARIAVEIS PARA GRAVACAO em mensagem.js: ', values);
 
     this.props
       .criaMensagem({
         variables: {
           dathormsg: values.dathormsg,
-          apppush: true, // values.apppush,
-          webpush: true, // values.webpush,
-          email: true, // values.email,
+          apppush: !!values.apppush, // values.apppush,
+          webpush: !!values.webpush, // values.webpush,
+          email: !!values.email, // values.email,
           codpessoajuridica: values.codpessoajuridica,
           title: values.title,
           subtitle: values.subtitle,
           body: values.body,
-          codusuarioarray: [1, 2], // values.codusuarioarray,
+          codusuarioarray: values.arrayUsuarios, // values.codusuarioarray,
         },
       })
       .then(() => {
+        this.props.refetch();
         console.log('deu bom');
       })
       .catch(e => {
-        console.log(e);
+        this.msg.error('Erro ao realizar a operação');
+        console.error(e);
       });
-      */
 
-    /*
-       if (!this.state.isValid) {
-        this.props.authError('Crie uma nova senha mais forte.');
-      } else if (this.state.password !== values.senhaNova2) {
-        this.props.authError('Senhas diferentes.');
-      } else {
-        this.props.trocarSenha(values.senhaAntiga, values.senhaNova2);
-      }
-      
-      =====
-      values.senha = values.senha.trim();
-  
-      if (values.empresas) {
-        this.props.signinUser(values, () => {});
-      } else if (this.props.empresasAuth.length > 0) {
-        values.empresas = this.props.empresasAuth[0].cod_usuario_representacao;
-        this.props.signinUser(values, () => {});
-      } */
-
-    // middleware multi permite retornar um array de actions
-    // middleware thunk garante que o search sera chamando quando o request retornar de forma bem sucedidfa (Promisser)
-
-    // thunk retonra nao mais uma action, mas sim um metodo e esse metodo recebe como parametro o dispatch
-    // (é quem dispara as ações)
-    /*
-    return dispatch => {
-      const request = axios
-        .post(URL, { description })
-        // primeiro then faz a inclusao
-  
-        //.then(resp =>
-        //  dispatch({
-        //    type: 'MENSAGEM_ADDED',
-        //    // payload: request,
-        //    payload: [],
-        //  })
-        //)
-        // Ao inves de lancar a action do tipo MENSAGEM_ADDED, somente chama o clear
-        .then(resp => dispatch(clear()));
-        // somente quando a resposta vier vai fazer o search
-        .then(resp => dispatch(search()));
-    };
-    */
-    /*
-    return [
-      /*{
-        type: 'MENSAGEM_ADDED',
-        // payload: request,
-        payload: [],
-      }, * /
-      clear(),
-      search(),
-    ];
-    */
-    /*
-    acontecem duas coisas
-    - limpa campo do formulario (No reducerr seta vazio nos campos)
-    - atualiza lista
-    */
+    this.setShowForm(false);
   };
 
   render() {
@@ -184,6 +144,7 @@ class Mensagens extends Component {
     return (
       <div className="container">
         <div className="baseContentWhite">{showScreen()}</div>
+        <AlertContainer ref={a => (this.msg = a)} />
       </div>
     );
   }

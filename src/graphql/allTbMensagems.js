@@ -38,7 +38,6 @@ const queryOptions = {
     const dados = props.data.allTbMensagems;
 
     if (dados) {
-      console.log('TESTE MensagemListGraph ', dados.nodes);
       if (dados.nodes) {
         rows = dados.nodes.map(linhas => ({
           codMensagem: linhas.codMensagem,

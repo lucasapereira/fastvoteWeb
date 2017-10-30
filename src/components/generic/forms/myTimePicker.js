@@ -26,8 +26,7 @@ export const renderTimePicker = ({
 }) => (
   <TimePicker
     floatingLabelText={label}
-    format={DateTimeFormat}
-    // format="24hr"
+    //format={DateTimeFormat}
     locale="pt-br"
     errorText={touched && error}
     {...input}
