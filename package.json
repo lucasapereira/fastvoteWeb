@@ -15,7 +15,7 @@
     "axios": "^0.17.0",
     "bootstrap": "^3.3.7",
     "canvas2image": "^1.0.5",
-    "chart.js": "^2.7.0",
+    "chart.js": "^2.7.1",
     "draft-js": "^0.10.4",
     "draft-js-export-html": "^1.2.0",
     "flow-bin": "0.57.3",
@@ -36,8 +36,8 @@
     "react-bootstrap": "0.31.5",
     "react-chartjs-2": "^2.6.4",
     "react-confirm": "^0.1.16",
-    "react-data-grid": "^2.0.68",
-    "react-data-grid-addons": "^2.0.68",
+    "react-data-grid": "^2.0.69",
+    "react-data-grid-addons": "^2.0.69",
     "react-dom": "^15.6.2",
     "react-dropzone": "4.2.1",
     "react-error-overlay": "^2.0.2",
@@ -59,7 +59,7 @@
     "web-push": "3.2.4"
   },
   "devDependencies": {
-    "eslint": "^4.9.0",
+    "eslint": "^4.10.0",
     "eslint-config-universe": "^1.0.6",
     "prettier": "^1.7.4",
     "react-scripts": "^1.0.14"
