@@ -91,16 +91,17 @@ class Mensagens extends Component {
                 <div className="pageTitle">Envio de Mensagens</div>
               </Col>
             </Row>
+            <div className="divisor" />
             <Row>
               <Col xs={12} sm={3}>
                 <FlatButton
                   onClick={() => this.setShowForm(false)}
-                  icon={<Glyphicon glyph="chevron-left" style={{ color: 'white' }} />}
+                  icon={<Glyphicon glyph="chevron-left" style={{ color: 'gray' }} />}
                   label="Voltar"
-                  labelStyle={{ color: 'white' }}
+                  labelStyle={{ color: 'gray' }}
                   fullWidth
-                  backgroundColor="#a4c639"
-                  hoverColor="#8AA62F"
+                  backgroundColor="#E6E6E6"
+                  hoverColor="#BDBDBD"
                 />
               </Col>
             </Row>
@@ -119,19 +120,21 @@ class Mensagens extends Component {
               <div className="pageTitle">Mensagens Cadastradas</div>
             </Col>
           </Row>
+          <div className="divisor" />
           <Row>
             <Col xs={12} sm={3}>
               <FlatButton
                 onClick={() => this.setShowForm(true)}
-                icon={<Glyphicon glyph="plus" style={{ color: 'white' }} />}
-                label="Cadastrar mensagem"
-                labelStyle={{ color: 'white' }}
+                icon={<Glyphicon glyph="plus" style={{ color: '#8AA62F' }} />}
+                label="Nova Mensagem"
+                labelStyle={{ color: '#8AA62F' }}
                 fullWidth
-                backgroundColor="#a4c639"
-                hoverColor="#8AA62F"
+                //backgroundColor="#a4c639"
+                //shoverColor="#8AA62F"
               />
             </Col>
           </Row>
+          <div className="divisor" />
           <Row>
             <Col xs={12}>
               <MensagensList />

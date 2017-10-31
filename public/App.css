@@ -435,6 +435,14 @@ body {
   margin-bottom: 10px;
 }
 
+.divSubItemFormVotacao2 {
+  height: 100px;
+  padding: 10px;
+  overflow: auto;
+  overflow-x: hidden;
+  margin-bottom: 10px;
+}
+
 .gridUsuarios {
   margin-bottom: 50px;
   height: 540px;
@@ -507,6 +515,18 @@ body {
     position: relative;
   }
 }
+
+/*   Tela Cadastro Mensagens   */
+
+.divContainerGridUsuarios {
+  height: 570px;
+}
+
+.divisor {
+  height: 10px;
+}
+
+/* FIM Tela Cadastro Mensagens */
 
 /* ========================================*/
 

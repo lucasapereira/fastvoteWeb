@@ -160,15 +160,17 @@ class MensagensList extends Component {
     }
 
     return (
-      <Grid
-        colunas={this.colunas}
-        rows={this.props.rows}
-        items_grid={this.state.items_grid}
-        // renderButtonVariosSelection={this.props.renderButtonVariosSelection}
-        loading={this.props.loading}
-        // maskRowsUpdated={this.maskRowsUpdated}
-        // renderButtonVariosSelectionDisabled={this.props.renderButtonVariosSelectionDisabled}
-      />
+      <div className="divContainerGridUsuarios">
+        <Grid
+          colunas={this.colunas}
+          rows={this.props.rows}
+          items_grid={this.state.items_grid}
+          // renderButtonVariosSelection={this.props.renderButtonVariosSelection}
+          loading={this.props.loading}
+          // maskRowsUpdated={this.maskRowsUpdated}
+          // renderButtonVariosSelectionDisabled={this.props.renderButtonVariosSelectionDisabled}
+        />
+      </div>
     );
   }
 }

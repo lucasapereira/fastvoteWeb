@@ -130,75 +130,68 @@ class MensagemForm extends Component {
         </Row>
 
         <Row>
-          <Col xs={12}>
+          <Col xs={12} md={6}>
             <div className="pageSubTitleCadVotacao">Formas de Envio</div>
-          </Col>
-        </Row>
+            <Field name="apppush" component={renderCheckbox} label="Aplicativo" />
 
-        <Row>
-          <Col xs={12} md={4}>
-            <Field
-              name="apppush"
-              component={renderCheckbox}
-              label="Aplicativo"
-              // validate={[required]}
-              fullWidth
-            />
-          </Col>
-          <Col xs={12} md={4}>
             <Field name="webpush" component={renderCheckbox} label="Web" />
-          </Col>
-          <Col xs={12} md={4}>
             <Field name="email" component={renderCheckbox} label="E-Mail" />
+          </Col>
+
+          <Col xs={12} md={6}>
+            <div className="pageSubTitleCadVotacao">Filtro Dados Adicionais</div>
+            <div className="divSubItemFormVotacao2">
+              <CheckBoxDadosAdicionais
+                name="checkDadosAdicionais"
+                codPessoaJuridica={getStorage('cod_pessoa_juridica')}
+              />
+            </div>
           </Col>
         </Row>
 
         <Row>
           <Col xs={12}>
             <div className="pageSubTitleCadVotacao">Destinatários</div>
-
-            <CheckBoxDadosAdicionais
-              name="checkDadosAdicionais"
-              codPessoaJuridica={getStorage('cod_pessoa_juridica')}
-            />
-
-            <UsuariosByDadosAdicionais
-              name="arrayUsuarios"
-              codPessoaJuridica={getStorage('cod_pessoa_juridica')}
-              activeCheckboxes={arrayCheck}
-              setSelectedIndexes={this.setSelectedIndexes}
-              validate={[required]}
-            />
+            <div className="divContainerGridUsuarios">
+              <UsuariosByDadosAdicionais
+                name="arrayUsuarios"
+                codPessoaJuridica={getStorage('cod_pessoa_juridica')}
+                activeCheckboxes={arrayCheck}
+                setSelectedIndexes={this.setSelectedIndexes}
+                validate={[required]}
+              />
+            </div>
           </Col>
         </Row>
 
-        <Row>
-          <Col xs={12} md={6}>
-            <FlatButton
-              type="submit"
-              disabled={submitting}
-              icon={<Glyphicon glyph="plus" style={{ color: 'white' }} />}
-              label="Agendar Mensagem"
-              labelStyle={{ color: 'white' }}
-              fullWidth
-              backgroundColor="#a4c639"
-              hoverColor="#8AA62F"
-            />
-          </Col>
-
-          <Col xs={12} md={6}>
-            <FlatButton
-              disabled={submitting}
-              onClick={reset}
-              icon={<Glyphicon glyph="repeat" style={{ color: 'gray' }} />}
-              label="Clear"
-              labelStyle={{ color: 'gray' }}
-              fullWidth
-              backgroundColor="#E6E6E6"
-              hoverColor="#BDBDBD"
-            />
-          </Col>
-        </Row>
+        <div className="divGridButtons">
+          <Row>
+            <Col xs={12} md={6}>
+              <FlatButton
+                type="submit"
+                disabled={submitting}
+                icon={<Glyphicon glyph="plus" style={{ color: 'white' }} />}
+                label="Agendar Mensagem"
+                labelStyle={{ color: 'white' }}
+                fullWidth
+                backgroundColor="#a4c639"
+                hoverColor="#8AA62F"
+              />
+            </Col>
+            <Col xs={12} md={6}>
+              <FlatButton
+                disabled={submitting}
+                onClick={reset}
+                icon={<Glyphicon glyph="repeat" style={{ color: 'gray' }} />}
+                label="Limpar"
+                labelStyle={{ color: 'gray' }}
+                fullWidth
+                backgroundColor="#E6E6E6"
+                hoverColor="#BDBDBD"
+              />
+            </Col>
+          </Row>
+        </div>
       </form>
     );
   }
