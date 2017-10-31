@@ -11,6 +11,7 @@ import { required } from '../../generic/validations';
 import { renderTextField } from '../../generic/forms/myTextField';
 import { renderDatePicker } from '../../generic/forms/myDatePicker';
 import { renderTimePicker } from '../../generic/forms/myTimePicker';
+import { renderCheckbox } from '../../generic/forms/myCheckbox';
 import { renderEditor } from '../../generic/forms/myEditor';
 
 import CheckBoxDadosAdicionais from '../../generic/component/checkBoxDadosAdicionais';
@@ -18,16 +19,25 @@ import UsuariosByDadosAdicionais from '../../generic/component/usuariosByDadosAd
 
 import { getStorage } from '../../generic/storage';
 
-// import { QueryResultadoCreate } from './mensagensCreateGraph';
-
 class MensagemForm extends Component {
-  /*
-  setUsuarioArrUsuario = array => {
+  constructor(props) {
+    super(props);
+    this.state = { arrUsers: [] };
+  }
+
+  setArrUsers = array => {
     this.setState({
-      this.props.usuarios: array ,
+      arrUsers: array,
     });
   };
-  */
+
+  setSelectedIndexes = selectedIndexes => {
+    this.props.change('arrayUsuarios', selectedIndexes);
+
+    this.setState({
+      selectedIndexes,
+    });
+  };
 
   render() {
     const {
@@ -37,7 +47,6 @@ class MensagemForm extends Component {
       submitting,
       checkDadosAdicionais,
       arrayUsuarios,
-      body,
     } = this.props;
 
     let arrayCheck = [];
@@ -51,8 +60,6 @@ class MensagemForm extends Component {
         }
       });
     }
-
-    console.log('CHECKS USERS BODY', checkDadosAdicionais, arrayUsuarios, body, this.props);
 
     return (
       <form onSubmit={handleSubmit(this.props.addMensagem)}>
@@ -115,54 +122,76 @@ class MensagemForm extends Component {
               label="Informe o Conteúdo da Mensagem"
               validate={[required]}
               fullWidth
+              multiLine
+              rows={2}
+              rowsMax={4}
             />
+          </Col>
+        </Row>
+
+        <Row>
+          <Col xs={12} md={6}>
+            <div className="pageSubTitleCadVotacao">Formas de Envio</div>
+            <Field name="apppush" component={renderCheckbox} label="Aplicativo" />
+
+            <Field name="webpush" component={renderCheckbox} label="Web" />
+            <Field name="email" component={renderCheckbox} label="E-Mail" />
+          </Col>
+
+          <Col xs={12} md={6}>
+            <div className="pageSubTitleCadVotacao">Filtro Dados Adicionais</div>
+            <div className="divSubItemFormVotacao2">
+              <CheckBoxDadosAdicionais
+                name="checkDadosAdicionais"
+                codPessoaJuridica={getStorage('cod_pessoa_juridica')}
+              />
+            </div>
           </Col>
         </Row>
 
         <Row>
           <Col xs={12}>
             <div className="pageSubTitleCadVotacao">Destinatários</div>
-
-            <CheckBoxDadosAdicionais
-              name="checkDadosAdicionais"
-              codPessoaJuridica={getStorage('cod_pessoa_juridica')}
-            />
-
-            <UsuariosByDadosAdicionais
-              name="arrayUsuarios"
-              codPessoaJuridica={getStorage('cod_pessoa_juridica')}
-              activeCheckboxes={arrayCheck}
-            />
+            <div className="divContainerGridUsuarios">
+              <UsuariosByDadosAdicionais
+                name="arrayUsuarios"
+                codPessoaJuridica={getStorage('cod_pessoa_juridica')}
+                activeCheckboxes={arrayCheck}
+                setSelectedIndexes={this.setSelectedIndexes}
+                validate={[required]}
+              />
+            </div>
           </Col>
         </Row>
 
-        <Row>
-          <Col xs={12} md={6}>
-            <FlatButton
-              type="submit"
-              disabled={submitting}
-              icon={<Glyphicon glyph="plus" style={{ color: 'white' }} />}
-              label="Agendar Mensagem"
-              labelStyle={{ color: 'white' }}
-              fullWidth
-              backgroundColor="#a4c639"
-              hoverColor="#8AA62F"
-            />
-          </Col>
-
-          <Col xs={12} md={6}>
-            <FlatButton
-              disabled={submitting}
-              onClick={reset}
-              icon={<Glyphicon glyph="repeat" style={{ color: 'gray' }} />}
-              label="Clear"
-              labelStyle={{ color: 'gray' }}
-              fullWidth
-              backgroundColor="#E6E6E6"
-              hoverColor="#BDBDBD"
-            />
-          </Col>
-        </Row>
+        <div className="divGridButtons">
+          <Row>
+            <Col xs={12} md={6}>
+              <FlatButton
+                type="submit"
+                disabled={submitting}
+                icon={<Glyphicon glyph="plus" style={{ color: 'white' }} />}
+                label="Agendar Mensagem"
+                labelStyle={{ color: 'white' }}
+                fullWidth
+                backgroundColor="#a4c639"
+                hoverColor="#8AA62F"
+              />
+            </Col>
+            <Col xs={12} md={6}>
+              <FlatButton
+                disabled={submitting}
+                onClick={reset}
+                icon={<Glyphicon glyph="repeat" style={{ color: 'gray' }} />}
+                label="Limpar"
+                labelStyle={{ color: 'gray' }}
+                fullWidth
+                backgroundColor="#E6E6E6"
+                hoverColor="#BDBDBD"
+              />
+            </Col>
+          </Row>
+        </div>
       </form>
     );
   }
@@ -176,16 +205,13 @@ MensagemForm = reduxForm({
 // Decorate with connect to read form values
 const selector = formValueSelector('MensagemForm'); // <-- same as form name
 MensagemForm = connect(state => {
-  console.log('STATES NO CONNECT MensagemForm: ', state);
   // can select values individually
   const checkDadosAdicionais = selector(state, 'checkDadosAdicionais');
   const arrayUsuarios = selector(state, 'arrayUsuarios');
-  const body = selector(state, 'body');
 
   return {
     checkDadosAdicionais,
     arrayUsuarios,
-    body,
   };
 })(MensagemForm);
 
