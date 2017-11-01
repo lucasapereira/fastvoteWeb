@@ -42,11 +42,11 @@ class MensagemForm extends Component {
   render() {
     const {
       handleSubmit,
-      pristine,
+      //pristine,
       reset,
       submitting,
       checkDadosAdicionais,
-      arrayUsuarios,
+      //arrayUsuarios,
     } = this.props;
 
     let arrayCheck = [];

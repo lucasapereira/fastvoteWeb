@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { compose } from 'react-apollo';
 
-import { Glyphicon } from 'react-bootstrap';
+import FlatButton from 'material-ui/FlatButton';
+import { Row, Col, Glyphicon } from 'react-bootstrap';
 
 import Grid from '../../generic/grid';
 import MyLoader from '../../generic/myLoader';
@@ -71,7 +72,6 @@ class MensagensList extends Component {
       sortable: true,
       resizable: true,
     },
-
     {
       key: 'flgEnviaemail',
       name: 'MAIL',
@@ -100,55 +100,42 @@ class MensagensList extends Component {
     },
   ];
 
-  /*
-  maskRowsUpdated = updated => {
-    let newPeso = updated.vlrPeso;
-
-    if (isNaN(newPeso)) {
-      newPeso = 1;
+  renderButtonVariosSelection = selectedRows => {
+    if (this.props.setMensagensSelected) {
+      this.props.setMensagensSelected(selectedRows);
     }
 
-    return { vlrPeso: parseFloat(newPeso) };
-  };
-
-  renderButtonVariosSelection = selectedRows => {
-    this.setUsuarioPodeVotar(selectedRows);
-
-    const botaoSalvar = () => (
+    return (
       <Row>
         <Col xs={12} sm={8} />
         <Col xs={12} sm={4}>
           <FlatButton
-            onClick={this.handleAdd}
-            icon={<Glyphicon glyph="plus" style={{ color: 'white' }} />}
-            label="Adicionar Votação"
-            labelStyle={{ color: 'white' }}
+            onClick={this.props.delMensagem}
+            icon={<Glyphicon glyph="remove" style={{ color: 'red' }} />}
+            label="Excluir Selecionadas"
+            labelStyle={{ color: 'red' }}
             fullWidth
-            backgroundColor="#a4c639"
-            hoverColor="#8AA62F"
           />
         </Col>
       </Row>
     );
-
-    return <span>{botaoSalvar(selectedRows.codVotacao)}</span>;
   };
 
-  renderButtonVariosSelectionDisabled = () => (
-    <Row>
-      <Col xs={12} sm={8} />
-      <Col xs={12} sm={4}>
-        <FlatButton
-          icon={<Glyphicon glyph="plus" />}
-          label="Adicionar Votação"
-          fullWidth
-          disabled
-          backgroundColor="#E1E1E1"
-        />
-      </Col>
-    </Row>
-  );
-  */
+  renderButtonVariosSelectionDisabled = () => {
+    return (
+      <Row>
+        <Col xs={12} sm={8} />
+        <Col xs={12} sm={4}>
+          <FlatButton
+            icon={<Glyphicon glyph="remove" />}
+            label="Excluir Selecionadas"
+            fullWidth
+            disabled
+          />
+        </Col>
+      </Row>
+    );
+  };
 
   render() {
     if (this.props.loading) {
@@ -164,11 +151,10 @@ class MensagensList extends Component {
         <Grid
           colunas={this.colunas}
           rows={this.props.rows}
-          items_grid={this.state.items_grid}
-          // renderButtonVariosSelection={this.props.renderButtonVariosSelection}
           loading={this.props.loading}
-          // maskRowsUpdated={this.maskRowsUpdated}
-          // renderButtonVariosSelectionDisabled={this.props.renderButtonVariosSelectionDisabled}
+          items_grid={this.state.items_grid}
+          renderButtonVariosSelection={this.renderButtonVariosSelection}
+          renderButtonVariosSelectionDisabled={this.renderButtonVariosSelectionDisabled}
         />
       </div>
     );
@@ -176,3 +162,4 @@ class MensagensList extends Component {
 }
 
 export default compose(ListMensagemGraphql)(MensagensList);
+// export default compose(ListMensagemGraphql, GravaMensagemGraphql)(Mensagens);
