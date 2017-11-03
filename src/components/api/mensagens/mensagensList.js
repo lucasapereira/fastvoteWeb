@@ -30,20 +30,6 @@ class MensagensList extends Component {
   }
 
   colunas = [
-    /*{
-      key: 'codMensagem',
-      name: 'COD',
-      filterable: true,
-      sortable: true,
-      resizable: true,
-    },
-    {
-      key: 'codPessoaJuridica',
-      name: 'CODPJ',
-      filterable: true,
-      sortable: true,
-      resizable: true,
-    },*/
     {
       key: 'titulo',
       name: 'Título',
@@ -74,17 +60,17 @@ class MensagensList extends Component {
     },
     {
       key: 'flgEnviaemail',
-      name: 'MAIL',
+      name: 'E-Mail',
       formatter: FormatterBooleanIcon,
     },
     {
       key: 'flgEnviawebpush',
-      name: 'WEB',
+      name: 'Web',
       formatter: FormatterBooleanIcon,
     },
     {
       key: 'flgEnviaapppush',
-      name: 'APP',
+      name: 'App',
       formatter: FormatterBooleanIcon,
     },
 
@@ -162,4 +148,3 @@ class MensagensList extends Component {
 }
 
 export default compose(ListMensagemGraphql)(MensagensList);
-// export default compose(ListMensagemGraphql, GravaMensagemGraphql)(Mensagens);

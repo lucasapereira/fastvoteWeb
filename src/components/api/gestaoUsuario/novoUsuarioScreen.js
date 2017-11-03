@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { compose } from 'react-apollo';
 import AlertContainer from 'react-alert';
+import { Row, Col, Glyphicon } from 'react-bootstrap';
 import MaterialUiForm from './formNovoUsuario';
 import { mutationCria } from '../../../graphql/criaUsuarioVotacao';
 import { getStorage } from '../../generic/storage';
@@ -36,10 +37,21 @@ class NovoUsuarioScreen extends Component {
   };
   render() {
     return (
-      <div>
-        <MaterialUiForm callMutationUsuario={this.callMutationUsuario} />
-
-        <AlertContainer ref={a => (this.msg = a)} />
+      <div className="container">
+        <div>
+          <Row>
+            <Col xs={12}>
+              <div className="pageTitle">Cadastro de Usuário</div>
+            </Col>
+          </Row>
+          <div className="divisor" />
+          <Row>
+            <Col xs={12}>
+              <MaterialUiForm callMutationUsuario={this.callMutationUsuario} />
+              <AlertContainer ref={a => (this.msg = a)} />
+            </Col>
+          </Row>
+        </div>
       </div>
     );
   }

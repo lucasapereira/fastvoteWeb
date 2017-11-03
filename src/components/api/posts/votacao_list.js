@@ -370,35 +370,43 @@ class VotacaoList extends Component {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <DatePicker
-            hintText="Dia"
-            DateTimeFormat={DateTimeFormat}
-            locale="pt-br"
-            minDate={this.state.minDate}
-            value={this.state.dateAcao}
-            onChange={this.isMenorQueAgora}
-          />
-          <TimePicker
-            format="24hr"
-            hintText="Hora"
-            onChange={this.isMenorQueAgora}
-            value={this.state.dateAcao}
-          />
-          <Checkbox
-            label="App Push"
-            checked={this.state.checkedAppPush}
-            onCheck={this.updateCheckAppPush}
-          />
-          <Checkbox
-            label="Web Push"
-            checked={this.state.checkedWebPush}
-            onCheck={this.updateCheckWebPush}
-          />
-          <Checkbox
-            label="E-mail"
-            checked={this.state.checkedEmail}
-            onCheck={this.updateCheckEmail}
-          />
+          <Row>
+            <Col xs={12} md={6}>
+              <div className="pageSubTitleCadVotacao">Data e Hora de Início</div>
+              <DatePicker
+                hintText="Dia"
+                DateTimeFormat={DateTimeFormat}
+                locale="pt-br"
+                minDate={this.state.minDate}
+                value={this.state.dateAcao}
+                onChange={this.isMenorQueAgora}
+              />
+              <TimePicker
+                format="24hr"
+                hintText="Hora"
+                onChange={this.isMenorQueAgora}
+                value={this.state.dateAcao}
+              />
+            </Col>
+            <Col xs={12} md={6}>
+              <div className="pageSubTitleCadVotacao">Envio de Notificação</div>
+              <Checkbox
+                label="Aplicativo"
+                checked={this.state.checkedAppPush}
+                onCheck={this.updateCheckAppPush}
+              />
+              <Checkbox
+                label="Web"
+                checked={this.state.checkedWebPush}
+                onCheck={this.updateCheckWebPush}
+              />
+              <Checkbox
+                label="E-Mail"
+                checked={this.state.checkedEmail}
+                onCheck={this.updateCheckEmail}
+              />
+            </Col>
+          </Row>
         </Modal.Body>
         <Modal.Footer>
           <Button onClick={this.closeModal}>Fechar</Button>

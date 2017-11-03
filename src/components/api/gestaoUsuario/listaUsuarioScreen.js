@@ -4,7 +4,11 @@ import { getStorage } from '../../../components/generic/storage';
 
 class ListaUsuarioScreen extends Component {
   render() {
-    return <ListaUsuario codPessoaJuridica={getStorage('cod_pessoa_juridica')} />;
+    return (
+      <div className="container">
+        <ListaUsuario codPessoaJuridica={getStorage('cod_pessoa_juridica')} />
+      </div>
+    );
   }
 }
 

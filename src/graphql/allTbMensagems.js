@@ -51,7 +51,7 @@ const queryOptions = {
           flgEnviawebpush: linhas.flgEnviawebpush,
           flgEnviaapppush: linhas.flgEnviaapppush,
           flgEnviaemail: linhas.flgEnviaemail,
-          datEnvio: linhas.datEnvio,
+          datEnvio: linhas.datEnvio ? new Date(linhas.datEnvio).toLocaleString() : '',
           flgEnviado: linhas.flgEnviado,
           flgErroEnvio: linhas.flgErroEnvio,
         }));

@@ -168,20 +168,30 @@ class ListaUsuario extends Component {
     }
 
     return (
-      <div className="gridUsuarios">
-        <Grid
-          colunas={this.colunas}
-          rows={this.props.rows}
-          items_grid={this.state.items_grid}
-          buttonNovo="/frontend/gestaoUsuario/novoUsuario"
-          renderButtonVariosSelection={this.state.renderButtonVariosSelection}
-          loading={this.props.loading}
-          maskRowsUpdated={this.maskRowsUpdated}
-          renderButtonVariosSelectionDisabled={this.props.renderButtonVariosSelectionDisabled}
-          apaga={this.apagaVotacao}
-          renderButtonsOneSelection={this.renderButtonsOneSelection}
-        />
-        <AlertContainer ref={a => (this.msg = a)} {...this.alertOptions} />
+      <div className="divContainerGridUsuarios">
+        <Row>
+          <Col xs={12}>
+            <div className="pageTitle">Gestão de Usuários</div>
+          </Col>
+        </Row>
+        <div className="divisor" />
+        <Row>
+          <Col xs={12}>
+            <Grid
+              colunas={this.colunas}
+              rows={this.props.rows}
+              items_grid={this.state.items_grid}
+              buttonNovo="/frontend/gestaoUsuario/novoUsuario"
+              renderButtonVariosSelection={this.state.renderButtonVariosSelection}
+              loading={this.props.loading}
+              maskRowsUpdated={this.maskRowsUpdated}
+              renderButtonVariosSelectionDisabled={this.props.renderButtonVariosSelectionDisabled}
+              apaga={this.apagaVotacao}
+              renderButtonsOneSelection={this.renderButtonsOneSelection}
+            />
+            <AlertContainer ref={a => (this.msg = a)} {...this.alertOptions} />
+          </Col>
+        </Row>
       </div>
     );
   }

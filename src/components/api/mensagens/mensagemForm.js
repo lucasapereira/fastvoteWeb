@@ -193,6 +193,12 @@ class MensagemForm extends Component {
           </Col>
         </Row>
 
+        <Row>
+          <Col xs={12}>
+            <hr />
+          </Col>
+        </Row>
+
         <div className="divGridButtons">
           <Row>
             <Col xs={12} md={6}>

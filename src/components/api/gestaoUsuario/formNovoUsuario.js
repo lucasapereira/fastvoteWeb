@@ -2,10 +2,12 @@ import React from 'react';
 
 import { Field, reduxForm } from 'redux-form';
 
-import Paper from 'material-ui/Paper';
 import { RadioButton } from 'material-ui/RadioButton';
 import RaisedButton from 'material-ui/RaisedButton';
 // import Checkbox from 'material-ui/Checkbox';
+import { Row, Col, Glyphicon } from 'react-bootstrap';
+import FlatButton from 'material-ui/FlatButton';
+
 import DadosAdicionaisListCheckBox from './dadosadicionaisListCheckbox';
 import asyncValidate from './asyncValidate';
 
@@ -27,69 +29,108 @@ const MaterialUiForm = props => {
 
   return (
     <form onSubmit={handleSubmit(submit)} className="container">
-      <Paper className="paperLogin" zDepth={2} rounded>
-        <div className="divTopoLogin">Criação de usuário</div>
-        <div className="divFormLogin">
-          <div>
-            <Field
-              name="nomcompletopessoa"
-              component={renderTextField}
-              label="Nome"
-              validate={[required]}
-            />
-          </div>
+      <Row>
+        <Col xs={12}>
+          <div className="pageSubTitleCadVotacao">Dados Básicoss</div>
+        </Col>
+      </Row>
+      <Row>
+        <Col xs={12}>
+          <Field
+            name="nomcompletopessoa"
+            component={renderTextField}
+            label="Nome"
+            validate={[required]}
+            fullWidth
+          />
+        </Col>
+      </Row>
+      <Row>
+        <Col xs={12} md={4}>
+          <Field
+            name="numcpfpessoa"
+            component={renderTextField}
+            label="CPF"
+            validate={[required, cpf]}
+            fullWidth
+          />
+        </Col>
+        <Col xs={12} md={8}>
+          <Field
+            name="dscemail"
+            component={renderTextField}
+            label="E-mail"
+            validate={[required, email]}
+            fullWidth
+          />
+        </Col>
+      </Row>
 
-          <div>
-            <Field
-              name="numcpfpessoa"
-              component={renderTextField}
-              label="CPF"
-              validate={[required, cpf]}
-            />
-          </div>
-          <div>
-            <Field
-              name="dscemail"
-              component={renderTextField}
-              label="E-mail"
-              validate={[required, email]}
-            />
-          </div>
-          <div>
-            <Field name="numtelefone" component={renderTextField} label="Telefone" />
-          </div>
-          <div>
-            <Field name="sglsexo" component={renderRadioGroup}>
-              <RadioButton value="M" label="Masculino" />
-              <RadioButton value="F" label="Feminino" />
-            </Field>
-          </div>
+      <Row>
+        <Col xs={12} md={4}>
+          <Field name="numtelefone" component={renderTextField} label="Telefone" fullWidth />
+        </Col>
+        <Col xs={12} md={4}>
+          <Field name="vlrpeso" component={renderTextField} label="Peso na Votação" fullWidth />
+        </Col>
+        <Col xs={12} md={4}>
+          <Field
+            name="datnascimentopessoa"
+            component={renderDatePicker}
+            label="Data de nascimento"
+            fullWidth
+          />
+        </Col>
+      </Row>
 
-          <div>
-            <Field name="vlrpeso" component={renderTextField} label="Peso na Votação" />
-          </div>
-          <div>
-            <Field
-              name="datnascimentopessoa"
-              component={renderDatePicker}
-              label="Data de nascimento"
-            />
-          </div>
-          <div>
-            <DadosAdicionaisListCheckBox codPessoaJuridica={getStorage('cod_pessoa_juridica')} />
-          </div>
-          <div>
-            <RaisedButton type="submit" disabled={pristine || submitting} label="Criar" />
+      <Row>
+        <Col xs={12} md={6}>
+          <div className="pageSubTitleCadVotacao">Sexo</div>
+          <Field name="sglsexo" component={renderRadioGroup}>
+            <RadioButton value="M" label="Masculino" />
+            <RadioButton value="F" label="Feminino" />
+          </Field>
+        </Col>
+        <Col xs={12} md={6}>
+          <div className="pageSubTitleCadVotacao">Dados Adicionais</div>
+          <DadosAdicionaisListCheckBox codPessoaJuridica={getStorage('cod_pessoa_juridica')} />
+        </Col>
+      </Row>
 
-            <RaisedButton
-              type="button"
+      <Row>
+        <Col xs={12}>
+          <hr />
+        </Col>
+      </Row>
+
+      <div className="divGridButtons">
+        <Row>
+          <Col xs={12} md={6}>
+            <FlatButton
+              type="submit"
+              disabled={pristine || submitting}
+              icon={<Glyphicon glyph="plus" style={{ color: 'white' }} />}
+              label="Salvar"
+              labelStyle={{ color: 'white' }}
+              fullWidth
+              backgroundColor="#a4c639"
+              hoverColor="#8AA62F"
+            />
+          </Col>
+          <Col xs={12} md={6}>
+            <FlatButton
               disabled={pristine || submitting}
               onClick={reset}
+              icon={<Glyphicon glyph="repeat" style={{ color: 'gray' }} />}
               label="Limpar"
+              labelStyle={{ color: 'gray' }}
+              fullWidth
+              backgroundColor="#E6E6E6"
+              hoverColor="#BDBDBD"
             />
-          </div>
-        </div>
-      </Paper>
+          </Col>
+        </Row>
+      </div>
     </form>
   );
 };
