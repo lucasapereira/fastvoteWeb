@@ -2,7 +2,10 @@ import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 const query = gql`
   query Feed($codpessoajuridica: Int) {
-    allTbMensagems(orderBy: DAT_ENVIO_DESC, condition: { codPessoaJuridica: $codpessoajuridica }) {
+    allTbMensagems(
+      orderBy: DAT_ENVIO_DESC
+      condition: { codPessoaJuridica: $codpessoajuridica, flgDelete: false }
+    ) {
       nodes {
         codMensagem
         codPessoaJuridica

@@ -14,7 +14,6 @@ const mutationApaga = gql`
 const mutationApagaOptions = {
   name: 'apaga',
   options(props) {
-    console.log('dentro do ApagaMensagem Graphql', props);
     return {
       variables: {
         codmensagem: props.codmensagem,

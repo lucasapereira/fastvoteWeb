@@ -12,6 +12,7 @@ import confirm from '../../generic/confirm';
 
 import { GravaMensagemGraphql } from '../../../graphql/criaMensagem';
 import { ApagaMensagemGraphql } from '../../../graphql/apagaMensagem';
+import { ListMensagemGraphql } from '../../../graphql/allTbMensagems';
 
 import { getStorage } from '../../generic/storage';
 
@@ -90,65 +91,29 @@ class Mensagens extends Component {
   };
 
   confirmationDelMensagem = () => {
-    confirm('Você tem certeza que deseja excluir?').then(
+    confirm('Você tem certeza que deseja excluir a(s) mensagem(ns) selecionada(s)?').then(
       () => {
         this.deletaMensagem();
+        this.props.refetch();
       },
       () => {}
     );
   };
 
-  /*
-  handleExclusion = () => {
-    const votacoes = this.props.selectedIndexes.map(index => this.props.rows[index].cod_votacao);
-
-    this.props.apaga(votacoes);
-  };
-  */
-
-  deletaMensagem = () => {
-    // values.codpessoajuridica = getStorage('cod_pessoa_juridica');
-    let codPJ = getStorage('cod_pessoa_juridica');
-
-    console.log('VAR DEL MENSAGENS em mensagem.js l-94: ', codPJ);
-    console.log('STATE selectedIdsRows l-95: ', this.state.selectedIdsRows);
-
-    this.props
-      .apaga({
-        variables: {
-          codmensagem: 1,
-          //codpessoajuridica: codPJ,
-        },
-      })
-      .then(() => {
-        console.log('DEU BOM');
-        this.props.refetch();
-      })
-      .catch(e => {
-        console.log('DEU RUIM');
-        this.msg.error('Erro ao realizar a operação');
-        console.error(e);
-      });
-
-    /* // ApagaMensagemGraphql
+  deletaMensagem = async () => {
     try {
-      await cols.map(async row => {
+      await this.state.selectedIdsRows.map(async row => {
         await this.props.apaga({
           variables: {
-            codUsuarioRepresentacao: row,
+            codmensagem: row,
+            //codpessoajuridica: codPJ,
           },
         });
-        await this.props.loadMoreEntries(
-          this.props.codPessoaJuridica,
-          null,
-          pageSelected * this.state.items_grid,
-          this.state.items_grid
-        );
       });
     } catch (e) {
       this.msg.error('Erro ao realizar a operação');
+      console.error(e);
     }
-    */
   };
 
   render() {
@@ -224,4 +189,4 @@ class Mensagens extends Component {
   }
 }
 
-export default compose(GravaMensagemGraphql, ApagaMensagemGraphql)(Mensagens);
+export default compose(GravaMensagemGraphql, ApagaMensagemGraphql, ListMensagemGraphql)(Mensagens);

@@ -5,6 +5,8 @@ import { Field, reduxForm, formValueSelector } from 'redux-form';
 import { Row, Col, Glyphicon } from 'react-bootstrap';
 import FlatButton from 'material-ui/FlatButton';
 
+import areIntlLocalesSupported from 'intl-locales-supported';
+
 // import asyncValidate from './asyncValidate';
 import { required } from '../../generic/validations';
 
@@ -19,10 +21,28 @@ import UsuariosByDadosAdicionais from '../../generic/component/usuariosByDadosAd
 
 import { getStorage } from '../../generic/storage';
 
+let DateTimeFormat;
+/**
+ * Use the native Intl.DateTimeFormat if available, or a polyfill if not.
+ */
+/*
+ if (areIntlLocalesSupported(['pt', 'pt-BR'])) {
+  DateTimeFormat = global.Intl.DateTimeFormat;
+} else {
+  const IntlPolyfill = require('intl');
+  DateTimeFormat = IntlPolyfill.DateTimeFormat;
+  require('intl/locale-data/jsonp/pt');
+  require('intl/locale-data/jsonp/pt-BR');
+}
+*/
+
 class MensagemForm extends Component {
   constructor(props) {
     super(props);
-    this.state = { arrUsers: [] };
+
+    this.state = {
+      arrUsers: [],
+    };
   }
 
   setArrUsers = array => {
@@ -37,6 +57,13 @@ class MensagemForm extends Component {
     this.setState({
       selectedIndexes,
     });
+  };
+
+  disableDates = date => {
+    const time = new Date();
+    time.setDate(time.getDate() - 1);
+
+    return date < time;
   };
 
   render() {
@@ -86,6 +113,8 @@ class MensagemForm extends Component {
               validate={[required]}
               fullWidth
               autoOk
+              locale="pt-br"
+              shouldDisableDate={this.disableDates}
             />
           </Col>
           <Col xs={12} md={3}>

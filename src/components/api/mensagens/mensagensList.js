@@ -30,7 +30,7 @@ class MensagensList extends Component {
   }
 
   colunas = [
-    {
+    /*{
       key: 'codMensagem',
       name: 'COD',
       filterable: true,
@@ -43,7 +43,7 @@ class MensagensList extends Component {
       filterable: true,
       sortable: true,
       resizable: true,
-    },
+    },*/
     {
       key: 'titulo',
       name: 'Título',
