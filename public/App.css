@@ -199,6 +199,7 @@ body {
   margin: 15px 0px 0px 0px;
   padding-right: 15px;
   padding-left: 15px;
+  padding-bottom: 5px;
 }
 
 .labelStatus {
@@ -211,12 +212,64 @@ body {
   border-bottom: 1px solid #c1c1c1;
 }
 
+.divCountdown {
+  margin-top: 15px;
+  text-align: center;
+  
+}
+
+.contentCountdown {
+  min-height: 50px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+}
+
+.labelCountdown {
+  font-weight: bold;
+  color: #bababa;
+  padding-left: 12px;
+  padding-right: 12px;
+  min-height: 5px;
+  text-align: center;
+  border-bottom: 1px solid #c1c1c1;
+}
+
+.labelContentCountdown {
+  font-weight: bold;
+  font-size: 130%;
+  color: rgb(202, 202, 202);
+}
+
+.react-cntdwn-day {
+  font-weight: bold;
+  color: rgb(173, 83, 13);
+}
+
+.react-cntdwn-hour, .react-cntdwn-minute, .react-cntdwn-second {
+  font-weight: bold;
+  font-size: 130%;
+  color: rgb(173, 83, 13);
+}
+
+.contentTermino {
+  font-weight: bold;
+  color: rgb(124, 124, 124);
+}
+
+.mobile1 {
+  font-size: 160%;
+}
+
+.mobile2 {
+  font-size: 120%;
+}
+
 .statusVotacaoAberta {
   color: #66b682;
 }
 
 .statusVotacaoFechada {
-  color: #fd4d2a;
+  color: #fd5d41;
 }
 
 .statusVotacaoNaoIniciada {

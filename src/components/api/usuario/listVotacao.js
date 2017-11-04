@@ -80,6 +80,7 @@ class InfiniteList extends Component {
       <div className="containerMinhasVotacoes">
         {this.buildElements()}
         {this.renderPagination()}
+        <div className="divisor" />
       </div>
     );
   };

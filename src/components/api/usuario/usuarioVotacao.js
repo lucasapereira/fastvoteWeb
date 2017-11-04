@@ -100,6 +100,7 @@ class UsuarioVotacao extends Component {
       </fieldset>
     );
   };
+
   renderResultado = votacao => {
     let botaoResultado = (
       <FlatButton
@@ -150,6 +151,9 @@ class UsuarioVotacao extends Component {
             {botaoResultado}
             {botaoResumo}
           </Col>
+          <Col xsHidden sm={3} md={2}>
+            {this.renderCountDown(votacao, false)}
+          </Col>
         </Row>
       </div>
     );
@@ -175,26 +179,61 @@ class UsuarioVotacao extends Component {
   handleFinish = () => {
     console.log('Skynet has become self-aware!');
   };
-  renderCountDown = votacao => {
+
+  renderCountDown = (votacao, flgMobile = false) => {
     const dateAgora = new Date();
     const flgStatus = this.getStatusVotacao(votacao);
-    if (votacao.datFimVotacaoDate && votacao.datFimVotacaoDate > dateAgora && flgStatus === 1) {
-      console.log('entrei aki', votacao);
-      return (
-        <Countdown
-          targetDate={votacao.datFimVotacaoDate}
-          startDelay={2000}
-          interval={1000}
-          timeSeparator={':'}
-          onFinished={this.handleFinish}
-        />
+
+    let labelFinaliza = 'Finaliza em';
+    let countDownContent = '';
+    let terminoContent = 'Em aberto';
+
+    if (votacao.datFimVotacao) {
+      terminoContent = votacao.datFimVotacao;
+    }
+
+    if (flgStatus === 0) {
+      countDownContent = (
+        <div className="labelContentCountdown statusVotacaoNaoIniciada">00:00:00</div>
+      );
+    } else if (flgStatus === 1) {
+      if (votacao.datFimVotacaoDate && votacao.datFimVotacaoDate > dateAgora) {
+        countDownContent = (
+          <Countdown
+            targetDate={votacao.datFimVotacaoDate}
+            startDelay={2000}
+            interval={1000}
+            timeSeparator={':'}
+            onFinished={this.handleFinish}
+          />
+        );
+      } else {
+        countDownContent = (
+          <div className="labelContentCountdown statusVotacaoAberta">Indefinido</div>
+        );
+      }
+    } else {
+      labelFinaliza = 'Finalizada em';
+      countDownContent = (
+        <div className="labelContentCountdown statusVotacaoFechada">Finalizada</div>
       );
     }
+
+    let mobile1Class = flgMobile ? 'mobile1' : '';
+    let mobile2Class = flgMobile ? 'mobile2' : '';
+
+    return (
+      <div className="divCountdown">
+        <div className="labelCountdown">{labelFinaliza}</div>
+        <div className={`contentCountdown ${mobile1Class}`}>{countDownContent}</div>
+        <div className="labelCountdown">Término</div>
+        <div className={`contentTermino ${mobile2Class}`}>{terminoContent}</div>
+      </div>
+    );
   };
 
   renderVotacao() {
     const { votacao } = this.props;
-    console.log(votacao);
 
     let classStatus = 'statusVotacaoNaoIniciada';
     let labelTxtStatus = 'Não Iniciada';
@@ -204,12 +243,7 @@ class UsuarioVotacao extends Component {
 
     if (flgStatus === 1) {
       classStatus = 'statusVotacaoAberta';
-
-      if (votacao.datFimVotacao) {
-        labelTxtStatus = `Data/Hora do fim da votação: ${votacao.datFimVotacao}Aberta`;
-      } else {
-        labelTxtStatus = `Aberta`;
-      }
+      labelTxtStatus = 'Aberta';
     } else if (flgStatus === 2) {
       flgFinalizada = true;
       classStatus = 'statusVotacaoFechada';
@@ -252,12 +286,19 @@ class UsuarioVotacao extends Component {
       <Paper className="paperVotacao" zDepth={2} rounded>
         <div className="labelStatus">
           <QtdVotos codVotacao={votacao.codVotacao} />
-          {this.renderCountDown(votacao)}
-          <span className={classStatus}>{labelTxtStatus}</span>
+          {' | '}
+          Status: <span className={classStatus}>{labelTxtStatus}</span>
         </div>
         <div className="txtPerguntaVotacoes">{votacao.dscPergunta}</div>
         <div className="divRespostasVotacoes">{labelTxtResposta}</div>
         <br />
+
+        <Row>
+          <Col xs={12} smHidden mdHidden lgHidden>
+            {this.renderCountDown(votacao, true)}
+          </Col>
+        </Row>
+
         {this.renderResultado(votacao)}
       </Paper>
     );
@@ -308,6 +349,7 @@ class UsuarioVotacao extends Component {
     if (this.props.error) {
       return <div>Erro: {this.props.error.message}</div>;
     }
+
     return (
       <div>
         {this.renderVotacao()}

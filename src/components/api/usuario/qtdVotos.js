@@ -14,7 +14,15 @@ class QtdVotos extends Component {
 
     let qtdVotos = this.props.data.allTbVotos.totalCount;
 
-    return <spam>Quantidade de votos: {qtdVotos}</spam>;
+    let styleVotos = qtdVotos
+      ? { color: '#000000', fontSize: '120%' }
+      : { color: '#c0c0c0', fontSize: '120%' };
+
+    return (
+      <span>
+        Votos: <span style={styleVotos}>{qtdVotos}</span>
+      </span>
+    );
   };
 }
 

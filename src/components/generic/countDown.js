@@ -70,12 +70,15 @@ export default class Countdown extends Component {
 
     if (format.day) {
       let days = moment.duration(remainingTime).get('days');
+      let month = moment.duration(remainingTime).get('months');
+      let years = moment.duration(remainingTime).get('years');
+
       if (leadingZero) {
-        days = this.addLeadingZero(days);
+        days = this.addLeadingZero(days + month * 30 + years * 365);
       }
       html.push(
         <span className="react-cntdwn-day" key="day">
-          {days}&nbsp;dias&nbsp;
+          {days}&nbsp;dias&nbsp;<br />
         </span>
       );
     }

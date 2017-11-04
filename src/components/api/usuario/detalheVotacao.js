@@ -12,7 +12,7 @@ class DetalheVotacao extends Component {
 
     let countItemResp = 1;
 
-    return this.props.data.resultVotacao.nodes.map((row) => {
+    return this.props.data.resultVotacao.nodes.map(row => {
       const arrResp = [];
 
       arrResp.push(
@@ -26,7 +26,7 @@ class DetalheVotacao extends Component {
               label={`${row.percentage.toFixed(2)}%`}
             />
           </td>
-        </tr>,
+        </tr>
       );
 
       return arrResp;
