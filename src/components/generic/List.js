@@ -18,9 +18,11 @@ export const ListCheckbox = array => {
 
 export const checkBoxToScreen = (values, checkBoxValues) => {
   checkBoxValues.map(item => {
-    const itemSplitted = item.split(';');
+    if (item !== null) {
+      const itemSplitted = item.split(';');
 
-    values[`item_${itemSplitted[0]}`] = true;
+      values[`item_${itemSplitted[0]}`] = true;
+    }
   });
 
   return values;
