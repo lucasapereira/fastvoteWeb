@@ -1,6 +1,6 @@
 {
   "name": "fastvote",
-  "version": "0.3.0",
+  "version": "1.4.0",
   "private": true,
   "homepage": "/frontend",
   "eslintConfig": {
@@ -42,6 +42,7 @@
     "react-dropzone": "4.2.1",
     "react-error-overlay": "^3.0.0",
     "react-file-download": "^0.3.5",
+    "react-input-mask": "^1.0.7",
     "react-loadable": "5.3.1",
     "react-paginate": "^5.0.0",
     "react-password-strength": "^2.2.0",
@@ -65,12 +66,16 @@
     "react-scripts": "^1.0.17"
   },
   "scripts": {
-    "production": "react-scripts build ;  perl -pe 's/;self.addEventListener/`echo \";\" ; cat webpush.js ; echo \"self.addEventListener\"` /ge' -i build/service-worker.js ;   scp -r -i ~/.ssh/my-ssh-key build/* lucas_araujo_pereira@ipa.fastvote.com.br://var/www/html/frontend/ ",
-    "ship-to-production": "scp -r -i ~/.ssh/my-ssh-key build/* lucas_araujo_pereira@ipa.fastvote.com.br://var/www/html/frontend/",
+    "production":
+      "react-scripts build ;  perl -pe 's/;self.addEventListener/`echo \";\" ; cat webpush.js ; echo \"self.addEventListener\"` /ge' -i build/service-worker.js ;   scp -r -i ~/.ssh/my-ssh-key build/* lucas_araujo_pereira@ipa.fastvote.com.br://var/www/html/frontend/ ",
+    "ship-to-production":
+      "scp -r -i ~/.ssh/my-ssh-key build/* lucas_araujo_pereira@ipa.fastvote.com.br://var/www/html/frontend/",
     "analyze": "source-map-explorer build/static/js/main.*",
     "start": "react-scripts start",
-    "sw": "perl -pe 's/;self.addEventListener/`echo \";\" ; cat webpush.js ; echo \"self.addEventListener\"` /ge' -i build/service-worker.js",
-    "build": "react-scripts build ; perl -pe 's/;self.addEventListener/`echo \";\" ; cat webpush.js ; echo \"self.addEventListener\"` /ge' -i build/service-worker.js",
+    "sw":
+      "perl -pe 's/;self.addEventListener/`echo \";\" ; cat webpush.js ; echo \"self.addEventListener\"` /ge' -i build/service-worker.js",
+    "build":
+      "react-scripts build ; perl -pe 's/;self.addEventListener/`echo \";\" ; cat webpush.js ; echo \"self.addEventListener\"` /ge' -i build/service-worker.js",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "flow start": "flow start",
