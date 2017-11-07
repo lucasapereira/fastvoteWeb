@@ -7,8 +7,8 @@
     "extends": "universe/web"
   },
   "dependencies": {
-    "apollo-cache-inmemory": "^1.0.0",
-    "apollo-client": "^2.0.1",
+    "apollo-cache-inmemory": "^1.1.0",
+    "apollo-client": "^2.0.2",
     "apollo-link-context": "^1.0.0",
     "apollo-link-error": "^1.0.0",
     "apollo-link-http": "^1.1.0",
@@ -29,16 +29,16 @@
     "lodash": "^4.17.4",
     "material-ui": "^0.19.4",
     "prop-types": "^15.6.0",
-    "react": "^15.6.2",
+    "react": "15.6.2",
     "react-addons-update": "^15.6.2",
     "react-alert": "^2.4.0",
     "react-apollo": "^2.0.0",
     "react-bootstrap": "0.31.5",
     "react-chartjs-2": "^2.6.4",
     "react-confirm": "^0.1.16",
-    "react-data-grid": "^2.0.71",
-    "react-data-grid-addons": "^2.0.71",
-    "react-dom": "^15.6.2",
+    "react-data-grid": "^2.0.73",
+    "react-data-grid-addons": "^2.0.73",
+    "react-dom": "15.6.2",
     "react-dropzone": "4.2.1",
     "react-error-overlay": "^3.0.0",
     "react-file-download": "^0.3.5",
@@ -61,7 +61,7 @@
   "devDependencies": {
     "eslint": "^4.10.0",
     "eslint-config-universe": "^1.0.6",
-    "prettier": "^1.7.4",
+    "prettier": "^1.8.0",
     "react-scripts": "^1.0.17"
   },
   "scripts": {

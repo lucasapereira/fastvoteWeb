@@ -33,9 +33,11 @@ export const screenToGraphql = values => {
   let arrReturn = [];
   keyValues.map(key => {
     if (key.indexOf('item') === 0) {
-      const keySplitted = key.split('_');
-      if (values[`${key}`] === true) {
-        arrReturn.push(parseInt(keySplitted[1], 10));
+      if (key !== null) {
+        const keySplitted = key.split('_');
+        if (values[`${key}`] === true) {
+          arrReturn.push(parseInt(keySplitted[1], 10));
+        }
       }
     }
   });
