@@ -9,11 +9,14 @@ import FlatButton from 'material-ui/FlatButton';
 
 import DadosAdicionaisListCheckBox from './dadosadicionaisListCheckbox';
 
-import { required, cpf, email, telefone } from '../../generic/validations';
+import { required, cpf, email } from '../../generic/validations';
 
 import { renderTelefoneTextField } from '../../generic/forms/myTelefoneMaskedInput';
 
 import { renderTextField } from '../../generic/forms/myTextField';
+import { renderFloatTextField } from '../../generic/forms/myFloatMaskedInput';
+import { renderCpfTextField } from '../../generic/forms/myCpfMaskedInput';
+
 import { renderRadioGroup } from '../../generic/forms/myRadioGroup';
 import { renderDatePicker } from '../../generic/forms/myDatePicker';
 
@@ -49,7 +52,7 @@ const MaterialUiForm = props => {
         <Col xs={12} md={4}>
           <Field
             name="numcpfpessoa"
-            component={renderTextField}
+            component={renderCpfTextField}
             label="CPF"
             validate={[required, cpf]}
             fullWidth
@@ -76,7 +79,12 @@ const MaterialUiForm = props => {
           />
         </Col>
         <Col xs={12} md={4}>
-          <Field name="vlrpeso" component={renderTextField} label="Peso na Votação" fullWidth />
+          <Field
+            name="vlrpeso"
+            component={renderFloatTextField}
+            label="Peso na Votação"
+            fullWidth
+          />
         </Col>
         <Col xs={12} md={4}>
           <Field

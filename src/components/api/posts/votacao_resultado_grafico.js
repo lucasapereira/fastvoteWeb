@@ -125,6 +125,10 @@ class ResultadoVotacaoGrafico extends Component {
     };
   };
 
+  options = {
+    yAxisID: 0,
+  };
+
   renderGraficos = () => {
     if (this.houveVotos()) {
       return (
@@ -139,7 +143,7 @@ class ResultadoVotacaoGrafico extends Component {
               </Col>
               <Col xs={12} md={6}>
                 <div className="graphContainer">
-                  <Bar data={this.getData()} height={250} />
+                  <Bar data={this.getData()} height={250} options={this.options} />
                 </div>
               </Col>
             </Row>
