@@ -1,6 +1,6 @@
 {
   "name": "fastvote",
-  "version": "1.4.1",
+  "version": "1.4.2",
   "private": true,
   "homepage": "/frontend",
   "eslintConfig": {

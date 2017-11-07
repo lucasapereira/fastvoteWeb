@@ -271,7 +271,7 @@ class TelaVotacaoContainer extends Component {
           </Modal.Header>
           <Modal.Body>{content}</Modal.Body>
           <Modal.Footer>
-            <Button onClick={this.closeModal}>Close</Button>
+            <Button onClick={this.closeModal}>Fechar</Button>
           </Modal.Footer>
         </Modal>
       );
