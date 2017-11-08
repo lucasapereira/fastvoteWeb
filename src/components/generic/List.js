@@ -18,9 +18,11 @@ export const ListCheckbox = array => {
 
 export const checkBoxToScreen = (values, checkBoxValues) => {
   checkBoxValues.map(item => {
-    const itemSplitted = item.split(';');
+    if (item !== null) {
+      const itemSplitted = item.split(';');
 
-    values[`item_${itemSplitted[0]}`] = true;
+      values[`item_${itemSplitted[0]}`] = true;
+    }
   });
 
   return values;
@@ -31,9 +33,11 @@ export const screenToGraphql = values => {
   let arrReturn = [];
   keyValues.map(key => {
     if (key.indexOf('item') === 0) {
-      const keySplitted = key.split('_');
-      if (values[`${key}`] === true) {
-        arrReturn.push(parseInt(keySplitted[1], 10));
+      if (key !== null) {
+        const keySplitted = key.split('_');
+        if (values[`${key}`] === true) {
+          arrReturn.push(parseInt(keySplitted[1], 10));
+        }
       }
     }
   });

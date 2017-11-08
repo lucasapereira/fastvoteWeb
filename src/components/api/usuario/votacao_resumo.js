@@ -48,13 +48,24 @@ class VotacaoResumo extends Component {
   };
 
   showFiles = () => {
-    return this.props.data.allTbVotacaos.nodes[0].tbVotacaoImagemsByCodVotacao.nodes.map(file => {
-      return (
-        <a href="#" onClick={() => this.download(file)} key={file.dscArquivo}>
-          {file.nomArquivo}
-        </a>
-      );
-    });
+    const a = this.props.data.allTbVotacaos.nodes[0].tbVotacaoImagemsByCodVotacao.nodes.map(
+      file => {
+        return (
+          <span>
+            <a href="#" onClick={() => this.download(file)} key={file.dscArquivo}>
+              {file.nomArquivo}
+            </a>
+            <br />
+          </span>
+        );
+      }
+    );
+
+    if (a.length > 0) {
+      return a;
+    }
+
+    return <span>Nenhum arquivo cadastrado.</span>;
   };
 
   render = () => {
@@ -81,11 +92,13 @@ class VotacaoResumo extends Component {
         </Modal.Header>
         <Modal.Body>
           <div className="content" dangerouslySetInnerHTML={{ __html: html }} />
-
-          {this.showFiles()}
+          <div>
+            <div style={{ fontSize: '120%', color: '#C0C0C0', fontWeight: 'bold' }}>Anexos:</div>
+            {this.showFiles()}
+          </div>
         </Modal.Body>
         <Modal.Footer>
-          <Button onClick={this.props.closeModal}>Close</Button>
+          <Button onClick={this.props.closeModal}>Fechar</Button>
         </Modal.Footer>
         <AlertContainer ref={a => (this.msg = a)} {...this.alertOptions} />
       </Modal>

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { compose } from 'react-apollo';
 
 import FlatButton from 'material-ui/FlatButton';
 import { Row, Col, Glyphicon } from 'react-bootstrap';
@@ -6,19 +7,7 @@ import { Row, Col, Glyphicon } from 'react-bootstrap';
 import Grid from '../../generic/grid';
 import MyLoader from '../../generic/myLoader';
 
-class FormatterBooleanIcon extends Component {
-  render() {
-    let icon = this.props.value ? (
-      <Glyphicon glyph="ok" style={{ color: 'green' }} />
-    ) : (
-      <Glyphicon glyph="remove" style={{ color: 'red' }} />
-    );
-
-    return <div style={{ textAlign: 'center' }}>{icon}</div>;
-  }
-}
-
-class MensagensList extends Component {
+class MinhasMensagens extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -54,32 +43,6 @@ class MensagensList extends Component {
       filterable: true,
       sortable: true,
       resizable: true,
-    },
-    {
-      key: 'flgEnviaemail',
-      name: 'E-Mail',
-      formatter: FormatterBooleanIcon,
-    },
-    {
-      key: 'flgEnviawebpush',
-      name: 'Web',
-      formatter: FormatterBooleanIcon,
-    },
-    {
-      key: 'flgEnviaapppush',
-      name: 'App',
-      formatter: FormatterBooleanIcon,
-    },
-
-    {
-      key: 'flgEnviado',
-      name: 'Enviado',
-      formatter: FormatterBooleanIcon,
-    },
-    {
-      key: 'flgErroEnvio',
-      name: 'Err Envio',
-      formatter: FormatterBooleanIcon,
     },
   ];
 
@@ -144,4 +107,4 @@ class MensagensList extends Component {
   }
 }
 
-export default MensagensList;
+export default MinhasMensagens;

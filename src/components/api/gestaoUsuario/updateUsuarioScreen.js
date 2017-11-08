@@ -13,6 +13,9 @@ class UpdateUsuarioScreen extends Component {
   callMutationUsuario = values => {
     values.codpessoajuridica = getStorage('cod_pessoa_juridica');
     values.coddadosadicionaisarray = screenToGraphql(values, 'coddadosadicionaisarray');
+    values.vlrpeso = values.vlrpeso.replace(',', '.');
+    values.numcpfpessoa = values.numcpfpessoa.replace(/\D/g, '');
+    values.numtelefone = values.numtelefone.replace(/\D/g, '');
 
     this.props
       .atualizaUsuarioVotacao({

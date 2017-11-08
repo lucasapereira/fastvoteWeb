@@ -19,8 +19,9 @@ import { getStorage } from '../../generic/storage';
 class Mensagens extends Component {
   constructor(props) {
     super(props);
-    this.state = { showForm: false, selectedIdsRows: [] };
+    this.state = { showForm: false };
   }
+  selectedIdsRows = [];
 
   setShowForm = value => {
     this.setState({
@@ -33,9 +34,7 @@ class Mensagens extends Component {
       return value.codMensagem;
     });
 
-    this.setState({
-      selectedIdsRows: arraySel,
-    });
+    this.selectedIdsRows = arraySel;
   };
 
   converteDataUs = data => {
@@ -94,21 +93,21 @@ class Mensagens extends Component {
     confirm('Você tem certeza que deseja excluir a(s) mensagem(ns) selecionada(s)?').then(
       () => {
         this.deletaMensagem();
-        this.props.refetch();
       },
       () => {}
     );
   };
 
-  deletaMensagem = async () => {
+  deletaMensagem = () => {
     try {
-      await this.state.selectedIdsRows.map(async row => {
+      this.selectedIdsRows.map(async row => {
         await this.props.apaga({
           variables: {
             codmensagem: row,
             //codpessoajuridica: codPJ,
           },
         });
+        this.props.refetch();
       });
     } catch (e) {
       this.msg.error('Erro ao realizar a operação');
@@ -173,6 +172,7 @@ class Mensagens extends Component {
               <MensagensList
                 delMensagem={this.confirmationDelMensagem}
                 setMensagensSelected={this.setMensagensSelected}
+                rows={this.props.rows}
               />
             </Col>
           </Row>

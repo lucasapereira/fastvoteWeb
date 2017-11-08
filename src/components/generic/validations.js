@@ -2,10 +2,11 @@ export const required = value => (value === null ? 'Obrigatório' : undefined);
 export const email = value =>
   value && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value) ? 'E-mail inválido' : undefined;
 
-export const cpf = strCPF => {
-  if (strCPF === undefined || strCPF === null) {
+export const cpf = sCpf => {
+  if (sCpf === undefined || sCpf === null) {
     return undefined;
   }
+  var strCPF = sCpf.replace(/[.-]/g, '');
 
   let Soma;
   let Resto;
@@ -25,8 +26,4 @@ export const cpf = strCPF => {
   if (Resto === 10 || Resto === 11) Resto = 0;
   if (Resto !== parseInt(strCPF.substring(10, 11), 10)) return 'Cpf inválido';
   return undefined;
-};
-
-export const telefone = telefone => {
-  return telefone && !/^[0-6][0-9]{7}[0-9]\b/.test(telefone) ? 'Telefone inválido' : undefined;
 };

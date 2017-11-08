@@ -50,7 +50,9 @@ class UsuariosByDadosAdicionais extends Component {
     if (arrayDataRows) {
       arrayReturn = arrayDataRows.map(index => {
         strDadosAdicionais = index.dadosAdicionais.map(item => {
-          return item.split(';')[1] + ', ';
+          if (item !== null) {
+            return item.split(';')[1] + ', ';
+          }
         });
 
         return {

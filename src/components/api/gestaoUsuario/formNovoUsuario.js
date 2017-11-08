@@ -3,17 +3,20 @@ import React from 'react';
 import { Field, reduxForm } from 'redux-form';
 
 import { RadioButton } from 'material-ui/RadioButton';
-import RaisedButton from 'material-ui/RaisedButton';
 // import Checkbox from 'material-ui/Checkbox';
 import { Row, Col, Glyphicon } from 'react-bootstrap';
 import FlatButton from 'material-ui/FlatButton';
 
 import DadosAdicionaisListCheckBox from './dadosadicionaisListCheckbox';
-import asyncValidate from './asyncValidate';
 
-import { required, cpf, email, telefone } from '../../generic/validations';
+import { required, cpf, email } from '../../generic/validations';
+
+import { renderTelefoneTextField } from '../../generic/forms/myTelefoneMaskedInput';
 
 import { renderTextField } from '../../generic/forms/myTextField';
+import { renderFloatTextField } from '../../generic/forms/myFloatMaskedInput';
+import { renderCpfTextField } from '../../generic/forms/myCpfMaskedInput';
+
 import { renderRadioGroup } from '../../generic/forms/myRadioGroup';
 import { renderDatePicker } from '../../generic/forms/myDatePicker';
 
@@ -31,7 +34,7 @@ const MaterialUiForm = props => {
     <form onSubmit={handleSubmit(submit)} className="container">
       <Row>
         <Col xs={12}>
-          <div className="pageSubTitleCadVotacao">Dados Básicoss</div>
+          <div className="pageSubTitleCadVotacao">Dados Básicos</div>
         </Col>
       </Row>
       <Row>
@@ -49,7 +52,7 @@ const MaterialUiForm = props => {
         <Col xs={12} md={4}>
           <Field
             name="numcpfpessoa"
-            component={renderTextField}
+            component={renderCpfTextField}
             label="CPF"
             validate={[required, cpf]}
             fullWidth
@@ -68,10 +71,20 @@ const MaterialUiForm = props => {
 
       <Row>
         <Col xs={12} md={4}>
-          <Field name="numtelefone" component={renderTextField} label="Telefone" fullWidth />
+          <Field
+            name="numtelefone"
+            component={renderTelefoneTextField}
+            label="Telefone"
+            fullWidth
+          />
         </Col>
         <Col xs={12} md={4}>
-          <Field name="vlrpeso" component={renderTextField} label="Peso na Votação" fullWidth />
+          <Field
+            name="vlrpeso"
+            component={renderFloatTextField}
+            label="Peso na Votação"
+            fullWidth
+          />
         </Col>
         <Col xs={12} md={4}>
           <Field

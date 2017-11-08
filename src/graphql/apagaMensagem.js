@@ -2,7 +2,7 @@ import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 
 const mutationApaga = gql`
-  mutation updateTbMensagemByCodMensagem($codmensagem: Int!) {
+  mutation updateTbMsgUsuario($codmensagem: Int!) {
     updateTbMensagemByCodMensagem(
       input: { codMensagem: $codmensagem, tbMensagemPatch: { flgDelete: true } }
     ) {
