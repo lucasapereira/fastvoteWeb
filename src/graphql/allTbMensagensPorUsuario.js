@@ -3,8 +3,10 @@ import gql from 'graphql-tag';
 
 import { getStorage } from '../components/generic/storage';
 const query = gql`
-  query Feed($codUsuario: Int) {
-    allTbMsgUsuarios(condition: { codUsuario: $codUsuario, flgDelete: false }) {
+  query Feed($codUsuarioRepresentacao: Int) {
+    allTbMsgUsuarios(
+      condition: { codUsuarioRepresentacao: $codUsuarioRepresentacao, flgDelete: false }
+    ) {
       nodes {
         tbMensagemByCodMensagem {
           codMensagem
@@ -29,7 +31,7 @@ const queryOptions = {
     return {
       variables: {
         type: (props.params && props.params.type && props.params.type.toUpperCase()) || 'TOP',
-        codUsuario: getStorage('cod_usuario'),
+        codUsuarioRepresentacao: getStorage('cod_usuario_representacao'),
       },
     };
   },
