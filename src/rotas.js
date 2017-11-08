@@ -43,6 +43,12 @@ const Mensagens = Loadable({
   loader: () => import('./components/api/mensagens/mensagens'),
   loading: MyLoadingComponent,
 });
+
+const MinhasMensagens = Loadable({
+  loader: () => import('./components/api/mensagens/minhasMensagensScreen'),
+  loading: MyLoadingComponent,
+});
+
 const VotacaoResultado = Loadable({
   loader: () => import('./components/api/posts/votacao_resultado'),
   loading: MyLoadingComponent,
@@ -110,7 +116,8 @@ const rotas = token => (
           <Redirect to="/frontend/usuario/listvotacao" />
         ) : (
           <Redirect to="/frontend/auth/signin" />
-        )}
+        )
+      }
     />
     <Route
       exact
@@ -120,11 +127,14 @@ const rotas = token => (
           <Redirect to="/frontend/usuario/listvotacao" />
         ) : (
           <Redirect to="/frontend/auth/signin" />
-        )}
+        )
+      }
     />
     <Route path="/frontend/usuario/listvotacao" component={RequireAuth(ListVotacaoScreen)} />
     <Route path="/frontend/votacao/nova" component={RequireAuth(VotacaoNew)} />
     <Route path="/frontend/votacao/mensagens" component={RequireAuth(Mensagens)} />
+
+    <Route path="/frontend/mensagens/minhasMensagens" component={RequireAuth(MinhasMensagens)} />
 
     <Route path="/frontend/gestaoUsuario/listaUsuario" component={RequireAuth(GestaoUsuario)} />
     <Route path="/frontend/gestaoUsuario/novoUsuario" component={RequireAuth(NovoUsuario)} />
@@ -212,8 +222,9 @@ export const routeTo = () => {
   // });
 
   const httpLink = createHttpLink({
-    uri: `${process.env.REACT_APP_BASE_URL_BACKEND}:${process.env
-      .REACT_APP_BASE_URL_BACKEND_PORT}/graphql`,
+    uri: `${process.env.REACT_APP_BASE_URL_BACKEND}:${
+      process.env.REACT_APP_BASE_URL_BACKEND_PORT
+    }/graphql`,
   });
 
   const middlewareLink = setContext(() => ({

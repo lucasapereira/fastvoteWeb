@@ -1,6 +1,6 @@
 {
   "name": "fastvote",
-  "version": "1.4.2",
+  "version": "1.4.3",
   "private": true,
   "homepage": "/frontend",
   "eslintConfig": {
@@ -62,7 +62,7 @@
   "devDependencies": {
     "eslint": "^4.10.0",
     "eslint-config-universe": "^1.0.6",
-    "prettier": "^1.8.0",
+    "prettier": "^1.8.1",
     "react-scripts": "^1.0.17"
   },
   "scripts": {

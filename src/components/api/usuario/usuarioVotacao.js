@@ -176,10 +176,6 @@ class UsuarioVotacao extends Component {
       });
   };
 
-  handleFinish = () => {
-    console.log('Skynet has become self-aware!');
-  };
-
   renderCountDown = (votacao, flgMobile = false) => {
     const dateAgora = new Date();
     const flgStatus = this.getStatusVotacao(votacao);
@@ -204,7 +200,6 @@ class UsuarioVotacao extends Component {
             startDelay={2000}
             interval={1000}
             timeSeparator={':'}
-            onFinished={this.handleFinish}
           />
         );
       } else {
