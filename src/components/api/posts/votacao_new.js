@@ -132,15 +132,11 @@ class TelaVotacaoContainer extends Component {
         this.msg.error('Não foi possível realizar a operação.');
       });
 
-    /*
-    limpaTela = () => {
-      this.props.setSenhaTrocadaComSucesso(false);
-      this.props.reset();
-      this.recaptchaInstance.reset();
-    };
-    */
-
-    //
+    // limpaTela = () => {
+    //  this.props.setSenhaTrocadaComSucesso(false);
+    //  this.props.reset();
+    //  this.recaptchaInstance.reset();
+    //};
   };
 
   renderButtonVariosSelection = selectedRows => {
@@ -505,19 +501,7 @@ class TelaVotacaoContainer extends Component {
       </div>
     );
     // }
-    /*
-    <FlatButton
-                    onClick={() => {
-                      dropzoneRef.open();
-                    }}
-                    icon={<Glyphicon glyph="plus" style={{ color: 'white' }} />}
-                    label="Adicionar arquivos"
-                    labelStyle={{ color: 'white' }}
-                    fullWidth
-                    backgroundColor="#a4c639"
-                    hoverColor="#8AA62F"
-                  />
-                  */
+
     return (
       <div className="container">
         <div className="baseContent">{arrForm}</div>

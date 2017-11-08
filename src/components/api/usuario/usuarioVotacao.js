@@ -219,9 +219,6 @@ class UsuarioVotacao extends Component {
       );
     }
 
-    let mobile1Class = flgMobile ? 'mobile1' : '';
-    let mobile2Class = flgMobile ? 'mobile2' : '';
-
     return (
       <div className="divCountdown">
         <div className="labelCountdown">{labelFinaliza}</div>
