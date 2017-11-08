@@ -23,7 +23,7 @@ const mutationGravaMensagem = gql`
         title: $title
         subtitle: $subtitle
         body: $body
-        codusuarioarray: $codusuarioarray
+        codusuariorepresentacaoarray: $codusuarioarray
       }
     ) {
       clientMutationId
