@@ -4,11 +4,11 @@ import gql from 'graphql-tag';
 import { getStorage } from '../components/generic/storage';
 
 const mutationApaga = gql`
-  mutation updateTbMsgUsuarioByCodMensagemAndCodUsuario(
+  mutation updateTbMsgUsuarioByCodMensagemAndCodUsuarioRepresentacao(
     $codmensagem: Int!
     $codUsuarioRepresentacao: Int!
   ) {
-    updateTbMsgUsuarioByCodMensagemAndCodUsuario(
+    updateTbMsgUsuarioByCodMensagemAndCodUsuarioRepresentacao(
       input: {
         codMensagem: $codmensagem
         codUsuarioRepresentacao: $codUsuarioRepresentacao
