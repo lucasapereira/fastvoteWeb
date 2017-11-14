@@ -11,6 +11,9 @@ const query = gql`
           codUsuarioRepresentacao
           nomCompletoPessoa
           vlrPeso
+          dadosAdicionais
+          numTelefone
+          dscEmail
         }
       }
     }
@@ -44,6 +47,16 @@ const queryOptions = {
           // codDadosAdicionais: linhas.node.codDadosAdicionais,
           nomCompletoPessoa: linhas.node.nomCompletoPessoa,
           vlrPeso: linhas.node.vlrPeso,
+
+          dadosAdicionais: linhas.node.dadosAdicionais
+            .map(item => {
+              const dados = item.split(';');
+              return ' ' + dados[1];
+            })
+            .toString(),
+
+          numTelefone: linhas.node.numTelefone,
+          dscEmail: linhas.node.dscEmail,
           // dscDadosAdicionais: linhas.node.dscDadosAdicionais,
         }));
       }

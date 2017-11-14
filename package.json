@@ -1,6 +1,6 @@
 {
   "name": "fastvote",
-  "version": "1.4.4",
+  "version": "1.4.6",
   "private": true,
   "homepage": "/frontend",
   "eslintConfig": {
@@ -12,13 +12,13 @@
     "apollo-link-context": "^1.0.0",
     "apollo-link-error": "^1.0.0",
     "apollo-link-http": "^1.1.0",
-    "axios": "^0.17.0",
+    "axios": "^0.17.1",
     "bootstrap": "^3.3.7",
     "canvas2image": "^1.0.5",
     "chart.js": "^2.7.1",
     "draft-js": "^0.10.4",
     "draft-js-export-html": "^1.2.0",
-    "flow-bin": "0.58.0",
+    "flow-bin": "0.59.0",
     "graphql": "^0.11.7",
     "graphql-tag": "^2.5.0",
     "html2canvas": "^0.5.0-beta4",
@@ -32,7 +32,7 @@
     "react": "15.6.2",
     "react-addons-update": "^15.6.2",
     "react-alert": "^2.4.0",
-    "react-apollo": "^2.0.0",
+    "react-apollo": "^2.0.1",
     "react-bootstrap": "0.31.5",
     "react-chartjs-2": "^2.6.4",
     "react-confirm": "^0.1.16",
@@ -60,9 +60,9 @@
     "web-push": "3.2.4"
   },
   "devDependencies": {
-    "eslint": "^4.10.0",
+    "eslint": "^4.11.0",
     "eslint-config-universe": "^1.0.6",
-    "prettier": "^1.8.1",
+    "prettier": "^1.8.2",
     "react-scripts": "^1.0.17"
   },
   "scripts": {

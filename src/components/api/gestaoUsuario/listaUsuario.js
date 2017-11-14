@@ -28,7 +28,27 @@ class ListaUsuario extends Component {
       name: 'Peso',
       filterable: true,
       sortable: true,
-      editable: true,
+      editable: false,
+    },
+    {
+      key: 'numTelefone',
+      name: 'Telefone',
+      filterable: true,
+      sortable: false,
+    },
+    {
+      key: 'dscEmail',
+      name: 'E-mail',
+      filterable: true,
+      sortable: true,
+      editable: false,
+    },
+    {
+      key: 'dadosAdicionais',
+      name: 'Dados Adicionais',
+      filterable: true,
+      sortable: true,
+      editable: false,
     },
   ];
 
