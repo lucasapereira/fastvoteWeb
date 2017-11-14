@@ -11,11 +11,16 @@ import { getStorage } from '../../generic/storage';
 
 class UpdateUsuarioScreen extends Component {
   callMutationUsuario = values => {
+    console.log(values);
     values.codpessoajuridica = getStorage('cod_pessoa_juridica');
     values.coddadosadicionaisarray = screenToGraphql(values, 'coddadosadicionaisarray');
-    values.vlrpeso = values.vlrpeso.replace(',', '.');
+
     values.numcpfpessoa = values.numcpfpessoa.replace(/\D/g, '');
     values.numtelefone = values.numtelefone.replace(/\D/g, '');
+
+    if (typeof values.vlrpeso === 'string') {
+      values.vlrpeso = values.vlrpeso.replace(',', '.');
+    }
 
     this.props
       .atualizaUsuarioVotacao({
