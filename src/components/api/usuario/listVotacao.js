@@ -1,20 +1,20 @@
 import React, { Component } from 'react';
-
+import ReactPaginate from 'react-paginate';
 import { compose } from 'react-apollo';
 import UsuarioVotacao from './usuarioVotacao';
 import { QueryVotacaoList } from './listVotacaoGraphql';
 
 import MyLoader from '../../generic/myLoader';
-import ReactPaginate from 'react-paginate';
 
 class InfiniteList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      totalCount: -1,
       pageSelected: 0,
     };
   }
+
+  totalCount = -1;
 
   buildElements = () => {
     if (this.props.rows.length === 0) {
@@ -22,8 +22,8 @@ class InfiniteList extends Component {
     }
 
     return this.props.rows.map(votacao => {
-      if (this.state.totalCount === -1) {
-        this.state.totalCount = votacao.totalCount;
+      if (this.totalCount === -1) {
+        this.totalCount = votacao.totalCount;
       }
       return (
         <UsuarioVotacao
@@ -44,7 +44,7 @@ class InfiniteList extends Component {
   };
 
   renderPagination = () => {
-    if (this.state.totalCount > 5) {
+    if (this.totalCount > 5) {
       return (
         <div
           style={{
@@ -59,7 +59,7 @@ class InfiniteList extends Component {
             nextLabel={'próximo'}
             breakClassName={'break-me'}
             breakLabel={<a>...</a>}
-            pageCount={Math.ceil(this.state.totalCount / 5)}
+            pageCount={Math.ceil(this.totalCount / 5)}
             marginPagesDisplayed={2}
             pageRangeDisplayed={5}
             onPageChange={this.handleOnClickPagination}

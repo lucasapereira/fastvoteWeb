@@ -19,6 +19,7 @@ class UsuariosByDadosAdicionais extends Component {
     if (selectedIndexes.length) {
       selectedIndexes.map(index => {
         arrayIdsCheck.push(this.props.rows[index].id);
+        return arrayIdsCheck;
       });
     }
     this.setState({
@@ -49,12 +50,13 @@ class UsuariosByDadosAdicionais extends Component {
 
     if (arrayDataRows) {
       arrayReturn = arrayDataRows.map(index => {
+        /* eslint-disable */
         strDadosAdicionais = index.dadosAdicionais.map(item => {
           if (item !== null) {
             return item.split(';')[1] + ', ';
           }
         });
-
+        /* eslint-enable */
         return {
           id: index.id,
           nomcompletopessoa: index.nomcompletopessoa,

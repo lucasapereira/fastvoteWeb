@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { compose } from 'react-apollo';
 import AlertContainer from 'react-alert';
-import { Row, Col, Glyphicon } from 'react-bootstrap';
+import { Row, Col } from 'react-bootstrap';
 import MaterialUiForm from './formNovoUsuario';
 import { mutationCria } from '../../../graphql/criaUsuarioVotacao';
 import { getStorage } from '../../generic/storage';

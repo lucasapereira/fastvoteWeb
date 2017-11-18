@@ -159,7 +159,7 @@ class ResultadoVotacao extends Component {
           </Row>
         </div>
 
-        <div idName="containerReport" className="containerReport">
+        <div id="containerReport" className="containerReport">
           <ResultadoVotacaoGrafico
             codVotacao={this.props.match.params.codVotacao}
             renderHeader={this.renderHeader}

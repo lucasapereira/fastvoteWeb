@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { compose } from 'react-apollo';
 
 import FlatButton from 'material-ui/FlatButton';
 import { Row, Col, Glyphicon } from 'react-bootstrap';

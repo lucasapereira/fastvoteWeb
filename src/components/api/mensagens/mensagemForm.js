@@ -5,8 +5,6 @@ import { Field, reduxForm, formValueSelector } from 'redux-form';
 import { Row, Col, Glyphicon } from 'react-bootstrap';
 import FlatButton from 'material-ui/FlatButton';
 
-import areIntlLocalesSupported from 'intl-locales-supported';
-
 // import asyncValidate from './asyncValidate';
 import { required } from '../../generic/validations';
 
@@ -20,21 +18,6 @@ import CheckBoxDadosAdicionais from '../../generic/component/checkBoxDadosAdicio
 import UsuariosByDadosAdicionais from '../../generic/component/usuariosByDadosAdicionais';
 
 import { getStorage } from '../../generic/storage';
-
-let DateTimeFormat;
-/**
- * Use the native Intl.DateTimeFormat if available, or a polyfill if not.
- */
-/*
- if (areIntlLocalesSupported(['pt', 'pt-BR'])) {
-  DateTimeFormat = global.Intl.DateTimeFormat;
-} else {
-  const IntlPolyfill = require('intl');
-  DateTimeFormat = IntlPolyfill.DateTimeFormat;
-  require('intl/locale-data/jsonp/pt');
-  require('intl/locale-data/jsonp/pt-BR');
-}
-*/
 
 class MensagemForm extends Component {
   constructor(props) {
@@ -79,6 +62,7 @@ class MensagemForm extends Component {
     let arrayCheck = [];
 
     if (checkDadosAdicionais) {
+      /* eslint-disable */
       checkDadosAdicionais.map((value, key) => {
         if (!value) {
           arrayCheck.filter(x => x !== key);
@@ -86,6 +70,7 @@ class MensagemForm extends Component {
           arrayCheck = [...arrayCheck, key];
         }
       });
+      /* eslint-enable */
     }
 
     return (

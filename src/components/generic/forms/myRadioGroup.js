@@ -1,5 +1,5 @@
 import React from 'react';
-import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton';
+import { RadioButtonGroup } from 'material-ui/RadioButton';
 
 export const renderRadioGroup = ({ input, ...rest }) => (
   <RadioButtonGroup

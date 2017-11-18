@@ -51,8 +51,8 @@ class VotacaoResumo extends Component {
     const a = this.props.data.allTbVotacaos.nodes[0].tbVotacaoImagemsByCodVotacao.nodes.map(
       file => {
         return (
-          <span>
-            <a href="#" onClick={() => this.download(file)} key={file.dscArquivo}>
+          <span key={file.dscArquivo + 'span'}>
+            <a onClick={() => this.download(file)} key={file.dscArquivo}>
               {file.nomArquivo}
             </a>
             <br />

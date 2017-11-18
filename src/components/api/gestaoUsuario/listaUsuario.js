@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import AlertContainer from 'react-alert';
 import { compose } from 'react-apollo';
-import { Row, Col, Glyphicon, Modal, Button } from 'react-bootstrap';
+import { Row, Col, Glyphicon } from 'react-bootstrap';
 import FlatButton from 'material-ui/FlatButton';
 import { Link } from 'react-router-dom';
 import MyLoader from '../../generic/myLoader';

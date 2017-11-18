@@ -23,6 +23,7 @@ export const checkBoxToScreen = (values, checkBoxValues) => {
 
       values[`item_${itemSplitted[0]}`] = true;
     }
+    return values;
   });
 
   return values;
@@ -31,6 +32,7 @@ export const checkBoxToScreen = (values, checkBoxValues) => {
 export const screenToGraphql = values => {
   const keyValues = _.keys(values);
   let arrReturn = [];
+  /* eslint-disable */
   keyValues.map(key => {
     if (key.indexOf('item') === 0) {
       if (key !== null) {
@@ -41,6 +43,6 @@ export const screenToGraphql = values => {
       }
     }
   });
-
+  /* eslint-enable */
   return arrReturn;
 };

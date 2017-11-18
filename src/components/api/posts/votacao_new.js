@@ -34,7 +34,7 @@ class TelaVotacaoContainer extends Component {
       codPessoaJuridica: getStorage('cod_pessoa_juridica'),
       dscVotacao: '',
       dscPergunta: '',
-      arrayRespostas: [],
+
       numRespostas: 3,
       activeCheckboxes: [],
       selectedRows: [],
@@ -45,6 +45,7 @@ class TelaVotacaoContainer extends Component {
       filenames: [],
     };
   }
+  arrayRespostas = [];
 
   onChange = editorState => this.setState({ editorState });
   componentDidMount() {
@@ -77,7 +78,7 @@ class TelaVotacaoContainer extends Component {
       this.setState({ dscPergunta: event.target.value });
     } else {
       const arrName = event.target.name.split('_');
-      this.state.arrayRespostas[arrName[2] - 1] = event.target.value;
+      this.arrayRespostas[arrName[2] - 1] = event.target.value;
     }
   };
 
@@ -85,7 +86,7 @@ class TelaVotacaoContainer extends Component {
     if (this.state.numRespostas >= 0) {
       // Se retira elemento, remove reposta do state array
       if (x < 0) {
-        this.state.arrayRespostas.splice(this.state.numRespostas - 1, 1);
+        this.arrayRespostas.splice(this.state.numRespostas - 1, 1);
       }
 
       this.setState({ numRespostas: this.state.numRespostas + x });
@@ -100,7 +101,7 @@ class TelaVotacaoContainer extends Component {
       this.msg.error('Pergunta é obrigatório');
     }
 
-    if (this.state.arrayRespostas.length < 2) {
+    if (this.arrayRespostas.length < 2) {
       this.msg.error('Cadastre mais alternativas');
     }
 
@@ -120,7 +121,7 @@ class TelaVotacaoContainer extends Component {
           codpessoajuridica: this.state.codPessoaJuridica,
           dscpergunta: this.state.dscPergunta,
           votacaousuarioarray: arrayVotacaoUsuario,
-          dscrespostaarray: this.state.arrayRespostas,
+          dscrespostaarray: this.arrayRespostas,
           dscarquivoarray: this.state.filenames,
         },
       })
@@ -286,8 +287,9 @@ class TelaVotacaoContainer extends Component {
 
   render() {
     let arrForm = '';
+    /* eslint-disable */
     let dropzoneRef;
-
+    /* eslint-enable */
     const tooltip = (
       <Tooltip id="tooltip">
         <strong>Clique</strong>
@@ -398,8 +400,9 @@ class TelaVotacaoContainer extends Component {
                           .then(response => {
                             if (response.data && response.data.filename) {
                               this.state.filenames.push(
-                                `${response.data.filename},${response.data
-                                  .originalname},${file.type}`
+                                `${response.data.filename},${response.data.originalname},${
+                                  file.type
+                                }`
                               );
                             } else {
                               var index = this.state.accepted.indexOf(file);

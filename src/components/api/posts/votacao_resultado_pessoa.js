@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { compose } from 'react-apollo';
-import { QueryResultadoVotacaoPessoa } from './votacao_resultado_pessoa_graphql';
 import { Table } from 'react-bootstrap';
+
+import { QueryResultadoVotacaoPessoa } from './votacao_resultado_pessoa_graphql';
 
 import MyLoader from '../../generic/myLoader';
 
