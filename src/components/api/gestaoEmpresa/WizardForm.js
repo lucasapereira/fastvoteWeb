@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { compose } from 'react-apollo';
+import AlertContainer from 'react-alert';
 import WizardFormFirstPage from './WizardFormFirstPage';
 import WizardFormSecondPage from './WizardFormSecondPage';
 import WizardFormThirdPage from './WizardFormThirdPage';
 import { getStorage } from '../../generic/storage';
+
+import { mutationCria } from '../../../graphql/criaAdministradorVotacao';
 
 class WizardForm extends Component {
   constructor(props) {
@@ -27,6 +31,8 @@ class WizardForm extends Component {
 
     values.codpessoajuridica = getStorage('cod_pessoa_juridica');
     values.numcpfpessoa = values.numcpfpessoa.replace(/\D/g, '');
+    values.vlrcnpj = values.vlrcnpj.replace(/\D/g, '');
+
     values.numtelefone = values.numtelefone.replace(/\D/g, '');
 
     if (typeof values.vlrpeso === 'string') {
@@ -34,18 +40,30 @@ class WizardForm extends Component {
     }
 
     this.props
-      .criaUsuarioVotacao({
+      .criaAdministradorVotacao({
         variables: {
           numcpfpessoa: values.numcpfpessoa,
           nomcompletopessoa: values.nomcompletopessoa,
           dscemail: values.dscemail,
           codpessoajuridica: values.codpessoajuridica,
           numtelefone: values.numtelefone,
-          coddadosadicionaisarray: values.coddadosadicionaisarray,
-          vlrpeso: values.vlrpeso,
+          vlrpeso: 1,
           vlrsenha: values.vlrsenha,
           datnascimentopessoa: values.datnascimentopessoa,
           sglsexo: values.sglsexo,
+
+          vlrcnpj: values.vlrcnpj,
+          sglpessoajuridica: values.sglpessoajuridica,
+
+          numcep: values.numcep,
+          dsclogradouro: values.dsclogradouro,
+          dsccomplemento: values.dsccomplemento,
+          dscbairro: values.dscbairro,
+          dsclocalidade: values.dsclocalidade,
+          dscuf: values.dscuf,
+          dsclatitude: values.dsclatitude,
+          dsclongitude: values.dsclongitude,
+          dscnumero: values.dscnumero,
         },
       })
       .then(() => {
@@ -68,6 +86,7 @@ class WizardForm extends Component {
         {page === 3 && (
           <WizardFormThirdPage previousPage={this.previousPage} onSubmit={this.submit} />
         )}
+        <AlertContainer ref={a => (this.msg = a)} />
       </div>
     );
   }
@@ -77,4 +96,4 @@ WizardForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
 };
 
-export default WizardForm;
+export default compose(mutationCria)(WizardForm);

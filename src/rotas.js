@@ -108,7 +108,7 @@ const UpdateUsuario = Loadable({
 });
 
 const NovoUsuarioEmpresa = Loadable({
-  loader: () => import('./components/api/gestaoEmpresa/novoUsuarioEmpresa'),
+  loader: () => import('./components/api/gestaoEmpresa/WizardForm'),
   loading: MyLoadingComponent,
 });
 

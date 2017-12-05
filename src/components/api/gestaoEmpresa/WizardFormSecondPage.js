@@ -5,10 +5,11 @@ import { connect } from 'react-redux';
 import { Row, Col, Glyphicon } from 'react-bootstrap';
 import FlatButton from 'material-ui/FlatButton';
 import { geolocated } from 'react-geolocated';
-import { required, cpf, email } from '../../generic/validations';
 import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton';
 import ActionFavorite from 'material-ui/svg-icons/action/favorite';
 import ActionFavoriteBorder from 'material-ui/svg-icons/action/favorite-border';
+import { required, cpf, email } from '../../generic/validations';
+
 import validate from './validate';
 import renderField from './renderField';
 import ApiCep from '../../../services/ApiServices';
@@ -31,24 +32,20 @@ class WizardFormSecondPage extends React.Component {
     valueSelected: 'nao',
   };
 
-  center = null;
-
   handleDados = e => {
     // Pegando o CEP
     const cep = e.target.value;
     // Consultando a API
     ApiCep.SearchCep(cep).then(res => {
-      let rua = res.data.logradouro;
-      let bairro = res.data.bairro;
-      let cidade = res.data.localidade;
-      let estado = res.data.uf;
+      let dsclogradouro = res.data.logradouro;
+      let dscbairro = res.data.bairro;
+      let dsclocalidade = res.data.localidade;
+      let dscuf = res.data.uf;
 
-      this.props.change('rua', rua);
-      this.props.change('bairro', bairro);
-      this.props.change('cidade', cidade);
-      this.props.change('estado', estado);
-
-      this.center = rua;
+      this.props.change('dsclogradouro', dsclogradouro);
+      this.props.change('dscbairro', dscbairro);
+      this.props.change('dsclocalidade', dsclocalidade);
+      this.props.change('dscuf', dscuf);
     });
   };
 
@@ -56,8 +53,8 @@ class WizardFormSecondPage extends React.Component {
   setTipoLocalizacao = (e, value) => {
     this.setState({ valueSelected: value });
     if (value === 'sim') {
-      this.props.change('latitude', this.props.coords.latitude);
-      this.props.change('longitude', this.props.coords.longitude);
+      this.props.change('dsclatitude', this.props.coords.latitude);
+      this.props.change('dsclongitude', this.props.coords.longitude);
     }
   };
   /*eslint-enable*/
@@ -79,8 +76,8 @@ class WizardFormSecondPage extends React.Component {
   };
 
   mapClicked = latLng => {
-    this.props.change('latitude', latLng.lat());
-    this.props.change('longitude', latLng.lng());
+    this.props.change('dsclatitude', latLng.lat());
+    this.props.change('dsclongitude', latLng.lng());
   };
 
   renderMap = () => {
@@ -115,7 +112,7 @@ class WizardFormSecondPage extends React.Component {
         <Row>
           <Col xs={12}>
             <Field
-              name="cep"
+              name="numcep"
               component={renderTextField}
               label="Cep"
               validate={[required]}
@@ -127,7 +124,7 @@ class WizardFormSecondPage extends React.Component {
         <Row>
           <Col xs={12}>
             <Field
-              name="estado"
+              name="dscuf"
               component={renderTextField}
               label="Estado"
               validate={[required]}
@@ -138,7 +135,7 @@ class WizardFormSecondPage extends React.Component {
         <Row>
           <Col xs={12}>
             <Field
-              name="cidade"
+              name="dsclocalidade"
               component={renderTextField}
               label="Cidade"
               validate={[required]}
@@ -151,7 +148,7 @@ class WizardFormSecondPage extends React.Component {
           <Col xs={12}>
             <Field
               onChange={this.onChange}
-              name="bairro"
+              name="dscbairro"
               component={renderTextField}
               label="Bairro"
               validate={[required]}
@@ -162,9 +159,9 @@ class WizardFormSecondPage extends React.Component {
         <Row>
           <Col xs={12}>
             <Field
-              name="rua"
+              name="dsclogradouro"
               component={renderTextField}
-              label="Rua"
+              label="Logradouro"
               validate={[required]}
               fullWidth
             />
@@ -173,9 +170,20 @@ class WizardFormSecondPage extends React.Component {
         <Row>
           <Col xs={12}>
             <Field
-              name="numero"
+              name="dscnumero"
               component={renderTextField}
               label="Número"
+              validate={[required]}
+              fullWidth
+            />
+          </Col>
+        </Row>
+        <Row>
+          <Col xs={12}>
+            <Field
+              name="dsccomplemento"
+              component={renderTextField}
+              label="Complemento"
               validate={[required]}
               fullWidth
             />
@@ -187,7 +195,7 @@ class WizardFormSecondPage extends React.Component {
         <Row>
           <Col xs={12}>
             <Field
-              name="latitude"
+              name="dsclatitude"
               component={renderTextField}
               label="Latitude"
               validate={[required]}
@@ -198,7 +206,7 @@ class WizardFormSecondPage extends React.Component {
         <Row>
           <Col xs={12}>
             <Field
-              name="longitude"
+              name="dsclongitude"
               component={renderTextField}
               label="Longitude"
               validate={[required]}
