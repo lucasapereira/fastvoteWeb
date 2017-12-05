@@ -28,7 +28,7 @@ const WizardFormFirstPage = props => {
             name="nomcompletopessoa"
             component={renderTextField}
             label="Nome"
-            validate={[required]}
+            validate={required}
             fullWidth
           />
         </Col>

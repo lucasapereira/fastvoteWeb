@@ -9,9 +9,9 @@ import { required } from '../../generic/validations';
 import { renderCnpjTextField } from '../../generic/forms/myCnpjMaskedInput';
 
 const WizardFormThirdPage = props => {
-  const { handleSubmit, onSubmit, pristine, reset, submitting, previousPage } = props;
+  const { handleSubmit, pristine, reset, submitting, previousPage } = props;
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={handleSubmit}>
       <Row>
         <Col xs={12}>
           <div className="pageSubTitleCadVotacao">Dados Básicos</div>
@@ -21,7 +21,7 @@ const WizardFormThirdPage = props => {
       <Row>
         <Col xs={12}>
           <Field
-            name="nomeempresa"
+            name="nompessoajuridica"
             component={renderTextField}
             label="Nome do estabelecimento"
             validate={[required]}
@@ -32,9 +32,20 @@ const WizardFormThirdPage = props => {
       <Row>
         <Col xs={12} md={4}>
           <Field
-            name="cnpj"
+            name="vlrcnpj"
             component={renderCnpjTextField}
             label="CNPJ"
+            validate={[required]}
+            fullWidth
+          />
+        </Col>
+      </Row>
+      <Row>
+        <Col xs={12} md={4}>
+          <Field
+            name="sglpessoajuridica"
+            component={renderTextField}
+            label="Sigla"
             validate={[required]}
             fullWidth
           />

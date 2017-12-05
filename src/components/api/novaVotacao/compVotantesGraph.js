@@ -50,8 +50,11 @@ const queryOptions = {
 
           dadosAdicionais: linhas.node.dadosAdicionais
             .map(item => {
-              const dados = item.split(';');
-              return ' ' + dados[1];
+              if (item) {
+                const dados = item.split(';');
+                return ' ' + dados[1];
+              }
+              return '';
             })
             .toString(),
 
