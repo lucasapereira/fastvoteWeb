@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/css/bootstrap-theme.css';
+
 import { routeTo } from './rotas';
 
 class App extends Component {

@@ -1,0 +1,12 @@
+{
+  "en": {
+    "auth.signin.signup": "Signup",
+    "auth.signin.forgotPassword": "Forgot password?",
+    "auth.signin.chooseCompany": "Choose the company"
+  },
+  "pt": {
+    "auth.signin.signup": "Não tem cadastro. Cadastre-se aqui",
+    "auth.signin.forgotPassword": "Esqueceu a senha?",
+    "auth.signin.chooseCompany": "Choose the company"
+  }
+}

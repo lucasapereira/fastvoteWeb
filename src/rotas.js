@@ -14,6 +14,14 @@ import { onError } from 'apollo-link-error';
 import { setContext } from 'apollo-link-context';
 
 import { ApolloProvider } from 'react-apollo';
+import { IntlProvider, addLocaleData } from 'react-intl';
+import pt from 'react-intl/locale-data/pt';
+import en from 'react-intl/locale-data/en';
+import es from 'react-intl/locale-data/es';
+import fr from 'react-intl/locale-data/fr';
+import it from 'react-intl/locale-data/it';
+
+import translations from './translations.json';
 
 import { AUTH_USER, UNAUTH_USER } from './actions/auth';
 
@@ -29,6 +37,24 @@ import Signout from './components/auth/signout';
 import RequireAuth from './components/auth/require_auth';
 
 import MyLoadingComponent from './navigation/MyLoadingComponent';
+
+addLocaleData([...en, ...es, ...fr, ...it, ...pt]);
+
+// Define user's language. Different browsers have the user locale defined
+// on different fields on the `navigator` object, so we make sure to account
+// for these different by checking all of them
+/* eslint-disable */
+const language =
+  (navigator.languages && navigator.languages[0]) || navigator.language || navigator.userLanguage;
+
+// Split locales with a region code
+const languageWithoutRegionCode = language.toLowerCase().split(/[_-]+/)[0];
+
+// Try full locale, try locale without region code, fallback to 'en'
+const messages =
+  translations[languageWithoutRegionCode] || translations[language] || translations.pt;
+
+/* eslint-enable */
 
 const VotacaoList = Loadable({
   loader: () => import('./components/api/posts/votacao_list'),
@@ -78,6 +104,11 @@ const NovoUsuario = Loadable({
 
 const UpdateUsuario = Loadable({
   loader: () => import('./components/api/gestaoUsuario/updateUsuarioScreen'),
+  loading: MyLoadingComponent,
+});
+
+const NovoUsuarioEmpresa = Loadable({
+  loader: () => import('./components/api/gestaoEmpresa/novoUsuarioEmpresa'),
   loading: MyLoadingComponent,
 });
 
@@ -135,6 +166,8 @@ const rotas = token => (
     <Route path="/frontend/votacao/mensagens" component={RequireAuth(Mensagens)} />
 
     <Route path="/frontend/mensagens/minhasMensagens" component={RequireAuth(MinhasMensagens)} />
+
+    <Route path="/frontend/gestaoEmpresa/novoUsuarioEmpresa" component={NovoUsuarioEmpresa} />
 
     <Route path="/frontend/gestaoUsuario/listaUsuario" component={RequireAuth(GestaoUsuario)} />
     <Route path="/frontend/gestaoUsuario/novoUsuario" component={RequireAuth(NovoUsuario)} />
@@ -260,7 +293,11 @@ export const routeTo = () => {
 
   return (
     <Provider store={store}>
-      <ApolloProvider client={client}>{telaPrincipal(token)}</ApolloProvider>
+      <ApolloProvider client={client}>
+        <IntlProvider locale={language} messages={messages}>
+          {telaPrincipal(token)}
+        </IntlProvider>
+      </ApolloProvider>
     </Provider>
   );
 };

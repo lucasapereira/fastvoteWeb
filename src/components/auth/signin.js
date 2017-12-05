@@ -6,6 +6,7 @@ import { TextField, SelectField } from 'redux-form-material-ui';
 import { MenuItem } from 'material-ui';
 import RaisedButton from 'material-ui/RaisedButton';
 import _ from 'lodash';
+import { FormattedMessage } from 'react-intl';
 import Paper from 'material-ui/Paper';
 import authSchema from '../../jsonschemas/authSchema.json';
 import { required, cpf } from '../generic/validations';
@@ -131,7 +132,7 @@ class Signin extends Component {
         <Field
           name="empresas"
           component={SelectField}
-          hintText="Selecione a empresa"
+          hintText={<FormattedMessage id="auth.signin.chooseCompany" />}
           validate={required}
           withRef
           ref="empresasField">
@@ -203,12 +204,17 @@ class Signin extends Component {
                 </div>
 
                 <div className="divLinksFormLogin">
-                  <Link to={'/frontend/auth/esquecisenha'}>
-                    <b>Primeiro Acesso</b>
+                  <Link to={'/frontend/gestaoEmpresa/novoUsuarioEmpresa'}>
+                    <b>
+                      {' '}
+                      <FormattedMessage id="auth.signin.signup" />
+                    </b>
                   </Link>
                   <br />
                   <Link to={'/frontend/auth/esquecisenha'}>
-                    <b>Esqueci minha senha</b>
+                    <b>
+                      <FormattedMessage id="auth.signin.forgotPassword" />
+                    </b>
                   </Link>
                 </div>
               </div>
