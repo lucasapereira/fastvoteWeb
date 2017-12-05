@@ -36,9 +36,10 @@ const MapWithASearchBox = compose(
           // this.props.change('latitude', clickEvent.latLng.lat());
           // this.props.change('longitude', clickEvent.latLng.lng());
           this.setState({
-            center: clickEvent.latLng,
+            //  center: clickEvent.latLng,
             markers: [{ position: clickEvent.latLng }],
           });
+          this.props.mapClicked(clickEvent.latLng);
         },
         onSearchBoxMounted: ref => {
           refs.searchBox = ref;
@@ -63,6 +64,8 @@ const MapWithASearchBox = compose(
             center: nextCenter,
             markers: nextMarkers,
           });
+
+          this.props.mapClicked(nextCenter);
           // refs.map.fitBounds(bounds);
         },
       });
@@ -86,7 +89,7 @@ const MapWithASearchBox = compose(
       onPlacesChanged={props.onPlacesChanged}>
       <input
         type="text"
-        placeholder="Customized your placeholder"
+        placeholder="Procure sua localização"
         style={{
           boxSizing: `border-box`,
           border: `1px solid transparent`,

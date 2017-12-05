@@ -65,7 +65,7 @@ class WizardFormSecondPage extends React.Component {
     if (this.props.coords) {
       return (
         <div>
-          Deseja utilizar a sua localização atual como a localização do restaurante?
+          Deseja utilizar a sua localização atual como a localização do estabelecimento?
           <RadioButtonGroup
             name="shipSpeed"
             valueSelected={this.state.valueSelected}
@@ -78,19 +78,18 @@ class WizardFormSecondPage extends React.Component {
     }
   };
 
-  mapClicked = clickEvent => {
-    console.log(clickEvent);
-    this.props.change('latitude', clickEvent.latLng.lat());
-    this.props.change('longitude', clickEvent.latLng.lng());
+  mapClicked = latLng => {
+    this.props.change('latitude', latLng.lat());
+    this.props.change('longitude', latLng.lng());
   };
 
   renderMap = () => {
-    console.log(this.props.values);
     if (this.state.valueSelected === 'nao') {
       return (
         <div>
           <Row>
             <Col xs={12}>
+              Clique com o botão direito no mouse para obter latitude e longitude.
               <Map
                 coords={this.props.coords}
                 mapClicked={this.mapClicked}
